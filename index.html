@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>RACE DATA</title>
+<style>
+:root { color-scheme: light; --page: #eef2f8; --surface: #ffffff; --ink: #0f1726; --ink2: #4a5568; --muted: #8a94a6;
+  --ring: rgba(15,30,60,.08); --accent: #2f6fec; --accent2: #22b5c9; --gold: #e8a400; --hot: #e5484d;
+  --b1: #ffffff; --b2: #1f1f1f; --b3: #e53935; --b4: #1e88e5; --b5: #fdd835; --b6: #43a047; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; --page: #0b1220; --surface: #141c2b;
+  --ink: #eef2f8; --ink2: #b4bfd0; --muted: #7d8aa0; --ring: rgba(255,255,255,.08); --accent: #5b8fff; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink); font-size: 14px;
+  font-family: system-ui, -apple-system, "Segoe UI", "Yu Gothic UI", "Meiryo", sans-serif; }
+a { color: var(--accent); }
+main { max-width: 1180px; margin: 0 auto; padding: 28px 28px 48px; }
+.hero { position: relative; overflow: hidden; border-radius: 18px; padding: 30px 32px; color: #fff;
+  background: radial-gradient(120% 140% at 85% 0%, #2a6df0 0%, #163a7a 45%, #0e1a2b 100%); box-shadow: 0 10px 30px rgba(14,26,43,.25); }
+.hero::after { content: ""; position: absolute; right: -40px; bottom: -60px; width: 380px; height: 220px; opacity: .16;
+  background: repeating-radial-gradient(circle at 0 100%, transparent 0 14px, #fff 14px 15px); pointer-events: none; }
+.hero small { letter-spacing: .14em; font-weight: 700; opacity: .75; font-size: 12px; }
+.hero h1 { margin: 6px 0 6px; font-size: 30px; letter-spacing: .02em; }
+.hero p { margin: 0; opacity: .88; line-height: 1.7; }
+.card { background: var(--surface); border: 1px solid var(--ring); border-radius: 16px; padding: 18px 20px;
+  box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 6px 18px rgba(16,24,40,.06); }
+h2 { font-size: 16px; margin: 30px 0 12px; display: flex; align-items: baseline; gap: 10px; }
+h2 small { font-size: 12px; color: var(--muted); font-weight: 600; }
+.muted { color: var(--muted); }
+.wk { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 5px; font-size: 12px; font-weight: 800;
+  border: 1px solid rgba(0,0,0,.25); flex: none; }
+.w1 { background: var(--b1); color: #111; } .w2 { background: var(--b2); color: #fff; } .w3 { background: var(--b3); color: #fff; }
+.w4 { background: var(--b4); color: #fff; } .w5 { background: var(--b5); color: #111; } .w6 { background: var(--b6); color: #fff; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 12px; font-weight: 800;
+  text-decoration: none; font-size: 15px; border: 0; cursor: pointer; }
+.btn.main { background: linear-gradient(135deg, #f0a500, #ef6b3a); color: #fff; box-shadow: 0 6px 18px rgba(239,107,58,.35); }
+.btn.sub { background: var(--surface); color: var(--accent); border: 1px solid var(--ring); }
+.btn.off { background: #c9ced8; color: #fff; cursor: default; box-shadow: none; }
+.tag { font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+.tag.fin { background: #fff1cc; color: #8a5a00; } .tag.nt { background: #e3e8ff; color: #2b3a8f; }
+.tag.mn { background: #ffe9dc; color: #8a3a0a; } .tag.free { background: #dcf7ea; color: #0f6b45; }
+.tag.member { background: #ffe5d6; color: #9a3b0c; }
+.foot { margin-top: 30px; color: var(--muted); font-size: 12px; }
+@media (max-width: 960px) { main { padding: 16px 16px 32px; } .hero { padding: 22px 20px; } .hero h1 { font-size: 24px; } }
+
+.news { padding: 6px 20px; }
+.news li { list-style: none; display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--ring); }
+.news li:last-child { border-bottom: 0; }
+.news time { color: var(--muted); font-variant-numeric: tabular-nums; flex: none; font-size: 13px; }
+.news ul { margin: 0; padding: 0; }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 18px; }
+.kpi .k { color: var(--ink2); font-size: 12px; font-weight: 700; }
+.kpi .v { font-size: 28px; font-weight: 800; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.kpi .v small { font-size: 13px; color: var(--muted); margin-left: 2px; }
+.finals { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.final .fh { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.final .fh b { font-size: 17px; } .final .fh .tm { margin-left: auto; font-weight: 800; font-variant-numeric: tabular-nums; }
+.final .ft { color: var(--ink2); font-size: 12px; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.final ol { margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; }
+.final li { list-style: none; display: flex; align-items: center; gap: 6px; font-size: 13px; white-space: nowrap; overflow: hidden; }
+.final li small { color: var(--muted); }
+.final .more { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 700; text-decoration: none; }
+.hot { width: 100%; border-collapse: collapse; font-size: 13px; }
+.hot th { text-align: left; color: var(--muted); font-size: 11px; font-weight: 700; padding: 6px 10px; border-bottom: 1px solid var(--ring); }
+.hot td { padding: 9px 10px; border-bottom: 1px solid var(--ring); font-variant-numeric: tabular-nums; }
+.hot tr:last-child td { border-bottom: 0; }
+.hot .ap { display: inline-block; min-width: 28px; text-align: center; font-weight: 800; border-radius: 6px; padding: 1px 6px;
+  background: #ffe1e1; color: #a1161b; } .hot .ap.s { background: #a1161b; color: #fff; }
+.hot .mi { font-weight: 800; }
+.hot a { color: inherit; cursor: pointer; } .hot a.pl { color: var(--accent, #2a6fdb); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.more-hot summary { cursor: pointer; color: var(--accent); font-weight: 700; font-size: 13px; padding: 10px; }
+.more-hot table { margin-bottom: 6px; }
+.tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.tool { display: flex; flex-direction: column; gap: 8px; color: inherit; text-decoration: none; transition: transform .15s, box-shadow .15s; }
+.tool:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(16,24,40,.06), 0 12px 28px rgba(16,24,40,.12); }
+.tool .ic { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+.tool.star .ic { background: linear-gradient(135deg, #f0a500, #ef6b3a); }
+.tool .tt { display: flex; align-items: center; gap: 8px; } .tool b { font-size: 16px; }
+.tool .d { color: var(--ink2); line-height: 1.65; font-size: 12.5px; flex: 1; }
+.tool .up { font-size: 11.5px; color: var(--muted); }
+.tool .go { color: var(--accent); font-weight: 700; font-size: 13px; }
+.promo { display: flex; align-items: center; gap: 18px; margin-top: 30px; border-radius: 16px; padding: 20px 24px; color: #fff;
+  background: linear-gradient(120deg, #1c2f55, #2a4f9a); }
+.promo div { flex: 1; } .promo b { font-size: 17px; } .promo p { margin: 4px 0 0; opacity: .85; font-size: 13px; }
+.venues { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.venue { display: block; color: inherit; text-decoration: none; padding: 14px 16px; }
+.venue:hover { border-color: var(--accent); }
+.vh { display: flex; align-items: center; gap: 6px; } .vh b { font-size: 16px; margin-right: auto; }
+.vt { color: var(--ink2); font-size: 12px; margin: 4px 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.vm { display: flex; gap: 10px; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+@media (max-width: 960px) {
+  .kpis { grid-template-columns: repeat(2, 1fr); gap: 10px; } .tools { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .promo { flex-direction: column; align-items: flex-start; } .hot .hide-m { display: none; }
+}
+</style>
+</head>
+<body>
+
+<style>
+/* ===== 共通サイドバー(site_nav.py) ===== */
+:root { --side-w: 220px; --side-bg1: #0e1a2b; --side-bg2: #13263f; --side-ink: #c9d4e3; --side-ink2: #8193ab;
+  --side-on: rgba(120,170,255,.16); --side-accent: #4c8dff; }
+body { padding-left: var(--side-w); }
+.sn-side { position: fixed; inset: 0 auto 0 0; width: var(--side-w); z-index: 50; display: flex; flex-direction: column;
+  background: linear-gradient(180deg, var(--side-bg1) 0%, var(--side-bg2) 100%); color: var(--side-ink);
+  border-right: 1px solid rgba(255,255,255,.06); padding: 20px 14px 18px; overflow-y: auto; }
+.sn-brand { display: flex; align-items: center; gap: 10px; padding: 2px 8px 22px; color: #fff; }
+.sn-brand .mk { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+  background: linear-gradient(135deg, #3d7bfd, #22b5c9); color: #fff; box-shadow: 0 4px 14px rgba(61,123,253,.35); }
+.sn-brand b { display: block; font-size: 16px; letter-spacing: .06em; font-weight: 800; }
+.sn-brand small { display: block; font-size: 10.5px; color: var(--side-ink2); letter-spacing: .04em; margin-top: 1px; }
+.sn-item { display: flex; align-items: center; gap: 12px; padding: 11px 12px; margin: 2px 0; border-radius: 10px;
+  color: var(--side-ink); text-decoration: none; font-size: 14px; font-weight: 600; position: relative;
+  transition: background .15s, color .15s; }
+.sn-item:hover { background: rgba(255,255,255,.06); color: #fff; text-decoration: none; }
+.sn-item.on { background: var(--side-on); color: #fff; }
+.sn-item.on::before { content: ""; position: absolute; left: -14px; top: 9px; bottom: 9px; width: 3px; border-radius: 0 3px 3px 0;
+  background: var(--side-accent); }
+.sn-item svg { flex: none; opacity: .9; }
+.sn-sub { margin: 2px 0 10px 44px; display: flex; flex-direction: column; gap: 1px; }
+.sn-sub button { all: unset; cursor: pointer; font-size: 12.5px; color: var(--side-ink2); padding: 6px 10px; border-radius: 8px; }
+.sn-sub button:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sn-sub button:focus-visible, .sn-item:focus-visible { outline: 2px solid var(--side-accent); outline-offset: 1px; }
+.sn-sp { flex: 1; }
+.sn-foot { padding: 14px 10px 0; border-top: 1px solid rgba(255,255,255,.08); }
+.sn-foot p { margin: 0; font-size: 15px; line-height: 1.55; color: #fff; font-weight: 700; letter-spacing: .02em; }
+.sn-foot small { display: block; margin-top: 6px; font-size: 11px; color: var(--side-ink2); line-height: 1.6; }
+.sn-bar { display: none; }
+.sn-badge { margin-left: auto; font-size: 9.5px; font-weight: 800; letter-spacing: .04em; padding: 2px 6px; border-radius: 99px;
+  background: rgba(46,204,140,.18); color: #6fe3b2; }
+.sn-badge.m { background: rgba(240,165,0,.2); color: #ffc552; }
+
+/* ページ全体の見た目(カードを少し浮かせる・上のバーをすりガラスに) */
+.card, .mcard, .tbl-wrap, .phead { border-radius: 14px !important; border-color: rgba(15,30,60,.07) !important;
+  box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 6px 18px rgba(16,24,40,.06); }
+:root[data-theme="dark"] .card, :root[data-theme="dark"] .mcard, :root[data-theme="dark"] .tbl-wrap, :root[data-theme="dark"] .phead {
+  border-color: rgba(255,255,255,.08) !important; box-shadow: 0 1px 2px rgba(0,0,0,.4); }
+.top { backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px); }
+
+/* スマホ・タブレット: サイドバーをしまい、画面下にタブバー */
+@media (max-width: 960px) {
+  body { padding-left: 0; padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
+  .sn-side { display: none; }
+  .sn-bar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    background: linear-gradient(180deg, var(--side-bg1), var(--side-bg2)); border-top: 1px solid rgba(255,255,255,.08);
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px)); }
+  .sn-bar a { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 5px 0 3px;
+    color: var(--side-ink2); text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 10px; }
+  .sn-bar a.on { color: #fff; background: var(--side-on); }
+  .sn-bar a.on svg { color: var(--side-accent); }
+}
+</style>
+<aside class="sn-side" aria-label="ページ切替"><div class="sn-brand"><span class="mk"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 15c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"/><path d="M2 19c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"/><path d="M7 11l5-7 5 7z"/></svg></span><span><b>RACE DATA</b><small>番組表・成績・機力</small></span></div><nav><a class="sn-item on" data-sn="home" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>トップ</span></a><a class="sn-item" data-sn="race"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Boat Board</span><span class="sn-badge m">会員</span></a><a class="sn-item" data-sn="about"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg><span>はじめての方へ</span><span class="sn-badge">FREE</span></a><a class="sn-item" data-sn="today"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>番組表</span><span class="sn-badge">FREE</span></a><a class="sn-item" data-sn="seiseki"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>競走成績</span><span class="sn-badge">FREE</span></a></nav><div class="sn-sp"></div><div class="sn-foot"><small>直近2年の全レースを、同じ物差しで毎日集計</small></div></aside><nav class="sn-bar" aria-label="ページ切替"><a class="on" data-sn="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>トップ</span></a><a class="" data-sn="race"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Boat Board</span></a><a class="" data-sn="about"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg><span>紹介</span></a><a class="" data-sn="today"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>番組表</span></a><a class="" data-sn="seiseki"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>競走成績</span></a></nav><script>
+(function () {
+  // リンク先: 公開版は …/discovery/ からの相対、PCで開いたときは隣のフォルダの 最新.html
+  var L = {'home': ['', 'トップページ/最新.html'], 'race': ['race/', 'ダッシュボード/最新.html'], 'about': ['about/', 'トップページ/紹介.html'], 'today': ['today/', '出場選手/最新.html'], 'seiseki': ['seiseki/', '競走成績ダッシュボード/最新.html'], 'sample': ['sample/', 'トップページ/サンプル.html']}, here = 'home', web = location.protocol.indexOf('http') === 0;
+  var base = here === 'home' ? './' : '../';   // トップは …/discovery/、ほかは1つ下のフォルダ
+  function links() {
+    document.querySelectorAll('[data-sn]').forEach(function (a) {
+      var t = L[a.dataset.sn];
+      if (!t || a.dataset.sn === here) return;
+      var h = a.dataset.hash ? '#' + a.dataset.hash : '';  // data-hash があればそのレース、無ければ最後に見たレース
+      if (!h && a.dataset.sn === 'race') { try { var lr = localStorage.getItem('sn.lastRace'); if (lr) h = '#' + lr; } catch (e) {} }
+      a.href = (web ? base + t[0] : '../' + t[1]) + h;
+    });
+  }
+  links();
+  document.addEventListener('DOMContentLoaded', links);   // ページ本文の中のリンク(トップのメニューなど)にも
+  document.querySelectorAll('[data-sn-click]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var el = document.querySelector(b.dataset.snClick);
+      if (el) { el.click(); window.scrollTo(0, 0); }
+    });
+  });
+})();
+</script>
+<main>
+<section class="hero">
+  <small>RACE DATA</small>
+  <h1>11/15（日）の開催</h1>
+  <p>直近2年の全レースを、同じ物差しで毎日集計しています。</p>
+</section>
+
+<h2>お知らせ</h2>
+<div class="card news"><ul><li><time>2026/11/14 22:45</time><span>11/15（日）分の Boat Board を更新しました（13場・156レース・機力指数も反映済み）</span></li><li><time>2026/11/14 22:30</time><span>11/15（日）分の番組表を更新しました（13場・156レース）</span></li><li><time>2026/11/13</time><span>トップページを新しくしました。Boat Boardの無料サンプルも公開中です。</span></li></ul></div>
+
+<div class="kpis">
+  <div class="card kpi"><div class="k">開催場</div><div class="v">13<small>場</small></div></div>
+  <div class="card kpi"><div class="k">レース数</div><div class="v">156<small>R</small></div></div>
+  <div class="card kpi"><div class="k">最初の締切</div><div class="v">08:35</div></div>
+  <div class="card kpi"><div class="k">最終締切</div><div class="v">20:45</div></div>
+</div>
+
+<h2>11/15（日）の優勝戦<small>3レース</small></h2>
+<div class="finals"><div class="card final">
+  <div class="fh"><b>戸田 12R</b><span class="tag fin">優勝戦</span><span class="tm">15:55</span></div>
+  <div class="ft">ＢＡＣＨプラザ杯</div>
+  <ol><li><span class="wk w1">1</span><span>白水勝也</span><small>A1</small></li><li><span class="wk w2">2</span><span>立間充宏</span><small>A2</small></li><li><span class="wk w3">3</span><span>有賀達也</span><small>A2</small></li><li><span class="wk w4">4</span><span>吉川喜継</span><small>A1</small></li><li><span class="wk w5">5</span><span>深井利寿</span><small>A1</small></li><li><span class="wk w6">6</span><span>繁野谷圭</span><small>A2</small></li></ol>
+  <a class="more" data-sn="race" data-hash="TDA-12">Boat Boardでこのレースを見る →</a>
+</div><div class="card final">
+  <div class="fh"><b>津 12R</b><span class="tag fin">優勝戦</span><span class="tm">16:05</span></div>
+  <div class="ft">ルーキーシリーズ第２２戦スカパー！・ＪＬＣ杯争奪戦</div>
+  <ol><li><span class="wk w1">1</span><span>山下大輝</span><small>A1</small></li><li><span class="wk w2">2</span><span>濱野斗馬</span><small>A1</small></li><li><span class="wk w3">3</span><span>宮脇遼太</span><small>A1</small></li><li><span class="wk w4">4</span><span>篠原晟弥</span><small>A2</small></li><li><span class="wk w5">5</span><span>金子龍斗</span><small>B1</small></li><li><span class="wk w6">6</span><span>笹木香吾</span><small>A2</small></li></ol>
+  <a class="more" data-sn="race" data-hash="TSU-12">Boat Boardでこのレースを見る →</a>
+</div><div class="card final">
+  <div class="fh"><b>福岡 12R</b><span class="tag fin">優勝戦</span><span class="tm">16:30</span></div>
+  <div class="ft">創刊７８周年記念・スポーツニッポン杯</div>
+  <ol><li><span class="wk w1">1</span><span>岡祐臣</span><small>A2</small></li><li><span class="wk w2">2</span><span>吉村正明</span><small>A1</small></li><li><span class="wk w3">3</span><span>山一鉄也</span><small>A2</small></li><li><span class="wk w4">4</span><span>真子奈津</span><small>B1</small></li><li><span class="wk w5">5</span><span>上原健次</span><small>A2</small></li><li><span class="wk w6">6</span><span>三苫晃幸</span><small>A2</small></li></ol>
+  <a class="more" data-sn="race" data-hash="FKO-12">Boat Boardでこのレースを見る →</a>
+</div></div>
+
+<h2>高評価モーター<small>機力指数 4以上 かつ AP（Active Point）A+以上・50機 77走・締切順</small></h2>
+<div class="card" style="padding:6px 10px"><table class="hot"><thead><tr><th>締切</th><th>レース</th><th>モーター</th><th>機力指数</th><th>AP</th><th>乗る選手</th></tr></thead><tbody><tr><td class="mi">09:13</td><td>唐津 <a class="" data-sn="race" data-hash="KRT-2" title="Boat Boardで2Rを見る">2R</a></td><td>4号機</td><td class="mi">4.6</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="KRT-2" title="Boat Boardで2Rを見る">奥村明日</a> <small class="muted">B1</small></td></tr><tr><td class="mi">10:20</td><td>徳山 <a class="" data-sn="race" data-hash="TKY-5" title="Boat Boardで5Rを見る">5R</a></td><td>69号機</td><td class="mi">4.0</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="TKY-5" title="Boat Boardで5Rを見る">田中きら</a> <small class="muted">B2</small></td></tr><tr><td class="mi">10:31</td><td>びわこ <a class="" data-sn="race" data-hash="BWK-1" title="Boat Boardで1Rを見る">1R</a></td><td>19号機</td><td class="mi">4.5</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="BWK-1" title="Boat Boardで1Rを見る">廣瀬凜</a> <small class="muted">A1</small></td></tr><tr><td class="mi">10:31</td><td>びわこ <a class="" data-sn="race" data-hash="BWK-1" title="Boat Boardで1Rを見る">1R</a></td><td>64号機</td><td class="mi">4.4</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="BWK-1" title="Boat Boardで1Rを見る">守屋美穂</a> <small class="muted">A1</small></td></tr><tr><td class="mi">11:12</td><td>戸田 <a class="" data-sn="race" data-hash="TDA-2" title="Boat Boardで2Rを見る">2R</a></td><td>57号機</td><td class="mi">4.8</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TDA-2" title="Boat Boardで2Rを見る">向井田直</a> <small class="muted">B2</small></td></tr><tr><td class="mi">11:13</td><td>児島 <a class="" data-sn="race" data-hash="KJM-2" title="Boat Boardで2Rを見る">2R</a></td><td>35号機</td><td class="mi">4.6</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="KJM-2" title="Boat Boardで2Rを見る">岩津徹郎</a> <small class="muted">B1</small></td></tr><tr><td class="mi">11:21</td><td>徳山 <a class="" data-sn="race" data-hash="TKY-7" title="Boat Boardで7Rを見る">7R</a></td><td>61号機</td><td class="mi">4.8</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="TKY-7" title="Boat Boardで7Rを見る">谷野錬志</a> <small class="muted">A2</small></td></tr><tr><td class="mi">11:23</td><td>津 <a class="" data-sn="race" data-hash="TSU-3" title="Boat Boardで3Rを見る">3R</a></td><td>43号機</td><td class="mi">4.2</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TSU-3" title="Boat Boardで3Rを見る">島川海輝</a> <small class="muted">A2</small></td></tr><tr><td class="mi">11:25</td><td>江戸川 <a class="" data-sn="race" data-hash="EDG-2" title="Boat Boardで2Rを見る">2R</a></td><td>31号機</td><td class="mi">4.2</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="EDG-2" title="Boat Boardで2Rを見る">佐藤世那</a> <small class="muted">B1</small></td></tr><tr><td class="mi">11:25</td><td>江戸川 <a class="" data-sn="race" data-hash="EDG-2" title="Boat Boardで2Rを見る">2R</a></td><td>45号機</td><td class="mi">4.4</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="EDG-2" title="Boat Boardで2Rを見る">岩下巧斗</a> <small class="muted">B1</small></td></tr></tbody></table><details class="more-hot"><summary>→さらに表示（67走）</summary><table class="hot"><thead><tr><th>締切</th><th>レース</th><th>モーター</th><th>機力指数</th><th>AP</th><th>乗る選手</th></tr></thead><tbody><tr><td class="mi">11:37</td><td>唐津 <a class="" data-sn="race" data-hash="KRT-7" title="Boat Boardで7Rを見る">7R</a></td><td>53号機</td><td class="mi">5.4</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="KRT-7" title="Boat Boardで7Rを見る">田中博子</a> <small class="muted">B2</small></td></tr><tr><td class="mi">11:43</td><td>常滑 <a class="" data-sn="race" data-hash="TKN-4" title="Boat Boardで4Rを見る">4R</a></td><td>29号機</td><td class="mi">4.4</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TKN-4" title="Boat Boardで4Rを見る">前沢丈史</a> <small class="muted">A1</small></td></tr><tr><td class="mi">11:51</td><td>江戸川 <a class="" data-sn="race" data-hash="EDG-3" title="Boat Boardで3Rを見る">3R</a></td><td>37号機</td><td class="mi">5.0</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="EDG-3" title="Boat Boardで3Rを見る">佐口達也</a> <small class="muted">B1</small></td></tr><tr><td class="mi">11:52</td><td>津 <a class="" data-sn="race" data-hash="TSU-4" title="Boat Boardで4Rを見る">4R</a></td><td>32号機</td><td class="mi">4.4</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TSU-4" title="Boat Boardで4Rを見る">上野拓馬</a> <small class="muted">B1</small></td></tr><tr><td class="mi">11:55</td><td>徳山 <a class="" data-sn="race" data-hash="TKY-8" title="Boat Boardで8Rを見る">8R</a></td><td>50号機</td><td class="mi">4.8</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TKY-8" title="Boat Boardで8Rを見る">上野真之</a> <small class="muted">A1</small></td></tr><tr><td class="mi">11:58</td><td>びわこ <a class="" data-sn="race" data-hash="BWK-4" title="Boat Boardで4Rを見る">4R</a></td><td>23号機</td><td class="mi">5.4</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="BWK-4" title="Boat Boardで4Rを見る">守田俊介</a> <small class="muted">A1</small></td></tr><tr><td class="mi">12:05</td><td>尼崎 <a class="" data-sn="race" data-hash="AMG-4" title="Boat Boardで4Rを見る">4R</a></td><td>61号機</td><td class="mi">4.8</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="AMG-4" title="Boat Boardで4Rを見る">中澤和志</a> <small class="muted">A1</small></td></tr><tr><td class="mi">12:06</td><td>戸田 <a class="" data-sn="race" data-hash="TDA-4" title="Boat Boardで4Rを見る">4R</a></td><td>14号機</td><td class="mi">4.2</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="TDA-4" title="Boat Boardで4Rを見る">木村浩士</a> <small class="muted">B1</small></td></tr><tr><td class="mi">12:22</td><td>津 <a class="" data-sn="race" data-hash="TSU-5" title="Boat Boardで5Rを見る">5R</a></td><td>47号機</td><td class="mi">4.4</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TSU-5" title="Boat Boardで5Rを見る">松井貫太</a> <small class="muted">B1</small></td></tr><tr><td class="mi">12:26</td><td>徳山 <a class="" data-sn="race" data-hash="TKY-9" title="Boat Boardで9Rを見る">9R</a></td><td>69号機</td><td class="mi">4.0</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="TKY-9" title="Boat Boardで9Rを見る">田中きら</a> <small class="muted">B2</small></td></tr><tr><td class="mi">12:28</td><td>びわこ <a class="" data-sn="race" data-hash="BWK-5" title="Boat Boardで5Rを見る">5R</a></td><td>40号機</td><td class="mi">4.0</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="BWK-5" title="Boat Boardで5Rを見る">菊地孝平</a> <small class="muted">A1</small></td></tr><tr><td class="mi">12:28</td><td>びわこ <a class="" data-sn="race" data-hash="BWK-5" title="Boat Boardで5Rを見る">5R</a></td><td>11号機</td><td class="mi">4.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="BWK-5" title="Boat Boardで5Rを見る">松井繁</a> <small class="muted">A1</small></td></tr><tr><td class="mi">12:43</td><td>江戸川 <a class="" data-sn="race" data-hash="EDG-5" title="Boat Boardで5Rを見る">5R</a></td><td>26号機</td><td class="mi">4.4</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="EDG-5" title="Boat Boardで5Rを見る">米本圭佑</a> <small class="muted">B2</small></td></tr><tr><td class="mi">12:50</td><td>児島 <a class="" data-sn="race" data-hash="KJM-5" title="Boat Boardで5Rを見る">5R</a></td><td>22号機</td><td class="mi">4.2</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="KJM-5" title="Boat Boardで5Rを見る">平川香織</a> <small class="muted">A2</small></td></tr><tr><td class="mi">13:00</td><td>戸田 <a class="" data-sn="race" data-hash="TDA-6" title="Boat Boardで6Rを見る">6R</a></td><td>26号機</td><td class="mi">5.0</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="TDA-6" title="Boat Boardで6Rを見る">松尾昂明</a> <small class="muted">A2</small></td></tr><tr><td class="mi">13:00</td><td>戸田 <a class="" data-sn="race" data-hash="TDA-6" title="Boat Boardで6Rを見る">6R</a></td><td>57号機</td><td class="mi">4.8</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TDA-6" title="Boat Boardで6Rを見る">向井田直</a> <small class="muted">B2</small></td></tr><tr><td class="mi">13:09</td><td>江戸川 <a class="" data-sn="race" data-hash="EDG-6" title="Boat Boardで6Rを見る">6R</a></td><td>45号機</td><td class="mi">4.4</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="EDG-6" title="Boat Boardで6Rを見る">岩下巧斗</a> <small class="muted">B1</small></td></tr><tr><td class="mi">13:09</td><td>江戸川 <a class="" data-sn="race" data-hash="EDG-6" title="Boat Boardで6Rを見る">6R</a></td><td>32号機</td><td class="mi">4.4</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="EDG-6" title="Boat Boardで6Rを見る">飯山泰</a> <small class="muted">A1</small></td></tr><tr><td class="mi">13:12</td><td>唐津 <a class="" data-sn="race" data-hash="KRT-10" title="Boat Boardで10Rを見る">10R</a></td><td>4号機</td><td class="mi">4.6</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="KRT-10" title="Boat Boardで10Rを見る">奥村明日</a> <small class="muted">B1</small></td></tr><tr><td class="mi">13:28</td><td>びわこ <a class="" data-sn="race" data-hash="BWK-7" title="Boat Boardで7Rを見る">7R</a></td><td>13号機</td><td class="mi">5.5</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="BWK-7" title="Boat Boardで7Rを見る">権藤俊光</a> <small class="muted">A1</small></td></tr><tr><td class="mi">13:35</td><td>江戸川 <a class="" data-sn="race" data-hash="EDG-7" title="Boat Boardで7Rを見る">7R</a></td><td>28号機</td><td class="mi">5.6</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="EDG-7" title="Boat Boardで7Rを見る">溝口海義</a> <small class="muted">A1</small></td></tr><tr><td class="mi">13:35</td><td>江戸川 <a class="" data-sn="race" data-hash="EDG-7" title="Boat Boardで7Rを見る">7R</a></td><td>37号機</td><td class="mi">5.0</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="EDG-7" title="Boat Boardで7Rを見る">佐口達也</a> <small class="muted">B1</small></td></tr><tr><td class="mi">13:52</td><td>津 <a class="" data-sn="race" data-hash="TSU-8" title="Boat Boardで8Rを見る">8R</a></td><td>43号機</td><td class="mi">4.2</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TSU-8" title="Boat Boardで8Rを見る">島川海輝</a> <small class="muted">A2</small></td></tr><tr><td class="mi">14:02</td><td>江戸川 <a class="" data-sn="race" data-hash="EDG-8" title="Boat Boardで8Rを見る">8R</a></td><td>71号機</td><td class="mi">5.8</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="EDG-8" title="Boat Boardで8Rを見る">大西賢</a> <small class="muted">B1</small></td></tr><tr><td class="mi">14:13</td><td>徳山 <a class="" data-sn="race" data-hash="TKY-12" title="Boat Boardで12Rを見る">12R</a></td><td>50号機</td><td class="mi">4.8</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TKY-12" title="Boat Boardで12Rを見る">上野真之</a> <small class="muted">A1</small></td></tr><tr><td class="mi">14:13</td><td>徳山 <a class="" data-sn="race" data-hash="TKY-12" title="Boat Boardで12Rを見る">12R</a></td><td>61号機</td><td class="mi">4.8</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="TKY-12" title="Boat Boardで12Rを見る">谷野錬志</a> <small class="muted">A2</small></td></tr><tr><td class="mi">14:17</td><td>常滑 <a class="" data-sn="race" data-hash="TKN-9" title="Boat Boardで9Rを見る">9R</a></td><td>29号機</td><td class="mi">4.4</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TKN-9" title="Boat Boardで9Rを見る">前沢丈史</a> <small class="muted">A1</small></td></tr><tr><td class="mi">14:30</td><td>びわこ <a class="" data-sn="race" data-hash="BWK-9" title="Boat Boardで9Rを見る">9R</a></td><td>64号機</td><td class="mi">4.4</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="BWK-9" title="Boat Boardで9Rを見る">守屋美穂</a> <small class="muted">A1</small></td></tr><tr><td class="mi">14:38</td><td>尼崎 <a class="" data-sn="race" data-hash="AMG-9" title="Boat Boardで9Rを見る">9R</a></td><td>61号機</td><td class="mi">4.8</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="AMG-9" title="Boat Boardで9Rを見る">中澤和志</a> <small class="muted">A1</small></td></tr><tr><td class="mi">14:52</td><td>戸田 <a class="" data-sn="race" data-hash="TDA-10" title="Boat Boardで10Rを見る">10R</a></td><td>14号機</td><td class="mi">4.2</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="TDA-10" title="Boat Boardで10Rを見る">木村浩士</a> <small class="muted">B1</small></td></tr><tr><td class="mi">14:52</td><td>戸田 <a class="" data-sn="race" data-hash="TDA-10" title="Boat Boardで10Rを見る">10R</a></td><td>26号機</td><td class="mi">5.0</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="TDA-10" title="Boat Boardで10Rを見る">松尾昂明</a> <small class="muted">A2</small></td></tr><tr><td class="mi">14:55</td><td>津 <a class="" data-sn="race" data-hash="TSU-10" title="Boat Boardで10Rを見る">10R</a></td><td>47号機</td><td class="mi">4.4</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TSU-10" title="Boat Boardで10Rを見る">松井貫太</a> <small class="muted">B1</small></td></tr><tr><td class="mi">14:55</td><td>津 <a class="" data-sn="race" data-hash="TSU-10" title="Boat Boardで10Rを見る">10R</a></td><td>32号機</td><td class="mi">4.4</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TSU-10" title="Boat Boardで10Rを見る">上野拓馬</a> <small class="muted">B1</small></td></tr><tr><td class="mi">14:59</td><td>江戸川 <a class="" data-sn="race" data-hash="EDG-10" title="Boat Boardで10Rを見る">10R</a></td><td>13号機</td><td class="mi">4.2</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="EDG-10" title="Boat Boardで10Rを見る">烏野賢太</a> <small class="muted">A1</small></td></tr><tr><td class="mi">15:00</td><td>びわこ <a class="" data-sn="race" data-hash="BWK-10" title="Boat Boardで10Rを見る">10R</a></td><td>40号機</td><td class="mi">4.0</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="BWK-10" title="Boat Boardで10Rを見る">菊地孝平</a> <small class="muted">A1</small></td></tr><tr><td class="mi">15:20</td><td>丸亀 <a class="" data-sn="race" data-hash="MRG-1" title="Boat Boardで1Rを見る">1R</a></td><td>12号機</td><td class="mi">4.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="MRG-1" title="Boat Boardで1Rを見る">赤岩善生</a> <small class="muted">A1</small></td></tr><tr><td class="mi">15:20</td><td>丸亀 <a class="" data-sn="race" data-hash="MRG-1" title="Boat Boardで1Rを見る">1R</a></td><td>50号機</td><td class="mi">5.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="MRG-1" title="Boat Boardで1Rを見る">渡辺浩司</a> <small class="muted">A1</small></td></tr><tr><td class="mi">15:34</td><td>びわこ <a class="" data-sn="race" data-hash="BWK-11" title="Boat Boardで11Rを見る">11R</a></td><td>11号機</td><td class="mi">4.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="BWK-11" title="Boat Boardで11Rを見る">松井繁</a> <small class="muted">A1</small></td></tr><tr><td class="mi">15:43</td><td>大村 <a class="" data-sn="race" data-hash="OMR-2" title="Boat Boardで2Rを見る">2R</a></td><td>37号機</td><td class="mi">4.6</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="OMR-2" title="Boat Boardで2Rを見る">三浦敬太</a> <small class="muted">A1</small></td></tr><tr><td class="mi">15:49</td><td>児島 <a class="" data-sn="race" data-hash="KJM-11" title="Boat Boardで11Rを見る">11R</a></td><td>35号機</td><td class="mi">4.6</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="KJM-11" title="Boat Boardで11Rを見る">岩津徹郎</a> <small class="muted">B1</small></td></tr><tr><td class="mi">15:55</td><td>戸田 <a class="" data-sn="race" data-hash="TDA-12" title="Boat Boardで12Rを見る">12R</a></td><td>4号機</td><td class="mi">4.6</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="TDA-12" title="Boat Boardで12Rを見る">深井利寿</a> <small class="muted">A1</small></td></tr><tr><td class="mi">16:05</td><td>津 <a class="" data-sn="race" data-hash="TSU-12" title="Boat Boardで12Rを見る">12R</a></td><td>67号機</td><td class="mi">6.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TSU-12" title="Boat Boardで12Rを見る">山下大輝</a> <small class="muted">A1</small></td></tr><tr><td class="mi">16:05</td><td>津 <a class="" data-sn="race" data-hash="TSU-12" title="Boat Boardで12Rを見る">12R</a></td><td>28号機</td><td class="mi">4.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TSU-12" title="Boat Boardで12Rを見る">濱野斗馬</a> <small class="muted">A1</small></td></tr><tr><td class="mi">16:05</td><td>津 <a class="" data-sn="race" data-hash="TSU-12" title="Boat Boardで12Rを見る">12R</a></td><td>63号機</td><td class="mi">4.2</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TSU-12" title="Boat Boardで12Rを見る">篠原晟弥</a> <small class="muted">A2</small></td></tr><tr><td class="mi">16:05</td><td>津 <a class="" data-sn="race" data-hash="TSU-12" title="Boat Boardで12Rを見る">12R</a></td><td>25号機</td><td class="mi">4.6</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="TSU-12" title="Boat Boardで12Rを見る">金子龍斗</a> <small class="muted">B1</small></td></tr><tr><td class="mi">16:09</td><td>若松 <a class="" data-sn="race" data-hash="WKM-3" title="Boat Boardで3Rを見る">3R</a></td><td>18号機</td><td class="mi">5.0</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="WKM-3" title="Boat Boardで3Rを見る">黒田剛</a> <small class="muted">B1</small></td></tr><tr><td class="mi">16:10</td><td>びわこ <a class="" data-sn="race" data-hash="BWK-12" title="Boat Boardで12Rを見る">12R</a></td><td>61号機</td><td class="mi">5.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="BWK-12" title="Boat Boardで12Rを見る">関浩哉</a> <small class="muted">A1</small></td></tr><tr><td class="mi">16:23</td><td>丸亀 <a class="" data-sn="race" data-hash="MRG-3" title="Boat Boardで3Rを見る">3R</a></td><td>23号機</td><td class="mi">4.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="MRG-3" title="Boat Boardで3Rを見る">海野康志</a> <small class="muted">A1</small></td></tr><tr><td class="mi">16:30</td><td>福岡 <a class="" data-sn="race" data-hash="FKO-12" title="Boat Boardで12Rを見る">12R</a></td><td>50号機</td><td class="mi">5.4</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="FKO-12" title="Boat Boardで12Rを見る">真子奈津</a> <small class="muted">B1</small></td></tr><tr><td class="mi">17:01</td><td>若松 <a class="" data-sn="race" data-hash="WKM-5" title="Boat Boardで5Rを見る">5R</a></td><td>20号機</td><td class="mi">5.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="WKM-5" title="Boat Boardで5Rを見る">古賀智之</a> <small class="muted">A2</small></td></tr><tr><td class="mi">17:01</td><td>若松 <a class="" data-sn="race" data-hash="WKM-5" title="Boat Boardで5Rを見る">5R</a></td><td>5号機</td><td class="mi">4.0</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="WKM-5" title="Boat Boardで5Rを見る">古田祐貴</a> <small class="muted">B1</small></td></tr><tr><td class="mi">17:19</td><td>丸亀 <a class="" data-sn="race" data-hash="MRG-5" title="Boat Boardで5Rを見る">5R</a></td><td>38号機</td><td class="mi">5.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="MRG-5" title="Boat Boardで5Rを見る">毒島誠</a> <small class="muted">A1</small></td></tr><tr><td class="mi">17:28</td><td>若松 <a class="" data-sn="race" data-hash="WKM-6" title="Boat Boardで6Rを見る">6R</a></td><td>35号機</td><td class="mi">5.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="WKM-6" title="Boat Boardで6Rを見る">小坂尚哉</a> <small class="muted">A1</small></td></tr><tr><td class="mi">18:13</td><td>丸亀 <a class="" data-sn="race" data-hash="MRG-7" title="Boat Boardで7Rを見る">7R</a></td><td>17号機</td><td class="mi">4.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="MRG-7" title="Boat Boardで7Rを見る">船岡洋一</a> <small class="muted">A1</small></td></tr><tr><td class="mi">18:13</td><td>丸亀 <a class="" data-sn="race" data-hash="MRG-7" title="Boat Boardで7Rを見る">7R</a></td><td>35号機</td><td class="mi">4.6</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="MRG-7" title="Boat Boardで7Rを見る">佐藤隆太</a> <small class="muted">A1</small></td></tr><tr><td class="mi">18:43</td><td>丸亀 <a class="" data-sn="race" data-hash="MRG-8" title="Boat Boardで8Rを見る">8R</a></td><td>26号機</td><td class="mi">4.2</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="MRG-8" title="Boat Boardで8Rを見る">吉田裕平</a> <small class="muted">A1</small></td></tr><tr><td class="mi">18:43</td><td>丸亀 <a class="" data-sn="race" data-hash="MRG-8" title="Boat Boardで8Rを見る">8R</a></td><td>23号機</td><td class="mi">4.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="MRG-8" title="Boat Boardで8Rを見る">海野康志</a> <small class="muted">A1</small></td></tr><tr><td class="mi">18:54</td><td>若松 <a class="" data-sn="race" data-hash="WKM-9" title="Boat Boardで9Rを見る">9R</a></td><td>5号機</td><td class="mi">4.0</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="WKM-9" title="Boat Boardで9Rを見る">古田祐貴</a> <small class="muted">B1</small></td></tr><tr><td class="mi">19:04</td><td>大村 <a class="" data-sn="race" data-hash="OMR-9" title="Boat Boardで9Rを見る">9R</a></td><td>37号機</td><td class="mi">4.6</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="OMR-9" title="Boat Boardで9Rを見る">三浦敬太</a> <small class="muted">A1</small></td></tr><tr><td class="mi">19:14</td><td>丸亀 <a class="" data-sn="race" data-hash="MRG-9" title="Boat Boardで9Rを見る">9R</a></td><td>50号機</td><td class="mi">5.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="MRG-9" title="Boat Boardで9Rを見る">渡辺浩司</a> <small class="muted">A1</small></td></tr><tr><td class="mi">19:45</td><td>丸亀 <a class="" data-sn="race" data-hash="MRG-10" title="Boat Boardで10Rを見る">10R</a></td><td>12号機</td><td class="mi">4.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="MRG-10" title="Boat Boardで10Rを見る">赤岩善生</a> <small class="muted">A1</small></td></tr><tr><td class="mi">19:45</td><td>丸亀 <a class="" data-sn="race" data-hash="MRG-10" title="Boat Boardで10Rを見る">10R</a></td><td>38号機</td><td class="mi">5.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="MRG-10" title="Boat Boardで10Rを見る">毒島誠</a> <small class="muted">A1</small></td></tr><tr><td class="mi">19:58</td><td>若松 <a class="" data-sn="race" data-hash="WKM-11" title="Boat Boardで11Rを見る">11R</a></td><td>35号機</td><td class="mi">5.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="WKM-11" title="Boat Boardで11Rを見る">小坂尚哉</a> <small class="muted">A1</small></td></tr><tr><td class="mi">19:58</td><td>若松 <a class="" data-sn="race" data-hash="WKM-11" title="Boat Boardで11Rを見る">11R</a></td><td>18号機</td><td class="mi">5.0</td><td><span class="ap s">S</span></td><td><a class="pl" data-sn="race" data-hash="WKM-11" title="Boat Boardで11Rを見る">黒田剛</a> <small class="muted">B1</small></td></tr><tr><td class="mi">20:30</td><td>若松 <a class="" data-sn="race" data-hash="WKM-12" title="Boat Boardで12Rを見る">12R</a></td><td>20号機</td><td class="mi">5.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="WKM-12" title="Boat Boardで12Rを見る">古賀智之</a> <small class="muted">A2</small></td></tr><tr><td class="mi">20:45</td><td>丸亀 <a class="" data-sn="race" data-hash="MRG-12" title="Boat Boardで12Rを見る">12R</a></td><td>5号機</td><td class="mi">5.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="MRG-12" title="Boat Boardで12Rを見る">平本真之</a> <small class="muted">A1</small></td></tr><tr><td class="mi">20:45</td><td>丸亀 <a class="" data-sn="race" data-hash="MRG-12" title="Boat Boardで12Rを見る">12R</a></td><td>47号機</td><td class="mi">4.0</td><td><span class="ap">A+</span></td><td><a class="pl" data-sn="race" data-hash="MRG-12" title="Boat Boardで12Rを見る">菅章哉</a> <small class="muted">A1</small></td></tr></tbody></table></details></div>
+
+<h2>メニュー</h2>
+<div class="tools"><a class="card tool star" data-sn="race">
+  <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+  <span class="tt"><b>Boat Board</b><span class="tag member">会員</span></span>
+  <span class="d">レースごとに6人のコース別成績・スタート・決まり手・機力・出目と回収率を一画面に。</span>
+  <span class="up">更新 2026/11/14 22:45</span>
+  <span class="go">開く →</span></a><a class="card tool" data-sn="about">
+  <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></span>
+  <span class="tt"><b>はじめての方へ</b><span class="tag free">FREE</span></span>
+  <span class="d">できることと無料サンプル。パスワードの購入はこちらから。</span>
+  <span class="up">更新 2026/11/14 22:45</span>
+  <span class="go">開く →</span></a><a class="card tool" data-sn="today">
+  <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+  <span class="tt"><b>番組表</b><span class="tag free">FREE</span></span>
+  <span class="d">全場の出走表を締切順に一覧。選手情報から検索や、レースの通知も。</span>
+  <span class="up">更新 2026/11/14 22:30</span>
+  <span class="go">開く →</span></a><a class="card tool" data-sn="seiseki">
+  <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+  <span class="tt"><b>競走成績</b><span class="tag free">FREE</span></span>
+  <span class="d">全選手の枠番別・コース別成績と、各場モーターの直近3節。</span>
+  <span class="up">更新 2026/11/14 22:10</span>
+  <span class="go">開く →</span></a></div>
+
+<section class="promo">
+  <div><b>Boat Boardを無料で試す</b>
+  <p>11/15（日） 朝の3レース（徳山1R・唐津1R・徳山2R） を、会員向けと同じ画面でそのまま見られます。</p></div>
+  <a class="btn main" data-sn="sample">無料サンプルを見る →</a>
+  <a class="btn sub" data-sn="about">くわしく</a>
+</section>
+
+<h2>11/15（日）の開催場</h2>
+<div class="venues"><a class="card venue" data-sn="race" data-hash="TKY-1">
+  <div class="vh"><b>徳山</b><span class="tag mn">モーニング</span></div><div class="vt">デイリースポーツ杯争奪戦</div>
+  <div class="vm"><span>第1日</span><span>1R 08:35</span></div></a><a class="card venue" data-sn="race" data-hash="KRT-1">
+  <div class="vh"><b>唐津</b><span class="tag mn">モーニング</span></div><div class="vt">ヴィーナスシリーズ第１８戦　マクール杯</div>
+  <div class="vm"><span>第4日</span><span>1R 08:47</span></div></a><a class="card venue" data-sn="race" data-hash="TKN-1">
+  <div class="vh"><b>常滑</b></div><div class="vt">にっぽん未来プロジェクト競走ｉｎとこなめ</div>
+  <div class="vm"><span>第3日</span><span>1R 10:18</span></div></a><a class="card venue" data-sn="race" data-hash="TSU-1">
+  <div class="vh"><b>津</b><span class="tag fin">優勝戦</span></div><div class="vt">ルーキーシリーズ第２２戦スカパー！・ＪＬＣ杯争奪戦</div>
+  <div class="vm"><span>第6日</span><span>1R 10:28</span></div></a><a class="card venue" data-sn="race" data-hash="BWK-1">
+  <div class="vh"><b>びわこ</b></div><div class="vt">開設７４周年記念　びわこ大賞</div>
+  <div class="vm"><span>第2日</span><span>1R 10:31</span></div></a><a class="card venue" data-sn="race" data-hash="KJM-1">
+  <div class="vh"><b>児島</b></div><div class="vt">スポーツ報知杯</div>
+  <div class="vm"><span>第5日</span><span>1R 10:41</span></div></a><a class="card venue" data-sn="race" data-hash="AMG-1">
+  <div class="vh"><b>尼崎</b></div><div class="vt">マンスリーボートレース杯</div>
+  <div class="vm"><span>第4日</span><span>1R 10:43</span></div></a><a class="card venue" data-sn="race" data-hash="TDA-1">
+  <div class="vh"><b>戸田</b><span class="tag fin">優勝戦</span></div><div class="vt">ＢＡＣＨプラザ杯</div>
+  <div class="vm"><span>第4日</span><span>1R 10:45</span></div></a><a class="card venue" data-sn="race" data-hash="FKO-1">
+  <div class="vh"><b>福岡</b><span class="tag fin">優勝戦</span></div><div class="vt">創刊７８周年記念・スポーツニッポン杯</div>
+  <div class="vm"><span>第6日</span><span>1R 10:48</span></div></a><a class="card venue" data-sn="race" data-hash="EDG-1">
+  <div class="vh"><b>江戸川</b></div><div class="vt">第１回ＢＯＡＴＲＡＣＥ振興会会長賞</div>
+  <div class="vm"><span>第3日</span><span>1R 10:59</span></div></a><a class="card venue" data-sn="race" data-hash="OMR-1">
+  <div class="vh"><b>大村</b><span class="tag nt">ナイター</span></div><div class="vt">アサヒビールカップ</div>
+  <div class="vm"><span>第5日</span><span>1R 15:16</span></div></a><a class="card venue" data-sn="race" data-hash="WKM-1">
+  <div class="vh"><b>若松</b><span class="tag nt">ナイター</span></div><div class="vt">ドコモＳＭＴＢネット銀行賞</div>
+  <div class="vm"><span>第3日</span><span>1R 15:19</span></div></a><a class="card venue" data-sn="race" data-hash="MRG-1">
+  <div class="vh"><b>丸亀</b><span class="tag nt">ナイター</span></div><div class="vt">京極賞開設７４周年記念競走</div>
+  <div class="vm"><span>第1日</span><span>1R 15:20</span></div></a></div>
+
+<div class="foot">集計期間 2024/11/15～2026/11/14 ／ このページの更新 2026/11/14 22:45</div>
+</main>
+</body>
+</html>
