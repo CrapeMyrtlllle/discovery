@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Discovery</title>
+<meta property="og:type" content="website"><meta property="og:site_name" content="Discovery"><meta property="og:title" content="Discovery"><meta property="og:description" content="直近2年の全レースを同じ物差しで毎日集計。番組表・競走成績は無料、会員向けのBoat Boardも。"><meta property="og:image" content="https://crapemyrtlllle.github.io/discovery/img/og.jpg"><meta name="twitter:card" content="summary_large_image">
+<style>
+:root { color-scheme: light; --page: #eef2f8; --surface: #ffffff; --ink: #0f1726; --ink2: #4a5568; --muted: #8a94a6;
+  --ring: rgba(15,30,60,.08); --accent: #2f6fec; --accent2: #22b5c9; --gold: #e8a400; --hot: #e5484d;
+  --b1: #ffffff; --b2: #1f1f1f; --b3: #e53935; --b4: #1e88e5; --b5: #fdd835; --b6: #43a047; }
+/* 背景はいつも白(パソコンがダークモードでもネイビーにしない。ほかのページとそろえる) */
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink); font-size: 14px;
+  font-family: system-ui, -apple-system, "Segoe UI", "Yu Gothic UI", "Meiryo", sans-serif; }
+a { color: var(--accent); }
+main { max-width: 1180px; margin: 0 auto; padding: 28px 28px 48px; }
+.hero { position: relative; overflow: hidden; border-radius: 18px; padding: 30px 32px; color: #fff;
+  background: radial-gradient(120% 140% at 85% 0%, #2a6df0 0%, #163a7a 45%, #0e1a2b 100%); box-shadow: 0 10px 30px rgba(14,26,43,.25); }
+.hero::after { content: ""; position: absolute; right: -40px; bottom: -60px; width: 380px; height: 220px; opacity: .16;
+  background: repeating-radial-gradient(circle at 0 100%, transparent 0 14px, #fff 14px 15px); pointer-events: none; }
+.banner { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 18px;
+  background: #0b1a3a; box-shadow: 0 10px 30px rgba(14,26,43,.25); }
+.hero-cap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin: 14px 4px 0; }
+.hero-cap h1 { margin: 0; font-size: 24px; } .hero-cap p { margin: 0; color: var(--ink2); }
+.hero small { letter-spacing: .14em; font-weight: 700; opacity: .75; font-size: 12px; }
+.hero h1 { margin: 6px 0 6px; font-size: 30px; letter-spacing: .02em; }
+.hero p { margin: 0; opacity: .88; line-height: 1.7; }
+.card { background: var(--surface); border: 1px solid var(--ring); border-radius: 16px; padding: 18px 20px;
+  box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 6px 18px rgba(16,24,40,.06); }
+h2 { font-size: 16px; margin: 30px 0 12px; display: flex; align-items: baseline; gap: 10px; }
+h2 small { font-size: 12px; color: var(--muted); font-weight: 600; }
+.muted { color: var(--muted); }
+.wk { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 5px; font-size: 12px; font-weight: 800;
+  border: 1px solid rgba(0,0,0,.25); flex: none; }
+.w1 { background: var(--b1); color: #111; } .w2 { background: var(--b2); color: #fff; } .w3 { background: var(--b3); color: #fff; }
+.w4 { background: var(--b4); color: #fff; } .w5 { background: var(--b5); color: #111; } .w6 { background: var(--b6); color: #fff; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 12px; font-weight: 800;
+  text-decoration: none; font-size: 15px; border: 0; cursor: pointer; }
+.btn.main { background: linear-gradient(135deg, #f0a500, #ef6b3a); color: #fff; box-shadow: 0 6px 18px rgba(239,107,58,.35); }
+.btn.sub { background: var(--surface); color: var(--accent); border: 1px solid var(--ring); }
+.btn.off { background: #c9ced8; color: #fff; cursor: default; box-shadow: none; }
+.tag { font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+.tag.fin { background: #fff1cc; color: #8a5a00; } .tag.nt { background: #e3e8ff; color: #2b3a8f; }
+.tag.mn { background: #ffe9dc; color: #8a3a0a; } .tag.free { background: #dcf7ea; color: #0f6b45; }
+.tag.member { background: #ffe5d6; color: #9a3b0c; }
+.foot { margin-top: 30px; color: var(--muted); font-size: 12px; }
+@media (max-width: 960px) { main { padding: 16px 16px 32px; } .hero { padding: 22px 20px; } .hero h1 { font-size: 24px; } }
+
+.news { padding: 6px 20px; }
+.hot-more { display: flex; align-items: baseline; gap: 10px; justify-content: flex-end; padding: 10px 8px 6px; font-weight: 800; text-decoration: none; }
+.hot-more small { color: var(--muted); font-weight: 600; font-size: 11.5px; }
+.dn { display: flex; align-items: center; gap: 14px; padding: 10px 14px; text-decoration: none; color: var(--ink); margin-bottom: 4px; }
+.dn:hover { border-color: var(--accent); }
+.dn img { width: 132px; aspect-ratio: 1280 / 670; object-fit: cover; border-radius: 6px; flex: none; }
+.dn .t { display: flex; flex-direction: column; gap: 2px; min-width: 0; } .dn .t small { color: var(--muted); font-size: 11px; font-weight: 700; }
+.dn .t b { font-size: 15px; } .dn em { margin-left: auto; font-style: normal; font-weight: 800; color: var(--accent); white-space: nowrap; font-size: 13px; }
+@media (max-width: 600px) { .dn { flex-wrap: wrap; } .dn img { width: 100%; } .dn em { margin-left: 0; } }
+.memo { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 4px; }
+.memo .card { padding: 9px 11px; } .memo h3 { margin: 0 0 4px; font-size: 12.5px; display: flex; flex-direction: column; gap: 0; }
+.memo h3 small { color: var(--muted); font-weight: 600; font-size: 10.5px; }
+.memo ul { list-style: none; margin: 0; padding: 0; max-height: 150px; overflow-y: auto; }
+.memo li { display: flex; gap: 5px; align-items: center; padding: 3px 0; border-top: 1px solid var(--ring); font-size: 11.5px; flex-wrap: wrap; line-height: 1.35; }
+.memo li small { font-size: 10.5px; } .memo .wk { width: 16px; height: 16px; font-size: 10px; }
+.memo li:first-child { border-top: 0; } .memo li .nm { font-weight: 700; } .memo li .r { margin-left: auto; display: flex; gap: 4px; flex-wrap: wrap; }
+.memo li .r a { text-decoration: none; font-weight: 700; font-size: 10.5px; padding: 0 6px; border-radius: 99px; background: rgba(47,111,236,.1); }
+.memo .tg { font-size: 9.5px; font-weight: 800; padding: 1px 7px; border-radius: 99px; background: #fde2d6; color: #8a2c0a; white-space: nowrap; }
+.memo .tg.b { background: #e3e8ff; color: #2b3a8f; } .memo .tg.g { background: #dcf7ea; color: #0f6b45; }
+.memo .none { color: var(--muted); font-size: 12.5px; }
+@media (max-width: 1100px) { .memo { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .memo { grid-template-columns: 1fr; } .memo ul { max-height: 130px; } }
+.firsttime { display: flex; align-items: center; gap: 14px; margin-top: 12px; text-decoration: none; color: var(--ink); }
+.firsttime:hover { border-color: var(--accent); }
+.firsttime .ic { flex: none; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+.firsttime .tt b { display: block; font-size: 15px; } .firsttime .d { color: var(--ink2); font-size: 12.5px; }
+.firsttime .go { margin-left: auto; color: var(--accent); font-weight: 800; white-space: nowrap; }
+.news li { list-style: none; display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--ring); }
+.news li:last-child { border-bottom: 0; }
+.news time { color: var(--muted); font-variant-numeric: tabular-nums; flex: none; font-size: 13px; }
+.news ul { margin: 0; padding: 0; }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 18px; }
+.kpi .k { color: var(--ink2); font-size: 12px; font-weight: 700; }
+.kpi .v { font-size: 28px; font-weight: 800; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.kpi .v small { font-size: 13px; color: var(--muted); margin-left: 2px; }
+.finals { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.final .fh { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.final .fh b { font-size: 17px; } .final .fh .tm { margin-left: auto; font-weight: 800; font-variant-numeric: tabular-nums; }
+.final .ft { color: var(--ink2); font-size: 12px; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.final ol { margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; }
+.final li { list-style: none; display: flex; align-items: center; gap: 6px; font-size: 13px; white-space: nowrap; overflow: hidden; }
+.final li small { color: var(--muted); }
+.final .more { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 700; text-decoration: none; }
+.hot { width: 100%; border-collapse: collapse; font-size: 13px; }
+.hot th { text-align: left; color: var(--muted); font-size: 11px; font-weight: 700; padding: 6px 10px; border-bottom: 1px solid var(--ring); }
+.hot td { padding: 9px 10px; border-bottom: 1px solid var(--ring); font-variant-numeric: tabular-nums; }
+.hot tr:last-child td { border-bottom: 0; }
+.hot .ap { display: inline-block; min-width: 28px; text-align: center; font-weight: 800; border-radius: 6px; padding: 1px 6px;
+  background: #ffe1e1; color: #a1161b; } .hot .ap.s { background: #a1161b; color: #fff; }
+.hot .mi { font-weight: 800; }
+.hot .wk { margin-right: 5px; vertical-align: -4px; }   /* 乗る選手の横の号艇 */
+.hot a { color: inherit; cursor: pointer; } .hot a.pl { color: var(--accent, #2a6fdb); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.more-hot summary { cursor: pointer; color: var(--accent); font-weight: 700; font-size: 13px; padding: 10px; }
+.more-hot table { margin-bottom: 6px; }
+.mh-lock { padding: 4px 10px 12px; font-size: 13px; }
+.hot-check { margin: 14px 0 6px; padding-top: 12px; border-top: 2px solid var(--ring); }
+.hot-check h3 { font-size: 15px; margin: 0 10px 10px; }
+.hc-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 10px; }
+.hc-sum div { background: var(--page); border-radius: 10px; padding: 8px 10px; }
+.hc-sum span { display: block; color: var(--ink2); font-size: 11px; font-weight: 700; }
+.hc-sum b { display: block; font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.hc-sum small { color: var(--muted); font-size: 11px; }
+.hc-note { font-size: 12px; margin: 8px 10px 4px; }
+.hot .fin { color: var(--hot); }
+.mh-row { display: flex; gap: 8px; margin-top: 8px; max-width: 360px; }
+.mh-row input { flex: 1; min-width: 0; font-size: 16px; padding: 8px 10px; border: 1px solid var(--ring); border-radius: 8px; background: var(--page); color: var(--ink); }
+.mh-row button { font-size: 14px; font-weight: 700; padding: 8px 16px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+.mh-row button:disabled { opacity: .6; cursor: wait; }
+.mh-msg { min-height: 18px; margin-top: 6px; color: #d03b3b; font-size: 12px; }
+.mh-buy { font-size: 12px; font-weight: 700; color: var(--accent); cursor: pointer; }
+.tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.tool { display: flex; flex-direction: column; gap: 8px; color: inherit; text-decoration: none; transition: transform .15s, box-shadow .15s; }
+.tool:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(16,24,40,.06), 0 12px 28px rgba(16,24,40,.12); }
+.tool .ic { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+.tool.star .ic { background: linear-gradient(135deg, #f0a500, #ef6b3a); }
+.tool .tt { display: flex; align-items: center; gap: 8px; } .tool b { font-size: 16px; }
+.tool .d { color: var(--ink2); line-height: 1.65; font-size: 12.5px; flex: 1; }
+.tool .up { font-size: 11.5px; color: var(--muted); }
+.tool .go { color: var(--accent); font-weight: 700; font-size: 13px; }
+.promo { display: flex; align-items: center; gap: 18px; margin-top: 30px; border-radius: 16px; padding: 20px 24px; color: #fff;
+  background: linear-gradient(120deg, #1c2f55, #2a4f9a); }
+.promo div { flex: 1; } .promo b { font-size: 17px; } .promo p { margin: 4px 0 0; opacity: .85; font-size: 13px; }
+.vgrid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.vg { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 14px 10px 16px; border-radius: 14px; text-decoration: none; }
+.vg b { font-size: 24px; font-weight: 900; color: #0f1726; letter-spacing: .04em; }
+.vg.on { background: linear-gradient(180deg, #fbfcfe, #dfe4ec); border: 1px solid rgba(15,30,60,.12); box-shadow: 0 4px 12px rgba(16,24,40,.12); }
+.vg.on:hover { box-shadow: 0 6px 18px rgba(47,111,236,.3); }
+.vg.off { background: rgba(80,96,120,.18); border: 1px solid rgba(15,30,60,.06); }
+.vg.off b { color: rgba(15,23,38,.45); }
+.vgr { display: block; width: 84%; height: 22px; border-radius: 99px; text-align: center; font-weight: 900; font-style: italic; font-size: 13px; line-height: 22px; color: #fff; }
+.vg.off .vgr { background: rgba(15,23,38,.18); }
+.vday { font-size: 13px; font-weight: 700; color: #3a4658; line-height: 1; margin-top: -2px; }
+.vgr.ip { background: linear-gradient(180deg, #6db4ff, #2f86f0); } .vgr.g3 { background: linear-gradient(180deg, #8ee35a, #3fa82a); }
+.vgr.g2 { background: linear-gradient(180deg, #b48cff, #7b4fe0); } .vgr.g1 { background: linear-gradient(180deg, #ffab52, #f06a1f); }
+.vgr.sg { background: linear-gradient(180deg, #ffd65a, #d9a000); color: #4a3000; }
+@media (max-width: 960px) { .vgrid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 600px) { .vgrid { gap: 8px; } .vg { padding: 10px 6px 12px; gap: 8px; } .vg b { font-size: 18px; } .vgr { height: 18px; line-height: 18px; font-size: 11px; } .vday { font-size: 11px; } }
+.venues { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.venue { display: block; color: inherit; text-decoration: none; padding: 14px 16px; }
+.venue:hover { border-color: var(--accent); }
+.vh { display: flex; align-items: center; gap: 6px; } .vh b { font-size: 16px; margin-right: auto; }
+.vt { color: var(--ink2); font-size: 12px; margin: 4px 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.vm { display: flex; gap: 10px; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+@media (max-width: 960px) {
+  .kpis { grid-template-columns: repeat(2, 1fr); gap: 10px; } .tools { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .promo { flex-direction: column; align-items: flex-start; } .hot .hide-m { display: none; }
+}
+
+.share-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 4px 0; }
+.share-row button, .share-row a { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px; font: inherit;
+  font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; background: var(--surface); color: var(--ink); border: 1px solid var(--ring); }
+.share-row button:hover, .share-row a:hover { border-color: var(--accent); color: var(--accent); }
+.share-row .a2hs { background: var(--accent); color: #fff; border-color: var(--accent); }
+.share-row .a2hs:hover { color: #fff; opacity: .9; }
+.share-row .lab { color: var(--muted); font-size: 12px; margin-left: 6px; }
+.share-row .done { color: var(--good); font-size: 12px; font-weight: 700; }
+.a2hs-pop[hidden] { display: none; }
+.a2hs-pop { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; background: rgba(11,20,38,.45); padding: 16px; }
+.a2hs-pop .box { background: var(--surface); color: var(--ink); border-radius: 8px; padding: 20px 22px; max-width: 420px; width: 100%; box-sizing: border-box;
+  box-shadow: var(--ds-shadow-pop, 0 8px 24px rgba(16,29,53,.18)); }
+.a2hs-pop h3 { margin: 0 0 10px; font-size: 16px; } .a2hs-pop ol { margin: 0 0 8px; padding-left: 20px; line-height: 1.8; font-size: 14px; }
+.a2hs-pop p { margin: 0 0 14px; color: var(--muted); font-size: 12px; }
+.a2hs-pop .close { display: block; margin-left: auto; padding: 7px 18px; border-radius: 8px; border: 0; background: var(--accent); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+@media (max-width: 600px) { .share-row .lab { width: 100%; margin: 4px 0 0; } }
+</style>
+<link rel="icon" type="image/png" href="data:image/png;base64,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"><link rel="apple-touch-icon" href="img/icon-180.png"><meta name="theme-color" content="#0b1a3a"></head>
+<body>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap">
+<style>
+/* ===== Discovery 共通デザイン層(site_nav.py)。決まりは docs/DESIGN_SYSTEM.md =====
+   値は --ds-* だけを直す。各ページの古い変数(--page --surface --ink …)はここで --ds-* に読み替える */
+:root { --ds-navy: #101D35; --ds-navy-2: #172944; --ds-navy-deep: #0B1426; --ds-accent: #3977B8; --ds-accent-on-navy: #6FA3DA;
+  --ds-on-navy: #FFFFFF; --ds-on-navy-2: #AEBBD0; --ds-on-navy-3: #97A4BB;
+  --ds-ok: #21865A; --ds-warn: #D89A32; --ds-err: #D64B4B;
+  --ds-s1: 8px; --ds-s2: 16px; --ds-s3: 24px; --ds-s4: 40px; --ds-s5: 64px; --ds-r: 8px; --ds-r-sm: 4px;
+  --ds-font: "Noto Sans JP", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+  --ds-font-head: "Zen Kaku Gothic New", "Noto Sans JP", "Yu Gothic UI", "Meiryo", sans-serif;
+  --side-w: 220px; }
+/* 明るいテーマ(既定。OS の暗い設定には合わせない) */
+:root:not([data-theme="dark"]) { color-scheme: light;
+  --ds-bg: #F2F5F9; --ds-surface: #FFFFFF; --ds-ink: #182235; --ds-ink-sub: #56637A; --ds-ink-meta: #6E7A8E;
+  --ds-line: #E3E8EF; --ds-head: #F7F9FC; --ds-hover: #EEF3F9; --ds-accent-soft: #E6EEF8;
+  --ds-shadow: 0 1px 2px rgba(16,29,53,.06); --ds-shadow-pop: 0 8px 24px rgba(16,29,53,.16);
+  --page: var(--ds-bg); --surface: var(--ds-surface); --ink: var(--ds-ink); --ink2: var(--ds-ink-sub); --muted: var(--ds-ink-meta);
+  --grid: var(--ds-line); --ring: var(--ds-line); --axis: #C9D2DE; --accent: var(--ds-accent); --accent-ink: #FFFFFF;
+  --accent-soft: var(--ds-accent-soft); --good: var(--ds-ok); --bad: var(--ds-err); --star: var(--ds-warn); --heat0: #FFFFFF; }
+/* 暗いテーマ(各ツールの ◐ で選んだときだけ)。ネイビーの暗色 */
+:root[data-theme="dark"] { color-scheme: dark;
+  --ds-bg: #0B1426; --ds-surface: #101D35; --ds-ink: #E8EDF5; --ds-ink-sub: #AEBBD0; --ds-ink-meta: #94A1B8;
+  --ds-line: #22324F; --ds-head: #132341; --ds-hover: #1A2C4A; --ds-accent-soft: #1B3150;
+  --ds-shadow: none; --ds-shadow-pop: 0 8px 24px rgba(0,0,0,.5);
+  --page: var(--ds-bg); --surface: var(--ds-surface); --ink: var(--ds-ink); --ink2: var(--ds-ink-sub); --muted: var(--ds-ink-meta);
+  --grid: var(--ds-line); --ring: rgba(255,255,255,.10); --axis: #33456A; --accent: #5A93D0; --accent-ink: #FFFFFF;
+  --accent-soft: var(--ds-accent-soft); --good: #3FB27F; --bad: #E86A6A; --heat0: var(--ds-surface); }
+
+/* 文字: 本文 Noto Sans JP / 見出し Zen Kaku Gothic New / 数字は桁をそろえる */
+body { font-family: var(--ds-font); font-weight: 500;   /* 400 は Windows で細く見えるので本文の基本を 500 に */
+  background: var(--page); color: var(--ink); -webkit-font-smoothing: antialiased;
+  font-feature-settings: "palt"; }   /* 和文の字幅を詰める(表の列が以前の書体と同じ幅におさまるように) */
+h1, h2, h3, .racehead .rn, .racehead .nm, .phead .pn, .focusname { font-family: var(--ds-font-head); }
+/* iPhone を横にしたとき、Safari が文字を勝手に大きくして画面からはみ出すのを止める */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* スマホ(タッチの端末・幅760px以下)はマクールのアプリのような iPhone の標準書体(ヒラギノ)で、少し大きく太めに。
+   ヒラギノは W3 と W6 しか無いことが多く、太さ500だと細い W3 になるので、400以下＝W3・500〜600＝W6・700以上＝W7(無ければW6)に割り当てる。
+   ヒラギノの無い端末(Android など)は Noto Sans JP のまま */
+@font-face { font-family: "DS Hira"; src: local("HiraginoSans-W3"), local("Hiragino Sans W3"); font-weight: 100 449; }
+@font-face { font-family: "DS Hira"; src: local("HiraginoSans-W6"), local("Hiragino Sans W6"); font-weight: 450 649; }
+@font-face { font-family: "DS Hira"; src: local("HiraginoSans-W7"), local("Hiragino Sans W7"), local("HiraginoSans-W6"); font-weight: 650 1000; }
+@media (max-width: 760px), (hover: none) and (pointer: coarse) {
+  :root { --ds-font: "DS Hira", "Noto Sans JP", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+    --ds-font-head: "DS Hira", "Zen Kaku Gothic New", "Noto Sans JP", sans-serif; }
+  body { font-size: 14px; }
+  .card h2 { font-size: 15px; }
+}
+table, .tile .val, .tl-h .tm { font-variant-numeric: tabular-nums; }
+
+/* 上部バー(各ツールの .top)はブランド色。中の部品はネイビー用の色に読み替える */
+.top { background: var(--ds-navy) !important; color: var(--ds-on-navy); border-bottom: 1px solid var(--ds-navy-deep) !important;
+  --ink: var(--ds-on-navy); --ink2: var(--ds-on-navy-2); --muted: var(--ds-on-navy-3); --ring: rgba(255,255,255,.16);
+  --grid: rgba(255,255,255,.10); --surface: var(--ds-navy-2); --page: var(--ds-navy-deep); --accent: var(--ds-accent); }
+.top h1 { color: var(--ds-on-navy); font-size: 16px; letter-spacing: .02em; }
+.top button, .top select, .top input, .top label, .top a { color: inherit; }
+.top button:hover, .top .seg button:hover, .top .iconbtn:hover { background: rgba(255,255,255,.08); }
+.top button[aria-pressed="true"], .top .on { color: #fff; }
+.top input::placeholder { color: var(--ds-on-navy-3); }
+.top select option { background: var(--ds-navy-2); color: #fff; }
+
+/* 表示領域: 角丸 8px・1px の線・控えめな影だけ */
+.card, .mcard, .tbl-wrap, .phead { border-radius: var(--ds-r) !important; border-color: var(--ds-line) !important; box-shadow: var(--ds-shadow) !important; }
+.card h2 { font-size: 14px; letter-spacing: .02em; }
+thead th { background-color: var(--ds-head); }
+#tip { border-radius: var(--ds-r); box-shadow: var(--ds-shadow-pop); }
+
+/* ===== サイドバー ===== */
+body { padding-left: var(--side-w); }
+.sn-side { position: fixed; inset: 0 auto 0 0; width: var(--side-w); z-index: 50; display: flex; flex-direction: column;
+  background: var(--ds-navy); color: var(--ds-on-navy-2); border-right: 1px solid var(--ds-navy-deep); padding: 0 12px 16px; overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.15) transparent; }
+.sn-brand { display: flex; align-items: center; gap: 10px; margin: 0 -12px 12px; padding: 16px 20px; color: #fff;
+  background: var(--ds-navy-deep); border-bottom: 1px solid rgba(255,255,255,.06); }
+.sn-brand .mk { width: 34px; height: 34px; border-radius: var(--ds-r); display: grid; place-items: center; background: var(--ds-accent); color: #fff; flex: none; }
+.sn-brand .mk.logo { background: none; overflow: hidden; width: 36px; height: 36px; }
+.sn-brand .mk.logo img { width: 100%; height: 100%; display: block; }
+.sn-brand b { display: block; font-family: var(--ds-font-head); font-size: 17px; letter-spacing: .05em; font-weight: 700; line-height: 1.2; }
+.sn-brand small { display: block; font-size: 10px; color: var(--ds-on-navy-3); letter-spacing: .02em; margin-top: 2px; white-space: nowrap; }
+.sn-item { display: flex; align-items: center; gap: 12px; padding: 9px 12px; margin: 2px 0; border-radius: var(--ds-r);
+  color: var(--ds-on-navy-2); text-decoration: none; font-size: 14px; font-weight: 700; position: relative; transition: background .15s, color .15s; }
+.sn-item:hover { background: rgba(255,255,255,.05); color: #fff; text-decoration: none; }
+.sn-item.on { background: var(--ds-navy-2); color: #fff; }
+.sn-item.on::before { content: ""; position: absolute; left: -12px; top: 8px; bottom: 8px; width: 3px; border-radius: 0 2px 2px 0; background: var(--ds-accent); }
+.sn-item svg { flex: none; opacity: .85; }
+.sn-item.on svg { color: var(--ds-accent-on-navy); opacity: 1; }
+.sn-sub { margin: 0 0 8px 21px; padding-left: 14px; border-left: 1px solid rgba(255,255,255,.10); display: flex; flex-direction: column; }
+.sn-sub button { all: unset; }
+.sn-sub a, .sn-sub button { font-size: 12.5px; color: var(--ds-on-navy-3); padding: 5px 10px; border-radius: 6px; text-decoration: none; cursor: pointer; white-space: nowrap; }
+.sn-sub a:hover, .sn-sub button:hover { color: #fff; background: rgba(255,255,255,.05); text-decoration: none; }
+.sn-sub a.on { color: #fff; font-weight: 700; position: relative; }
+.sn-sub a.on::before { content: ""; position: absolute; left: -15px; top: 6px; bottom: 6px; width: 1px; background: var(--ds-accent-on-navy); }
+.sn-sub a.soon { color: rgba(127,141,166,.75); white-space: normal; }
+.sn-sub a.soon::after { content: "準備中"; display: inline-block; white-space: nowrap; margin-left: 6px; font-size: 9px; line-height: 1.5;
+  padding: 0 4px; border-radius: 3px; border: 1px solid rgba(255,255,255,.12); vertical-align: 1px; }
+.sn-sub button:focus-visible, .sn-item:focus-visible, .sn-sub a:focus-visible { outline: 2px solid var(--ds-accent-on-navy); outline-offset: 1px; }
+.sn-sp { flex: 1; }
+.sn-foot { padding: 14px 10px 0; border-top: 1px solid rgba(255,255,255,.08); }
+.sn-foot small { display: block; font-size: 11px; color: var(--ds-on-navy-3); line-height: 1.6; }
+.sn-bar { display: none; }
+.sn-badge { margin-left: auto; font-size: 9.5px; font-weight: 700; letter-spacing: .04em; padding: 1px 6px; border-radius: var(--ds-r-sm);
+  background: rgba(33,134,90,.22); color: #7FD1A9; }
+.sn-badge.m { background: rgba(216,154,50,.20); color: #F0C27A; }
+
+/* ===== トップ系のページ(make_top_page.py)。バナーは見出しの高さにおさえ、今日の開催を上に ===== */
+.ds-top .banner { border-radius: var(--ds-r); box-shadow: none; aspect-ratio: 16 / 6; object-position: center 52%; }
+.ds-top .hero { background: var(--ds-navy) !important; border-radius: var(--ds-r); box-shadow: none; }
+.ds-top .hero::after { display: none; }
+/* 会員限定のページ(高評価モーター抽出・カド比較表)の見出しは、2−1検証などツールの見出しと同じ大きさに */
+.ds-top .hero.mem h1 { font-size: 24px; margin: 4px 0; }
+@media (max-width: 960px) { .ds-top .hero.mem h1 { font-size: 20px; } }
+.ds-top .card { border-radius: var(--ds-r) !important; box-shadow: var(--ds-shadow) !important; border-color: var(--ds-line) !important; }
+.ds-top h2 { font-family: var(--ds-font-head); }
+.ds-top .btn { border-radius: var(--ds-r); }
+.ds-top .btn.main { background: var(--ds-accent); box-shadow: none; }
+.ds-top .btn.main:hover { background: #2F68A3; }
+
+/* ツールのページ見出し(title_html の .sn-ptitle)。トップの .hero と同じく平らなネイビー(後から入る TITLE_CSS より強いセレクタで) */
+body.ds-tool .sn-ptitle { background: var(--ds-navy); border-radius: var(--ds-r); box-shadow: none; margin: 16px 16px 12px; }
+body.ds-tool .sn-ptitle::after { display: none; }
+body.ds-tool .sn-ptitle small { color: var(--ds-accent-on-navy); opacity: 1; }
+body.ds-tool .sn-ptitle h1 { font-family: var(--ds-font-head); }
+body.ds-tool .sn-ptitle p { color: var(--ds-on-navy-2); opacity: 1; }
+
+/* スマホ・タブレット: サイドバーをしまい、画面下にタブバー */
+@media (max-width: 960px) {
+  body { padding-left: 0; padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
+  .sn-side { display: none; }
+  body.ds-tool .sn-ptitle { margin: 10px 12px 8px; }
+  .ds-top .banner { aspect-ratio: 16 / 7; }
+  .sn-bar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    background: var(--ds-navy-deep); border-top: 1px solid rgba(255,255,255,.08);
+    padding: 6px 2px calc(6px + env(safe-area-inset-bottom, 0px)); }
+  .sn-bar a { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 5px 0 3px;
+    color: var(--ds-on-navy-3); text-decoration: none; font-size: 10.5px; font-weight: 700; border-radius: var(--ds-r); position: relative; }
+  .sn-bar a span { display: block; width: 100%; text-align: center; line-height: 1.2; white-space: nowrap; overflow: hidden;
+    font-size: 9.5px; letter-spacing: -.04em; }   /* 7項目を 375px に収める */
+  .sn-bar a .fr { position: absolute; top: 1px; right: 50%; margin-right: -24px; font-size: 7.5px; font-weight: 800; letter-spacing: .02em;
+    padding: 0 3px; border-radius: 3px; background: rgba(33,134,90,.30); color: #7FD1A9; line-height: 1.4; }
+  .sn-bar a .fr.m { background: rgba(216,154,50,.28); color: #F0C27A; }
+  .sn-bar a.on { color: #fff; background: var(--ds-navy-2); }
+  .sn-bar a.on svg { color: var(--ds-accent-on-navy); }
+  .sn-back { position: fixed; inset: 0; z-index: 55; background: rgba(11,20,38,.5); }
+  .sn-sheet { position: fixed; left: 8px; right: 8px; bottom: calc(70px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+    background: var(--ds-navy); border: 1px solid rgba(255,255,255,.1); border-radius: var(--ds-r); padding: 8px 8px 10px; box-shadow: 0 12px 30px rgba(0,0,0,.35); }
+  .sn-sheet[hidden], .sn-back[hidden] { display: none; }
+  .sn-sh { display: flex; align-items: center; color: #fff; font-family: var(--ds-font-head); font-weight: 700; font-size: 15px; padding: 6px 8px 8px; }
+  .sn-sh button { margin-left: auto; all: unset; cursor: pointer; color: var(--ds-on-navy-2); font-size: 20px; padding: 0 6px; }
+  .sn-sheet a { display: flex; align-items: center; padding: 12px; border-radius: var(--ds-r); color: var(--ds-on-navy-2); text-decoration: none;
+    font-size: 14px; font-weight: 500; border-top: 1px solid rgba(255,255,255,.06); }
+  .sn-sheet a span { margin-left: auto; color: var(--ds-on-navy-3); }
+  .sn-sheet a.on { color: #fff; font-weight: 700; }
+  .sn-sheet a.soon { color: var(--ds-on-navy-3); }
+  .sn-sheet a.soon::after { content: "準備中"; margin-left: 8px; font-size: 10px; opacity: .8; }
+  .sn-sheet a:active { background: var(--ds-navy-2); }
+}
+</style>
+<aside class="sn-side" aria-label="ページ切替"><div class="sn-brand"><span class="mk logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAjHElEQVR42n1aeXgc1ZGven3NPSONNLolS7IkX/JtSbaxOWxjMAabLBAOhwQWliQLOXezyWZDyCZsIJtlCSEhC4QrnAHCbQMG4wPfsixZli1Z9zU6ZkZzHz3d/Wr/mJElmyT96Zujv9HrqnpVv6pX9UM0NwICISInAAAkoMwrg+mLEAARCQCIpm8iZe/PfJ59IQJjQIQAgIy4AUSZnyEBEGUeOmu97FKQecj052mpgL74MwAgEgkRgGYWyghCCEAAOCMrECFm79D0inihhpmvxIkICIAQbMUkKBAZAjKACJAhIiAAIWUWmm2XjAyz1YCswkSZf5q5P/0bEM8vdvGFBJA1cvYbAAFBRgIAYBnjIiIQcdINIgFEGSx2tDoFmwOYbeX1X3KazZ+99Crj4XQsxOMRSEVBTwFwFARABpR5xrRdzhua6Lw3ZHYg+2nWpmVEEv+69Oe3IqsGQ0SOkLUzAiADARmioQtEVsgpMJVXmoorULHqaRUSEaaqRtxwu3Pz7aLTZbOYZRSKUTRxJiVjiejEaHJyEKJ+AIOJIhEA/yuOmDX/BbcuFleEv3nhzBoIPKMOIggMBJExwSCH4ay0Llla0rDU6slLjo5PtbfFxrs1B/BKBxYU6pI9stSOUfB5qllolHxeKRYwsbTN6aqoqpBWrIkl02Odp1IDbWDEmCiQMUtaxEzMZOWgGZNnDTsdIojmxpnYBQTks8M3IzRHACRkDASRSYoh5INnaeGmdfOvWiqgMHjwtPfQ0XhSh2Ur2LpinCOimhYmI+mR6PpKjyslvvv2aZmndY14Kk3xCPiHYKrfLBhFNYvy6lcndNZ3dH/i7GGkOCAjg097yEXGnzEszbgQTSsAHBCA2Iwm2ZeMwwCJEpNlUNw8Z3n+pg3rdqwgwJNvtw3sOQI9B6CgVCicw8xIYS/4/DwUEXRDC4VX37jVkWP96JmXZJukGZwpJpCtqFg4ijzqB38fSKaS+tVl664JxbSuj94g72kmAtd51lVmA9ff8pNpBWYwZxawAAACQ5BkwWw1rLWwcusN96ytWmT64PWRjtf2gr9HEGIYHQJBBi3No0EZuabGLWYpqaYZytVrN7jyCo6/9Qpi2mSSE8m0bLGqOjLZSgigRngiQFxEW3716g0Fa67uPHw4sP8vjGLc4MBpBkb/2iZkHQzNDReJnkUdJAQkhiCbRLNdz1npufnWf/9W9dlR4+nHzxgnPmfRM4ICHJHFpzA0KWoxXSeLy21IturaOl2yudx5NfWLHE5b8+fHElNeSCcGert5IpSKTAEQmJy67AREUCPc4iKzxyYLi665wR83el77P5YYIU5kGDOIBDOek0XtjIbTO5BBZcp4EWa+CAxkk2jN0YsuW3Lvrffd5n7uw9jnr3ThaIugDjMr0ye9ObIY7GrLz3frFnfj2kty8jw5LkdSJzWthiJqTX2d1WFvOdDsspIsiTaLORqJ+sdHm48cSvq88ciU4vKkJDeTZahYYqzZRCf3LK5YwIqLW5/6DQucJc7JMAAQiS6QfnZkz1IgsyuYzTOIICnM4jRKNl320699+Sr7fz4dGNvbJU51oFXjkBLPtZl8w1J+Sf2l6/IVa1FhztDo+Lmu3uHx0UgoDMkkpLX6y7e48wr2vvYMSBwkxeJ0lZaWz5tfU1lR4fcFTraePHPkc5tNSZCVuUrh0s3w79fqf9pdO+Fw1pQe/83DzNdBXAeDQyYWzsPsNEYRgAByacbVM4kWAQkREFGUmNliuFc33H/XhsudD/x6OHi4Q4z3shKbFhzL7T8d9QUqG69Yf8WGeesXd+zf//Zb73UcPeQb7lbDfiEREkmFSNBRXmQw1XfisChxTEW1WCgwPNDV2tbcflYEaly3vm7FyuEhnxYdBzUC3hCMq+J/bJ0M+M2tE9WbNo+2nWHpIH2xgpj2dEQQUCzN3mBwPsuiIKDZwi111d++Z+WGosd+2qq1twraCJuTS4NdeYOdEU3c+rU7Vi6Z33z02J7X/5JIxUK9XRIjMAzQNOLEdYMYTPmnJgYHQU9xTkQEBmfEGeNGMjg2ONRy/KTdmbtpy0aV5NG+XhGnjJ6A0KnJ/3L55Niw7Vh30SUbJ9qaGaWA/maeElAqPe8+2VTLEBWFxHzXtq+uvmXJ6z/dQ2cOMcOnVLjFwS5obzaX1N7yj3fokcCLf3x+pKNZDU7EEwBqlHNjZmEiQGRqApIxYCxrIURCZCoqhihqOqA+1NF+tmdo7aVr3RWlvcdaJFPSGPTxFr9w91bfvhOF0aBSvTR0toUJRHy6wsOZ0gYAZimQCQCGIEoomrBuwyX33XTgsQ+Sx3aiEcyvLuJD3Ym2E/n1q790w7Wnjhz88JWXIeVjaoIMjceDyPCi9IdEwBgwIVt6ICMAm8na+NRDyjd2FN6xvVy2jDUfV9VY+/FTZXPnVi5fPnjqNCXGcCKMR3pZw/Vj771UN78mQjZ1vAcFlq1SM/HMsklqRoGsfoyhJHFLxeJ7v+k90Dzx7nOgB0rqqrXx4WT3GVPNspu3Xblv9+6Wj96XhLSRiFOmWGIMv1gMZsomzAYViAKoWsHSxVP/852+HE+0qoC/9lGwtY2JAgN9oL3LnufOK6vyjQ5BYpLFUtB9hky20OnPFl62xds/hOkQzaqqpwtjYBcX8YLIDcF96VWmSHjgtafBCOSWlWpBH/f2oi3/y1sv27d3b8eeDyVR1xJxYBmQnomv7AkhAwPAgAmEogI2k+iS0QzE/CuXjXUTHtWNA6HRA4dAlIkT1zVB1E/v+SwWM1wFNSDKRmQYo2PM2xwPp8+NxSvWX8e5zBibyViUhdFZp5Ys/gC4K6sX159++UlgKSXHYxFYbLw/FEleds2V7a0nOz7eJcmoJRLIgDKxSURE05owAAYoAmMoCZQ2qtauWbHn+blvP13/zKOW4mK1dBkdQxgS9WOn+LgXZREACBnnhiDD4PFPdHMJYxYwNNBiXMytv/7m5x+5qWTtFVLxPCKO09YhzEIqm1YHEAkFJM6KVm+Inj4S9wfAWeAqLIsrtlQwnL+sIaZHj+3cKZpAS8RQuOAwNY3ADJCRIBADQuSChJylr1x/eGHV6eKqlpiclpFJ1dQ6jr4IHt9HaRWYCExCJqMgM26Itrz44FGwFQFTKDpGVk9N46q+sUjv4YNVDeuImfELZxqREBBmHYLcZUXFnjPvv4Lrdlj69xlTYxokG+68Y9XC+U/94rdMTxqajowB55SprrNZPmMYRoIgiFaLJY+YqKkhzZ0cK6indzlLIXvxbczL5RMpGBpmmpk6WkiQGGAm0Jlo1sAJRlRQwxxAtLrSodCC9U2TweR3dvwKQicLr7nFVLYw1X8UUIDzeRlJALksU3IiY0TgXn6FFB6b8MxlNYscZw+kwqPJiXGL1e12uMqqywcCAT7lA8wIPB1FyLJoI0tMExp/dK/9kW8779hampM71j2Ci27grX70BeGzP7CaJdzPIDLOohO8/WNgDJnMZAuKFqy/7MEn7u9T3VMdHSY5nQZz4Zqti9as2fveTiXSqYd9AHr+3KVT3e3IsmU2AiCBCARIWWuS4nAXesbaDsK/3W/6eA9PxOLRKdnisjpdf3r4fxW3GfLLOApAOiAjIEQBMgUfAAgMQJRz873b1w+W5kAalHO9zFNkdI/h0ADEx1hikkIKnzoq2J00PkqaimanoFgEhaXAsXzz5ZsaCwbVja+PjgU6DsnVi9becuPul/8EEx2G3caCymR/V+H8JpZXQf6ezFk0o4aYTQEIxLlUUMqCk9F55Wy+XXqiT9OjTIOihQsnOjuZEVK9fhjoRrMFkM2kPkEyKbmyo4ATJWN+o6piKJrP3iOWTGt79gvzLmVnThiJEI21a0otuBYCjhpBHwv0omRBQTRA1tCx5va7rIQrN/x3fnXx6uuvMb50ddHcko+f+yDW3yrGw2iuRkkxkvHE5GBuRZ1/smcmApGLmdIaGRKhvbA47h2i724TBwbRH0hFfMhESTCNDjQTMmCAFisQZY8OyADR7vSseOHh6NwKK/HJH/yuM2kTDhl8ZJx8nRgO86hoeAewci6rWbfjlsab1pYe6It/eGSq/SUv8qRuK7A2bF6xqp7FE5/8+UVz2hc8Kbw/OvnGG98N+NVnOs9YzaBGdSGtgskCgjkw0utesM4vmhHS020MEiFTQSOAIJstlsj4IFZVCa8e0qKTTATJVhyPJfV4CDIHPINP9zAYCAKohrB4wfG1C+JBkHVDGuhhpVfyo82gJdjgXia7DWv1th8us+lBwWp67ra5QOkCXT97bCC9afuZN5/PXXrp/le/+kqz/uCXv2fFfjWlMbMi9u2/ZYcoikwMdKQhScmUwcZRcYAtNxzxlpolsLspMpLxIiQmoFyabemYXe6y0qnRET5kks50CCmf5h9V3NWp8Hg65kcAkTGT2aKlVUmWABkxAXQ9vfHGdGoRO67jwcPpT97D/CV8olfSotpIn1F79eXXN8zPGfrL86/e6B5Pcvqn7z+cv+jSd1980+q2hJdekmOPHWhN7tp1QB8/gQojJJBRQA6hAZrqB54EWQYyAE0gSGjPM1IpT0FeJJ7WgyOYCQNAkbJNNxLsTq4ldJBgbAwik3oizBQzoKjGwxabIxEOkigoMlNTgslkNkhMxmPMbmVGOe06DSKHvl3A7BD0Com4JtSU7/jGfbcvviE/+eabpwJtBw+WNgiVaz/pDBz+2s1uCFdvuLSzZXxw1wuDJjdgQuBJnSFPp0AxUyqFggiCwDUdhCToOpGP5ZWiJIPdk4qFrXlFqT4hc2yBbAMCAYgkm8NQkySYkKvADY2BxgWdk5GKKLLszncbmiZJZgBggmSy2iVREPOrYNzHuvaw/mb9bDtTcowEGgsu/9ajtzx3V3n+gT/rsdiRIWTJyZ2v/fHjz1tXrd5ijDQHUmrQXhc7dkI0MwWDJkqJQIwbDBnTVGSIQMg1xgCBkBFmMINrYHEmYxHZ5gQmAGPEEDJ5AEUR7EWmeY2yKMaccwRnrqiG0hPDgmDisg3j44i4aEFt9cKlgmiqmlOW0kFnsiILaVudFuYkKDy32JSTny5cU37l5Q9+u97TefRXP/n1FZvX/vDXb3z0+wcIk7qqDpx4x5AKU7bqDbfuSDsqkwmKRZNGKq2rupFIGWqaGxrXiKuaoRmGavC0ynWNc06cY66HFdZwT6VFlpWKeeHJKaZFSU8jR5Ex5Do2bd2+dcc2igYTDidX1VB/VUvf0rbPe6y6zDVfLOJvO33uS9u2XH3tdR9+csgYTzBRTLB8XLp11bpFdeW2EpPa8tkxc83cGypCT9z2zcNHDl557ZaO7pGJ3lMgxfNyPeVVDcxs8cw312/+WmN1Wb7NbvnmzafatowOjQfHfOOjEyPD3lFfVLbYnO5cyWzRdS0eSyQSyThXtPqaxaVyrT0vp6LIlNKsbseJBYWv/Px+TEYAEcHWhJLCnEXuhivMemg8jCiL+kSX5O0kkmXFuny+J6ZJwXDEVrjw9ntutbH0vz56SLbZ2IqFDdUU3/PO0KmTiYA3MtL1zR/954GDx4/sfsadY7li+7cKiko2Xt5U5HEtqMz/wfMdb37Q4nKqOSyUr3BHnl0ommtZdLmU41rthg1l4JZgbDISjKbjqXQwmgiEEpOB8PDwqC+Go1GecnpyFiw99FmLJdTvqlzQu/N1Y/wMT8aQcxE4ga4Z/sHUcLcEMXUk4ioqNBnJSRXNYlxg1qmYWFJVm2RToajxzrGRh7654sc/2ibOtTvM8NiN9/rO7pNNhgKxObWl777zF1GU337/k4rS/JdfeRuM0LaNywDguTf2PfGjX4IemUwlwW4qrC5obFi8pS5dYx6kRL+vf/K5t3zeQCzKLWFDCYfCwZFzUyO9U75Q4YJGqXRxRe2cFWvrTp7oj7YclMRwSnZoQ+0M9UwDXEQC4ATAQUsrNgXUYHxcq5hXvaqueP+BZpczt/dcuy2/NE0myVEQMlwdSf4vV9j+8FbzRx98GvSPaiZHMDCYTkbIq4He/pc3Xtt2zWW9A97f/d8Lf3zx+e4QfH6o855vPSoUuczzFlctrp5XU1pks1mjidPDY5817wr6Q6FgOBoKRWPRZFqPxQ01miBRAEfNNTt2XLb1qlKPtX9g+Pkn3+w6fRYEUBxWFBhwA9DIJGNxur9CanTKyC3DdMzqskVjEWtl3Q9//kDv4OiuT4qGffHb7/tqSrSRJC4oUB5+rfmRJ17KyzUmR7rSMT+QJppz9Hj4xtvvbbh629HBxG9/+dvysrzSZU1HBlM/fvMkbbzKXulWRN0fCX6y+7joD0BgUp8KaNFoMh7X1TQQATOBdQlWLMvZUp7KW/zY9uJbL7GfHY0/8tgLL734LiBJBaWazmRJ0uIxMNIksOnuNGZbj0YypsiSWTFl2sRtrW0pZv32fTfdduOGl3d1NffGvv71qnVOGh3yP/nnj5Yvso+dOGEV0rLVnDJcelyvXLTm2w88MJmCUy0tuqpuu/Wezz89emxoSrLprlQqfPRgZGKUByYgFIJ4FDiAaAJBQESUzSDkWis2r/2n2zdsL/4Q4PECmK/Aoy8d/K9fv+Dr6hAsTHAVcVseREImk9kX9APxzNmPkASUSjLnS+KG5C5M+ryFLosjv8jg5A+zM6Pqti0L/uGysrJSZ5obQUncfWBCHQvB5GR5cXlP73DaVAGOSjm/8onf/IfDZmlpHR4IK0JJ02hEOnKktf9Uc6jtSOjwAexuR+8ARZIo5zDPPMHhQa6BnkIES0FtyTV30b/fdsOXc29x8tsd2HzUe8P3nn3x8WcSwUFRAWICmvPw6//I45PFZB73DuuBoUxBmSmniTFEBKuIxcVFLFLhDcQr3XNrL60rtJq3ry5OaOlTQWFluZQrs/6YJjcUX9V4y/FzwSoXTuatTJksUVEqyHEcmLQMHO9ORsNTowPjZ06Evb1OM8aDcTUVF9ACBauExcvkkqXa2BCd+ZQmegFIyJ/La7fol13vv9qzeBEsCOkfHgs8/ebRE7s/hHC3KKlGSjPSyOwOysmlihJ5cpQ89SnfKDKWPcQiiIBAnBtkRCPx+GRw3Vfuq6zMv3JVcUIElwKCBK+0wmgALqmDSgVyXUKx28hRoKE0HwDnVm5uG45+1uof7B8PTXSPt5481dyiJRPOnJyEkO8uKDfNsSRy5oCntmRlTU1RtOeVt0YOv80TMa7kQf5SYeF1zkuacpZLFQnV9cfwdz89OXz6OKR6FXMcCt2GqEg2F9fSNDaOnjL9dNA14UvlaBCeQGSZvhMRIZobRBEdOZ7aRYtrVq+31tZOTUR6JsKj4/HJMa+9OD88GoHAhGBXjBST8otqli1a31ha6TExSjnNbHOd7B1JftYxtazCahX52Z7JziDWVTqtgrnXQKXSUWyHo0eD/R/tPfr2zqmBFhDM5sr5nrnLqtdtcq6bq9dxdyotDLDO8VT/eDjgDTLfmNF3xhg8S+EhYBxtLtQZLd1qhPw1xkAQXP5jO5kgEfHpKaG5URBZbo7LmuOJpojmLA20NStW84MPfHXNXKeaNhjoQLquk88f2He875mXP1PFHMgtqyqzymI6Zp3TsL7JnZ837otZFTa/REmLFPAHC+RUDJiuRldXuZkhccU+MqV2tHZ2n+4cPdeVTKR0i5PX1adXramrKblzgWlTIX4yRr//eKi38xgcbqHRQWNqENJxTiBYnUbFJTB8oq7psu6TJyA0zA3INAEBCNHSAMBJ10FPo6yYy+pQwGRve2H1nP/95XeKC9x2h40xQRZZXU0FALz73u7t1922es3aXe8++djvXvrJTx8BeQnYSiE1BQ435JZC2A/+ftB1UATIcQEA5Hhgfq3LxHOikdjUJE4OpJOhyFSQcwu4l8CyRlNdRe0CDwx5+z/dnZjqg8kRY2ISQAVQAUwAEpgctsIia/nCiYMfg6GCpKAsQXbqaGkEIAAdgZOhE4qiq0SfPFOzqP7aazekVO2J3z1NyShA+sqt137w9lMAUFp5yZqm5a4897NPPLtibdPyZYtJTwHioQNHz5zuuGTjVcuWL5IYRKKJp598bf7Kpo3XblGY3nz4+N49h2666arBns6j+z4HgJrlDZs2NL766s7SmkVXbL+WUfro7k8Ovv+eZDVt3XaVIuGcipKOs71lFeX79x892zlk6Kzh0pXr1yzftetAx/EWQZE5BwBzI5ob0bIKzEvBVM/M9YJtuWhbvu9YJxE99/IHouhRLNWIucsbriHip053bfuHrxPRt7//8wd/+buR0fFPPj1w4FDLydazDetufPGVd6Px5NFjba3t5x565Nnv/OBXsXj88KHjJ1raieiHDzyeSKkf7z4IYCsoawpF4p/uPfLbp14fGBx67cVXDu4/REQLl2156H+eJqIznX179x3+x2/8hIh++uATAPZVG+7iRK2nu/OLr2CmFczSiOYGwIwC5ka0rETzUtG6BKDyju//diBC+9qG3YXLmVAsW2oAXH945k2N6IEHf7v/4IneAe/2G+8hov965NmGNdsr6y4HEB//w4tENL9+I0AhgGP9xh1E9JU7fwCgFFc0EdFD//3kma7+N97eLQiujrM9h4+2fu3uHxLRw48+v3r99h//4vcG0Q0330vceOa51wHyAFwlVeuJ6D9+9htX3uJAMNLR2WfNbQJWL1ib0NwIpkZx1myGMSYZyWhpfWPl0kuefbejbc87gfFRYJZ0wrdy/VapvPHRF/YePNzWuPX2b37r+yePH3vwD++LjuI7f/CfOXnu5/7nZ4vXb7nz3gfPtu8DKAFgX//e915458ifnnkKwHTJlVv3nw3+8ZmXc6uW9XaO3P3dn0XIev0/3Pzw7//wlz1tBgo33n6XLIv3/ctDJqdn35mpn/3iMQATky2agUfOBQWr+89vPptQjc1b7oqHooLVwXWe6QiK5xujiAigk5Kz/ta7z/gA4t63X30LhJyCspJLt1y97rov9/UNvPSr+9fddu+zr+xsO92bW1jxxCP/Kwt8w013uMtqBWveK3t6+8ZDyy79iuSZo0dDR0ZhsKN9+fptc+qXrN528/0/e6znbNfR3qn86qY8LX3dVTcASO0Bc/fOXYNtB1PMYXM4u1uO3P2Lxx576o3B3iHmKCDDSOr45JvH5tWsLKgu23z1V0b6RkSHW9f4TDM84z9gbhLsqwEWrdvx6Kde48AYb+317dzbevDsZF+UhuL05J/3l1U23XDnA71hY8utP37j45bhuPFRR3T/oHFwVGu48p9zyzb8aW//YFg7OaEfC1L1Zf9668/fPzoYPzKU2tOd+OoPXwSoA1jw+BtHDnSNrd10F4BVMS/67m92tw7HDvVEjoxqv3+v7cZv/LplINCw6W5BWaQUXQ7OdTnL7/nlxyN/bkus2Xg3QI3oWA2Wxsxf1vMzQz5EBkbKWbK4+dizVW70h9RQKD7mC/b0Dp462bZv76GTx5oBsXzxSpYITPjDhUWFmppishnMrrHxgOYdAFCgqM5RVM3sRUJpVcrvzXfZCucUC2CEk6mwd8iiMAOZyWpJB8YDEyMC8XRkCjjaZVmdHE3pRiSug4gCgqEjmO2guEwLl93/oxuuaiz89bf+6+X/e0l05eqahgSzJ04I5gYEQsZ4KlW1auPyhuWnTrRNjHnDwSkITwEPALMDj4AggZECSAGIADKAAWADsIHFLZdWe+bW5FeWOUvzzSVuV5VnQbk57TG16OCfglQEtBCkIpDykTY+rg4N6IEJQU8alCKFuIUxMzoUwcSYXZLMsoKShZnsTDRzxXrnpvKvVEr3/+rV//7JY6JN0tNpoNmjbwKkjAIZXRhpGmgqIANZAkWRypcKWsxIq1JFlVWPk66TnhYVq2TLsXiKnGXlzjnltooCpdidzIWwAmER4iZACYo4JCdSkVNe3jEYP9MV6Twb7e+GSAhcNqypVObXyDWVprIChyenwGErsJqLTeZKs6nUJlklMIlgBygHKAQAgMffarvvnx8SDb+hJkk3zg+9s9wcpAvmxIjIGHJAQkBBIEt+xeabEz2nJof6nfWLlDy3XFuDBUXM4ZadOWmOKkAsmYpHo+bolC3ss0QnTSE/+YMpfyw55o17e1ORMQMAS6rFlaukpfW5xS6TGmfeUX14WPeOwVSER5KGZugaoKdMI3S5C6w2S25+XllNbf3KOnOO+9vf+x3r3QupCNd15AQ8q0G2P4gcwdKEF5FwMKMAAyaIRcuX3/dvQ/s+HPv0E3DKMDVSUVvtnwzGfVPgcUM8Ajwt6HE5neSqmtaNbN8bARiBxSEVzWPl88ll5pEh7O9kI4NaMsSBA4gAEoAEkgySBJ58CCeLaqtFwOHxFBgEYFI236IOebFrF8T9kFaJU4a/MkNFyVKlrE3nmTmz2DhICCiKwCRWc8Xan/zAu3dfz7vvi2bdmpyom1uWSBvdPb1qLCgwpESCc54Bguzgh3MQTego1GU7xALg7wfSEEWSZRRExCwNBWUFrFadiVaro7rck0po/QmbTigBrfrKXcPt57y7X+BqlNIqcY48Oxa4iJwnoFgCDIDOU4hm0YmIkCEFh4dah+Z/+Ut51RXeA4fU8KR3dNRut8+fP08uqQ5F4obdBpyLJgV0gwg455l5A5/y5TetzV3SFOk6y6xWQAEzayJDq4VLJnK5RCaVVpQWWGUvzx1R5vJYzG6zrLrrn3tbu0c//BOoYa6lgXOYniSep+3NUiAzZsVpVt2sMSMAAOeIBOHBoc/b3KvWzN96VbB7UB0fDKowocoFJlZXWWo3OXSnK55UyekAgwSLmQmiIMskOVdsu6Vq4aJzBw+JokGSBGYLiSK5cwlEe3FxoclaXFKSsBYO1Fwdd1TDQHvlwrq6625pe/9D/6cvMSNKmgoZ/tMsHuOMbABIIIBUCmx6zDWLkoCUmXsBEUcApvknPz8UZ/b6W3eYLa5g3znN5JmsvXLCXWQ2Y6XZVVlY5nLkmPLyuWgWcj0GMaOwKn9pk2S39nb1AiUFT6EsKY7iYrfNUegpsDo98SXLRjZsDi3bSD3DjsHWJVdfrRTNPf7C08n23QxSpKUzlKFpr/8CsTMbcJZGPE9OpAtYjxewQxhjInJdwtJFtdfekOeyeT/fOeL1aVdsgWuXgENzdo66W3qcwyNmPQHADSakROeKa6522C0fv/ymlA5wTU1r6SSak+7yxNL5iTV1JADsPWM/fq6ysto+Z17PwUMT+95BdRK5wacRc4aLeSHb8jwQIVgaL2JQEOJ5BWZm15llRAYABGZTXUP1ug12UZ9qOzIe80Wbamj9EiicAz0MmielntPKVB/4vZdsv8plkd975nmw2lRTgV44D6oWQqkDYFjo63NPpEsq5lmqKke7ewY+eQ8mzjGmkaYTN/4Ku2P2VHcWvXEahc73t/Bi0uCsOwAIiAwF5JwDWuSKhSVLVrpsVhofCY30hPVw0mpXJQ+pCPEYjA2vuv7KHLP08e+fgLxcsOSh1W42iw6TKSenxFZeq1mt4/3d4y0HYaIXBQ04gWEQ5/B3rtl+kZ3SWRrP07dmAdA06fULFLvp94waBnABHPnWkjlOT7FFEkQ9aagRPZ0iQ0ulsGnbVpfL9fHrO612WTZbZWsul6xJg8L+yeBwT9rbB6kgCoAEnHP4+6L/Hd7oBcS6GUY0XRQumTkIZd+NTJAzgSg2Hj/rjZ9hIJnA4pCsTtnqUKwOMFliigcVR5I51Gg0NTasRtv1aBCSYTBSwIAxgZBAJ07098XFaTLB+WDIBiwBgqUJ4W8wNP8GoRcv2h+chmgkICLKwDYDJkJuBTAB/P3AdSACBogsQ8TJdqYuJkvCxdRj/HvCIIE4DVDZsSvQFygsF5CAsjzxadDK8Otm0doRAcTsHBkIpvozFB4ABrN4IRfRruCLzG+4gCuKF+bg2cx0Eej8w8+DEz/Px55lgayUeAGUZUzIMye6DI08c5Oy5QgQAHBjNp12JjHRhTrMJuziBeTQ2eBzflsIEIH/P+YSCn/pv5B+AAAAAElFTkSuQmCC" alt="" width="40" height="40"></span><span><b>Discovery</b><small>競艇データ分析 × 予想ツール</small></span></div><nav><a class="sn-item on" data-sn="home" data-top="home" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>TOP</span></a><a class="sn-item" data-sn="race" data-top="race"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Boat Board</span><span class="sn-badge m">会員</span></a><div class="sn-sub"><a data-sn="lite">簡易版BoatBoard</a></div><a class="sn-item" data-sn="member" data-top="member"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>会員限定</span><span class="sn-badge m">会員</span></a><div class="sn-sub"><a data-sn="timeline">タイムライン</a><a data-sn="race" data-sub="search">詳細条件検索</a><a data-sn="players">選手詳細分析</a><a data-sn="hot">高評価モーター抽出</a><a data-sn="ex21">2−1検証</a><a data-sn="kado">カド・カド受け比較表</a></div><a class="sn-item" data-sn="today" data-top="today" data-sub="race"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>番組表</span><span class="sn-badge">FREE</span></a><div class="sn-sub"><a data-sn="today" data-sub="race">番組表</a><a data-sn="today" data-sub="cond">条件検索</a><a data-sn="nige2">イン逃げ2着早見表</a></div><a class="sn-item" data-sn="seiseki" data-top="seiseki" data-sub="racer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>データバンク</span><span class="sn-badge">FREE</span></a><div class="sn-sub"><a data-sn="seiseki" data-sub="racer">選手情報</a><a data-sn="seiseki" data-sub="motor">モーター情報</a><a data-sn="seiseki" data-sub="venue">24場情報</a><a data-sn="assen">斡旋情報</a></div><a class="sn-item" data-sn="kaisai" data-top="kaisai"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg><span>開催データ</span><span class="sn-badge">FREE</span></a><div class="sn-sub"><a data-sn="kracers">出場選手</a><a data-sn="kmotors">モーター</a><a data-sn="tokuten">得点率早見表</a></div><a class="sn-item" data-sn="links" data-top="links"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>リンク</span><span class="sn-badge">FREE</span></a></nav><div class="sn-sp"></div><div class="sn-foot"><small>直近2年の全レースを、同じ物差しで毎日集計</small></div></aside><nav class="sn-bar" aria-label="ページ切替"><a class="on" data-sn="home" data-top="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>TOP</span></a><a class="" data-sn="race" data-top="race"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Boat Board</span><i class="fr m">会員</i></a><a class="" data-sn="member" data-top="member"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>会員限定</span><i class="fr m">会員</i></a><a class="" data-sn="today" data-top="today" data-sub="race"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>番組表</span><i class="fr">FREE</i></a><a class="" data-sn="seiseki" data-top="seiseki" data-sub="racer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>データバンク</span><i class="fr">FREE</i></a><a class="" data-sn="kaisai" data-top="kaisai"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg><span>開催</span><i class="fr">FREE</i></a><a class="" data-sn="links" data-top="links"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>リンク</span><i class="fr">FREE</i></a></nav><div class="sn-back" hidden></div><div class="sn-sheet" data-sheet="race" hidden><div class="sn-sh">Boat Board<button type="button" data-sheet-close aria-label="閉じる">×</button></div><a data-sn="race">詳細版BoatBoard<span>›</span></a><a data-sn="lite">簡易版BoatBoard<span>›</span></a></div><div class="sn-sheet" data-sheet="member" hidden><div class="sn-sh">会員限定<button type="button" data-sheet-close aria-label="閉じる">×</button></div><a data-sn="timeline">タイムライン<span>›</span></a><a data-sn="race" data-sub="search">詳細条件検索<span>›</span></a><a data-sn="players">選手詳細分析<span>›</span></a><a data-sn="hot">高評価モーター抽出<span>›</span></a><a data-sn="ex21">2−1検証<span>›</span></a><a data-sn="kado">カド・カド受け比較表<span>›</span></a></div><div class="sn-sheet" data-sheet="today" hidden><div class="sn-sh">番組表<button type="button" data-sheet-close aria-label="閉じる">×</button></div><a data-sn="today" data-sub="race">番組表<span>›</span></a><a data-sn="today" data-sub="cond">条件検索<span>›</span></a><a data-sn="nige2">イン逃げ2着早見表<span>›</span></a></div><div class="sn-sheet" data-sheet="seiseki" hidden><div class="sn-sh">データバンク<button type="button" data-sheet-close aria-label="閉じる">×</button></div><a data-sn="seiseki" data-sub="racer">選手情報<span>›</span></a><a data-sn="seiseki" data-sub="motor">モーター情報<span>›</span></a><a data-sn="seiseki" data-sub="venue">24場情報<span>›</span></a><a data-sn="assen">斡旋情報<span>›</span></a></div><div class="sn-sheet" data-sheet="kaisai" hidden><div class="sn-sh">開催データ<button type="button" data-sheet-close aria-label="閉じる">×</button></div><a data-sn="kracers">出場選手<span>›</span></a><a data-sn="kmotors">モーター<span>›</span></a><a data-sn="tokuten">得点率早見表<span>›</span></a></div><script>
+(function () {
+  // リンク先: 公開版は …/discovery/ からの相対、PCで開いたときは隣のフォルダの 最新.html
+  var C = {"L": {"home": ["", "トップページ/最新.html"], "race": ["race/", "ダッシュボード/最新.html"], "timeline": ["timeline/", "ダッシュボード/タイムライン.html"], "lite": ["lite/", "ダッシュボード/簡易版.html"], "member": ["member/", "トップページ/会員限定.html"], "players": ["players/", "選手分析/最新.html"], "today": ["today/", "出場選手/最新.html"], "seiseki": ["seiseki/", "競走成績ダッシュボード/最新.html"], "kaisai": ["kaisai/", "トップページ/開催データ.html"], "links": ["links/", "トップページ/リンク.html"], "about": ["about/", "トップページ/紹介.html"], "sample": ["sample/", "トップページ/サンプル.html"], "soon": ["soon/", "トップページ/準備中.html"], "ex21": ["ex21/", "ダッシュボード/2−1検証.html"], "kracers": ["k-racers/", "トップページ/開催_出場選手.html"], "kmotors": ["k-motors/", "トップページ/開催_モーター.html"], "tokuten": ["tokuten/", "トップページ/開催_得点率早見表.html"], "assen": ["assen/", "トップページ/データ_斡旋情報.html"], "hot": ["hot/", "トップページ/高評価モーター抽出.html"], "nige2": ["nige2/", "トップページ/開催_イン逃げ2着早見表.html"], "kado": ["kado/", "トップページ/カド比較表.html"]}, "click": {"race": {"timeline": "#tlBtn[aria-pressed='false']", "search": "#searchBtn[aria-pressed='false']"}, "today": {"race": "#tabs [data-tab='race']", "racer": "#tabs [data-tab='racer']", "cond": "#condOpen"}, "seiseki": {"racer": "#tabs [data-tab='racer']", "motor": "#tabs [data-tab='motor']", "venue": "#tabs [data-tab='venue']"}}, "soon": {}, "member": ["ex21", "hot", "kado", "lite", "member", "players", "timeline"], "tabAlias": {}, "top": true}, L = C.L, here = 'home', web = location.protocol.indexOf('http') === 0;
+  var de = document.documentElement;
+  if (!de.dataset.theme) de.dataset.theme = 'light';   // ◐ で暗くしたページは各テンプレートが dark にする
+  if (document.body) document.body.classList.add('ds-' + here, C.top ? 'ds-top' : 'ds-tool');
+  var base = here === 'home' ? './' : '../';   // トップは …/discovery/、ほかは1つ下のフォルダ
+  function url(k) { var t = L[k]; return t ? (web ? base + t[0] : '../' + t[1]) : '#'; }
+  function member() { try { return !!localStorage.getItem('dpw'); } catch (e) { return false; } }
+  function links() {
+    document.querySelectorAll('[data-sn]').forEach(function (a) {
+      var k = a.dataset.sn;
+      if (!L[k] || (k === here && !a.dataset.sub && !a.dataset.hash)) return;
+      var h = a.dataset.hash ? '#' + a.dataset.hash : '';  // data-hash があればそれ、無ければ(Boat Boardは)最後に見たレース
+      if (!h && (k === 'race' || k === 'lite')) { try { var lr = localStorage.getItem('sn.lastRace'); if (lr) h = '#' + lr; } catch (e) {} }
+      a.href = url(k) + (a.dataset.sub ? '?sn=' + a.dataset.sub : '') + h;
+    });
+  }
+  links();
+  document.addEventListener('DOMContentLoaded', links);   // ページ本文の中のリンク(トップのメニューなど)にも
+  function press(k, sub) {   // そのページの中のボタンを押す(タイムライン・タブなど)
+    var sel = (C.click[k] || {})[sub]; if (!sel) return false;
+    var el = document.querySelector(sel); if (el) el.click(); window.scrollTo(0, 0); return true;
+  }
+  // スマホの下のタブ: 中項目のある大項目は、押すと中項目の一覧を下から出す
+  var back = document.querySelector('.sn-back');
+  function sheet(k) {
+    document.querySelectorAll('.sn-sheet').forEach(function (s) { s.hidden = s.dataset.sheet !== k; });
+    if (back) back.hidden = !k;
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (t.closest && (t.closest('[data-sheet-close]') || t.closest('.sn-back'))) { sheet(null); return; }
+    var bt = t.closest && t.closest('.sn-bar [data-top]');
+    if (bt && document.querySelector('.sn-sheet[data-sheet="' + bt.dataset.top + '"]')) {
+      e.preventDefault(); e.stopPropagation();
+      var open = document.querySelector('.sn-sheet[data-sheet="' + bt.dataset.top + '"]');
+      sheet(open.hidden ? bt.dataset.top : null); return;
+    }
+  }, true);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('[data-sn]'); if (!a) return;
+    var k = a.dataset.sn;
+    // 会員限定: パスワードを覚えていない人は「はじめての方へ」へ
+    if (C.member.indexOf(k) >= 0 && !member()) { e.preventDefault(); location.href = url('about'); return; }
+    if (k === here && a.dataset.sub) { e.preventDefault(); press(k, a.dataset.sub); return; }
+    if (k === here && here === 'players' && !a.dataset.hash) {   // 選手分析で「選手詳細分析」を押したら選手一覧へ
+      e.preventDefault(); var bl = document.getElementById('backList'); if (bl) bl.click(); window.scrollTo(0, 0); return; }
+    if (k === here && here === 'soon' && a.dataset.hash) { setTimeout(soonMark, 0); }
+    if (k === here && !a.dataset.sub && !a.dataset.hash && a.closest('.sn-sheet')) { sheet(null); }   // いま開いているページ(下の一覧の「詳細版」など)は一覧を閉じるだけ
+  }, true);
+  // ?sn= で開いたら、そのボタンを押した状態に(ページの描画が終わってから)
+  // ?sn= は押す直前のアドレスから読む(データバンクは #r… #m… で詳細を開いたら ?sn= を消すので、一覧タブを押さない)
+  function onReady() { var sp = (location.search.match(/[?&]sn=([a-z0-9-]+)/) || [])[1]; if (sp) press(here, sp); mark(); }
+  if (document.readyState === 'complete') setTimeout(onReady, 0); else window.addEventListener('load', function () { setTimeout(onReady, 0); });
+  // 選択中の大項目(番組表ページの「選手」タブ＝開催データ、準備中ページは項目の大項目)
+  function setOn(top) {
+    document.querySelectorAll('[data-top]').forEach(function (a) { a.classList.toggle('on', a.dataset.top === top); });
+  }
+  function soonMark() { var h = (location.hash || '').slice(1); if (C.soon[h]) setOn(C.soon[h]); }
+  function mark() {
+    if (here === 'soon') { soonMark(); window.addEventListener('hashchange', soonMark); return; }
+    var ta = C.tabAlias[here]; if (!ta) return;
+    var upd = function () { var on = document.querySelector('#tabs [aria-pressed="true"]'); setOn(on && ta[on.dataset.tab] || here); };
+    upd(); document.addEventListener('click', function () { setTimeout(upd, 0); });
+  }
+})();
+</script><style>
+/* 競走成績の速報(DLive)。終わったレースの結果を、各ページの行・カードに重ねて出す */
+.dl-res { display: inline-flex; align-items: baseline; gap: 6px; flex-wrap: wrap; font-size: 12px; color: var(--ds-ink);
+  font-variant-numeric: tabular-nums; line-height: 1.5; }
+.dl-res .dl-tag { font-size: 10px; font-weight: 700; padding: 0 5px; border-radius: var(--ds-r-sm); line-height: 16px;
+  background: var(--ds-accent-soft); color: var(--ds-accent); }
+.dl-res .dl-tag.x { background: transparent; color: var(--ds-ink-meta); border: 1px solid var(--ds-line); }
+.dl-res b { font-weight: 700; }
+.dl-res .dl-m { color: var(--ds-ink-meta); font-size: 11px; }
+.dl-rk { display: inline-block; min-width: 16px; padding: 0 3px; border-radius: var(--ds-r-sm); font-size: 11px; font-weight: 700;
+  text-align: center; font-variant-numeric: tabular-nums; line-height: 16px; background: var(--ds-head); color: var(--ds-ink-sub);
+  border: 1px solid var(--ds-line); }
+.dl-rk.r1 { background: var(--ds-accent); color: #fff; border-color: var(--ds-accent); }
+.dl-rk.r2, .dl-rk.r3 { background: var(--ds-accent-soft); color: var(--ds-accent); border-color: transparent; }
+.dl-rk.ng { color: var(--ds-err); }
+.dl-box { margin: 8px 0; padding: 8px 12px; border: 1px solid var(--ds-line); border-radius: var(--ds-r); background: var(--ds-surface); }
+.dl-box .dl-h { font-size: 11.5px; color: var(--ds-ink-sub); font-weight: 500; margin-bottom: 4px; }
+.dl-box table:not(.dl-ptab) { border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.dl-box table:not(.dl-ptab) td, .dl-box table:not(.dl-ptab) th { padding: 2px 10px 2px 0; text-align: left; white-space: nowrap; }
+.dl-box table:not(.dl-ptab) th { color: var(--ds-ink-sub); font-weight: 500; font-size: 11.5px; }
+.dl-note { font-size: 10.5px; color: var(--ds-ink-meta); }
+/* 上部バーの「↻ 速報 HH:MM」と「新しい日の番組があります」(DLive.mount)。ネイビーの上部バーに置く */
+.dl-stat { display: inline-flex; gap: 6px; align-items: center; }
+.dl-stat button { font: inherit; font-size: 12px; line-height: 1.2; padding: 5px 9px; border-radius: var(--ds-r); cursor: pointer; white-space: nowrap;
+  font-variant-numeric: tabular-nums; }
+.dl-rf { background: var(--ds-navy-2); color: var(--ds-on-navy-2); border: 1px solid rgba(255,255,255,.14); }
+.dl-rf:hover { color: #fff; }
+.dl-new { background: var(--ds-warn); color: #1f1f1f; border: 0; font-weight: 700; }
+@media (max-width: 760px) { .dl-stat button { padding: 4px 7px; } .dl-rfw { display: none; } .dl-new { white-space: normal; } }   /* スマホは「↻ 18:40」だけ */
+/* 直前展示の表(DLive.preBox)。1行＝1艇・進入の順。枠と舟は艇番の色(--b1〜--b6。無いページは同じ色を直接) */
+.dl-ptab { width: 100%; min-width: 520px; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+.dl-ptab th { font-size: 11.5px; font-weight: 500; color: var(--ds-ink-sub); background: var(--ds-head); padding: 4px 8px; text-align: left; white-space: nowrap; }
+.dl-ptab td { padding: 0 8px; height: 34px; border-top: 1px solid var(--ds-line); white-space: nowrap; }
+.dl-ptab .dl-pc { width: 28px; text-align: center; color: var(--ds-ink-sub); font-size: 12px; }
+.dl-ptab .dl-pw { width: 30px; padding: 0; text-align: center; font-weight: 700; font-size: 15px; }
+.dl-ptab .dl-pn { width: 1%; font-weight: 500; }
+.dl-ptab .dl-ps { min-width: 180px; padding: 0; }
+.dl-ptab .dl-pt { width: 1%; text-align: right; }
+.dl-ptab td.dl-pt.f { color: var(--ds-err); font-weight: 700; }
+.dl-strk { position: relative; display: block; height: 34px; background: var(--ds-accent-soft); container-type: inline-size;
+  max-width: 320px; margin-left: auto; }   /* 横に広い画面でも舟(1艇身)が細長くなりすぎないよう幅を止め、ST の列の側に寄せる */
+.dl-sline { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--ds-warn); }
+.dl-boat { position: absolute; top: 50%; transform: translateY(-50%); display: block; height: 12px; height: clamp(7px, calc(var(--bw) * 1cqw / 6.5), 18px); }   /* 長さ＝1艇身(% で入る)。高さは長さから(横から見た艇の比 約6.5:1)。aspect-ratio は iPhone で長さが伸びるので使わない */
+.dl-boat svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.dl-stk { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--ds-ink-meta); opacity: .22; }   /* 1艇身ごとの目盛り */
+.dl-ptab.dl-sm { min-width: 0; }   /* パネル用の小さい表(平均ST・今節平均ST) */
+.dl-ptab.dl-sm .dl-ps { min-width: 0; width: 100%; }
+.dl-ptab .b1 { background: var(--b1, #ffffff); color: #1f1f1f; } .dl-ptab .b2 { background: var(--b2, #1f1f1f); color: #fff; }
+.dl-ptab .b3 { background: var(--b3, #e53935); color: #fff; } .dl-ptab .b4 { background: var(--b4, #1e88e5); color: #fff; }
+.dl-ptab .b5 { background: var(--b5, #fdd835); color: #1f1f1f; } .dl-ptab .b6 { background: var(--b6, #43a047); color: #fff; }
+.dl-ptab td.dl-pw.b1 { box-shadow: inset 0 0 0 1px var(--ds-line); }
+@media (max-width: 760px) {   /* スマホ: 横に動かさずに ST・展示タイムまで見えるよう詰める */
+  .dl-ptab { min-width: 0; font-size: 13px; }
+  .dl-ptab th, .dl-ptab td { padding-left: 4px; padding-right: 4px; }
+  .dl-ptab .dl-ps { min-width: 44px; }
+  .dl-ptab .dl-pn { font-size: 12.5px; }
+  .dl-ptab .dl-hs { display: none; }
+  .dl-ptab .dl-pt .dl-note { font-size: 10px; }
+  .dl-ptab .dl-pc { width: 18px; }
+  .dl-ptab .dl-pw { width: 24px; font-size: 13px; }
+}
+.dl-wx { margin: 8px 0 4px; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.dl-wxh, .dl-wxl { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
+.dl-wxh { gap: 4px 8px; margin-bottom: 2px; }
+.dl-wx b { font-size: 11.5px; color: var(--ds-ink-sub); font-weight: 500; }
+</style><script>
+/* DLive: 競走成績の速報を読む(site_nav.py)。
+   DLive.on(fn) … 読めたとき・更新されたときに fn() を呼ぶ(1分おきに見に行く。画面が隠れているあいだは見ず、戻ったときにすぐ見る)
+   DLive.mount(要素, ページの日付) … その要素に「↻ 速報 HH:MM」(押すとすぐ取りに行く)と、速報の日付がページより新しいときの
+     「新しい日の番組があります　読み込み直す」を出す。DLive.refresh() … すぐ取りに行く
+   DLive.race(日付YYYYMMDD, 場名 or 場コード, R) … そのレースの結果(無ければ null)
+   DLive.rank(race, 艇番) … 着('1'〜'6' か 転・欠 などの記号。無ければ '')
+   DLive.line(race) … 1行の結果(3連単・払戻・決まり手)の HTML、DLive.box(race) … 着順と払戻の表の HTML
+   DLive.pre(日付, 場名 or 場コード, R) … 直前情報(展示タイム・チルト・体重・スタート展示。無ければ null)
+   DLive.preLine(p) … 1行の直前情報の HTML、DLive.preBox(p) … 直前展示の表（1行1艇・進入の順。選手名・スリット・ST・展示タイム・チルト）と水面気象の HTML
+   置き場所は出走表より後（2026/11/19 ユーザー）。体重は出さない */
+window.DLive = window.DLive || (function () {
+  var URL = (location.protocol.indexOf('http') === 0 && /\/discovery\//.test(location.pathname))
+    ? location.pathname.replace(/(\/discovery\/).*$/, '$1') + 'live/' : 'https://crapemyrtlllle.github.io/discovery/live/';
+  var data = null, idx = {}, fns = [], last = '';
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function yen(n) { return n == null ? '' : Number(n).toLocaleString('ja-JP') + '円'; }
+  function build() {
+    idx = {};
+    if (!data) return;
+    Object.keys(data.venues || {}).forEach(function (jo) {
+      var v = data.venues[jo];
+      Object.keys(v.races || {}).forEach(function (r) {
+        var x = v.races[r]; x.jo = jo; x.venue = v.name; x.rno = +r;
+        idx[data.date + '|' + jo + '|' + r] = x; idx[data.date + '|' + v.name + '|' + r] = x;
+      });
+    });
+  }
+  // 上部バーの「↻ 速報 HH:MM」(押すとすぐ取りに行く)と、速報の日付がページより新しいときの「読み込み直す」(mount で置く)
+  var mounts = [], busy = false, checked = null, latestDate = null;
+  function hm(d) { return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
+  function stat() {
+    mounts.forEach(function (m) {
+      var t = busy ? '確認中…' : '<span class="dl-rfw">速報 </span>' + (data && data.updated ? data.updated.slice(11, 16) : '—');
+      var h = '<button type="button" class="dl-rf" title="今すぐ新しい速報・直前展示を取りに行く（ふだんは1分おき）'
+        + (checked ? '。最後に確認 ' + hm(checked) : '') + '">↻ ' + t + '</button>';
+      if (latestDate && m.d && latestDate > m.d) h += '<button type="button" class="dl-new" title="このページは前の日の番組です">新しい日の番組があります　読み込み直す</button>';
+      m.el.innerHTML = h;
+    });
+  }
+  function mount(el, pageDate) {
+    if (!el) return;
+    var m = { el: el, d: String(pageDate || '').replace(/[^0-9]/g, '') };
+    mounts.push(m);
+    el.addEventListener('click', function (e) {
+      if (e.target.closest('.dl-new')) { location.reload(); return; }
+      if (e.target.closest('.dl-rf')) load(true);
+    });
+    stat();
+  }
+  function load(force) {
+    if (document.hidden && !force) return;
+    busy = true; stat();
+    fetch(URL + 'latest.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (l) {
+        if (l && l.date) latestDate = String(l.date);
+        if (!l || !l.file || l.updated === last) return null;
+        return fetch(URL + l.file + '?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; });
+      }).then(function (d) {
+        busy = false; checked = new Date();
+        if (d) {
+          data = d; last = d.updated; build();
+          fns.forEach(function (f) { try { f(); } catch (e) { console.warn('DLive', e); } });
+        }
+        stat();
+      }).catch(function () { busy = false; stat(); });
+  }
+  function race(date, venue, rno) {
+    if (!data || !date) return null;
+    date = String(date).replace(/[^0-9]/g, '');
+    return idx[date + '|' + venue + '|' + (+rno)] || idx[date + '|' + String(venue).padStart(2, '0') + '|' + (+rno)] || null;
+  }
+  function rank(x, boat) {
+    if (!x || !x.order) return '';
+    for (var i = 0; i < x.order.length; i++) if (String(x.order[i][1]) === String(boat)) return String(x.order[i][0]);
+    return '';
+  }
+  function chip(rk) {
+    if (!rk) return '';
+    var n = /^[1-6]$/.test(rk);
+    return '<span class="dl-rk' + (n ? ' r' + rk : ' ng') + '" title="速報の着順">' + esc(rk) + '</span>';
+  }
+  function first(list) { return list && list.length ? list[0] : null; }
+  function line(x) {
+    if (!x) return '';
+    if (x.status && x.status !== '確定') return '<span class="dl-res"><span class="dl-tag x">' + esc(x.status) + '</span></span>';
+    var t = first(x.pay && x.pay['3t']);
+    if (!t) return '';
+    return '<span class="dl-res"><span class="dl-tag">結果</span><b>' + esc(t[0]) + '</b><span>' + yen(t[1]) + '</span>'
+      + (t[2] ? '<span class="dl-m">' + t[2] + '番人気</span>' : '') + (x.kimarite ? '<span class="dl-m">' + esc(x.kimarite) + '</span>' : '') + '</span>';
+  }
+  function box(x) {
+    if (!x) return '';
+    if (x.status && x.status !== '確定') return '<div class="dl-box"><div class="dl-h">競走成績の速報</div>' + esc(x.status) + '</div>';
+    var o = (x.order || []).map(function (r) {
+      return '<tr><td>' + chip(r[0]) + '</td><td>' + esc(r[1]) + '号艇</td><td>' + esc(String(r[2]).replace(/\u3000+/g, ' ')) + '</td>'
+        + '<td>' + esc(r[3] || '') + '</td><td>ST ' + esc((x.st || {})[r[1]] || '—') + '</td><td>' + ((x.course || []).indexOf(+r[1]) + 1 || '—') + 'コース</td></tr>';
+    }).join('');
+    var names = [['3t', '3連単'], ['3f', '3連複'], ['2t', '2連単'], ['2f', '2連複'], ['kaku', '拡連複'], ['tan', '単勝'], ['fuku', '複勝']];
+    var p = names.map(function (n) {
+      var a = (x.pay || {})[n[0]] || [];
+      return a.length ? '<tr><th>' + n[1] + '</th><td>' + a.map(function (q) { return esc(q[0]) + ' ' + yen(q[1]) + (q[2] ? '<span class="dl-note">（' + q[2] + '）</span>' : ''); }).join('　') + '</td></tr>' : '';
+    }).join('');
+    var w = [x.weather, x.wind_dir, x.wind !== '' && x.wind != null ? x.wind + 'm' : '', x.wave !== '' && x.wave != null ? '波' + x.wave + 'cm' : ''].filter(Boolean).join(' ');
+    return '<div class="dl-box"><div class="dl-h">競走成績の速報' + (x.kimarite ? '　決まり手 ' + esc(x.kimarite) : '') + (w ? '　' + esc(w) : '') + '</div>'
+      + '<table>' + o + '</table><table style="margin-top:6px">' + p + '</table>'
+      + '<div class="dl-note">ボートキャストの速報（' + esc((data.updated || '').slice(11, 16)) + ' 時点）。正式な数字は夜の競走成績で入れ替わります。（ ）は人気</div></div>';
+  }
+  // 直前情報(data.pre。live_results.py の parse_tkz)。展示タイムの順位は速い順(同タイムは同順位)
+  function pre(date, venue, rno) {
+    if (!data || !data.pre || !date) return null;
+    date = String(date).replace(/[^0-9]/g, ''); if (date !== data.date) return null;
+    var jo = null;
+    Object.keys(data.venues || {}).forEach(function (k) { if (k === String(venue).padStart(2, '0') || data.venues[k].name === venue) jo = k; });
+    var p = jo && data.pre[jo] && data.pre[jo][String(+rno)];
+    if (p && p.ex && Object.keys(p.ex).length) { p.wx = data.venues[jo].wx || null; return p; }
+    return null;
+  }
+  function exRank(p, w) {
+    var t = p.ex[w]; if (!t) return null;
+    return 1 + Object.keys(p.ex).filter(function (k) { return +p.ex[k] < +t; }).length;
+  }
+  function sstText(p) {
+    return (p.sst || []).map(function (s, i) {
+      return '<span title="' + (i + 1) + 'コース ' + s[0] + '号艇 ST' + esc(s[1]) + (s[2] ? ' ' + esc(s[2]) : '') + '">' + s[0]
+        + '<small class="dl-m">' + esc(String(s[1]).replace(/^(F?)0\./, '$1.')) + (s[2] === 'F' ? 'F' : '') + '</small></span>';
+    }).join(' ');
+  }
+  function preLine(p) {   // 1行(タイムライン): 展示タイム(艇番順。1位を太字)とスタート展示の進入
+    if (!p) return '';
+    var ex = Object.keys(p.ex).sort().map(function (w) {
+      var rk = exRank(p, w);
+      return '<span>' + w + ':' + (rk === 1 ? '<b>' + esc(p.ex[w]) + '</b>' : esc(p.ex[w])) + '</span>';
+    }).join(' ');
+    return '<span class="dl-res"><span class="dl-tag">直前</span><span>展示 ' + ex + '</span>'
+      + ((p.sst || []).length ? '<span class="dl-m">ST展 ' + sstText(p) + '</span>' : '') + '</span>';
+  }
+  // 直前展示の表(2026/11/19 ユーザーのイメージ図の形): 1行＝1艇で、進入コースの順(上から1コース)。
+  // 進入・枠(艇番の色)・選手名・並び(スタート展示をスリット写真のように。右の縦線がスタートライン、舟の先端を ST の分だけ
+  // 線の手前に置く。早いほど線に近い。F は線より先。横の縮尺は 0.30秒(それより遅い艇がいればその艇))・ST・展示タイム(順位)・チルト。
+  // 下に水面気象(場ごとのいちばん新しい観測)。体重は出さない
+  // スリットの絵(直前展示・平均ST・今節平均ST で共通)。縦線＝スタートライン。舟の先端を ST の分だけ線の手前に置き、
+  // 舟の横の長さ＝1艇身(BOAT 秒。全長2.89m ÷ 平均の速さ22.2m/秒 ≒ 0.13秒)。目盛りの細い線も1艇身ごと。
+  // 線の手前に入れる秒数＝0.30秒か、いちばん遅い ST＋1艇身の大きいほう。線は左から85%の所。
+  // F(フライング)の艇がいるときは、線より先にもその分の幅を取る(線を左へずらす)ので、どの舟も欄の中に収まる
+  var BOAT = 0.13;
+  var BOATC = { 1: '#ffffff', 2: '#1f1f1f', 3: '#e53935', 4: '#1e88e5', 5: '#fdd835', 6: '#43a047' };   // --b1〜--b6 が無いページ用
+  function slitScale(vals, fs) {   // vals: ST(数か 'F.02' のような文字)。fs: F かどうか(省略可)
+    var back = 0, fwd = 0;
+    (vals || []).forEach(function (v, i) {
+      var s = String(v == null ? '' : v), n = parseFloat(s.replace('F', ''));
+      if (isNaN(n)) return;
+      if ((fs && fs[i]) || /^F/.test(s)) { if (n > fwd) fwd = n; } else if (n > back) back = n;
+    });
+    back = Math.max(0.30, back + BOAT);
+    var span = Math.max(back / 0.85, fwd ? back + fwd + 0.02 : 0);
+    return { back: back, k: 100 / span, line: back * 100 / span };
+  }
+  function slitTrack(st, f, w, sc, title) {
+    if (typeof sc === 'number') sc = slitScale([sc - BOAT]);   // 古い呼び方(T を数で渡す)にも合わせる
+    var k = sc.k, L = sc.line, h = '<span class="dl-strk">';
+    for (var t = BOAT; t < sc.back - 0.001; t += BOAT) h += '<i class="dl-stk" style="left:' + (L - t * k).toFixed(2) + '%"></i>';
+    h += '<i class="dl-sline" style="left:' + L.toFixed(2) + '%"></i>';
+    if (st != null && st !== '' && !isNaN(st)) {
+      var nose = f ? L + st * k : L - st * k, len = BOAT * k;
+      // 艇の形: 左(艇尾)は平ら、右(艇首)へ細くなってとがる。長さは % で決め、高さは長さから CSS で出す(--bw)
+      h += '<b class="dl-boat" style="left:' + (nose - len).toFixed(2) + '%;width:' + len.toFixed(2) + '%;--bw:' + len.toFixed(2) + '"'
+        + (title ? ' title="' + esc(title) + '"' : '') + '><svg viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">'
+        + '<path d="M0,6 L62,5 C84,5 96,8 100,12 C95,16 80,19 60,19 L0,19 Z" fill="var(--b' + w + ', ' + BOATC[w] + ')"'
+        + ' stroke="rgba(0,0,0,.4)" stroke-width="1" vector-effect="non-scaling-stroke"/>'
+        + '<path d="M10,6 C12,0 30,-1 36,5.5 Z" fill="rgba(0,0,0,.35)"/></svg></b>';
+    }
+    return h + '</span>';
+  }
+  function preBox(p) {
+    if (!p) return '';
+    var s = (p.sst || []).slice();
+    if (!s.length) s = Object.keys(p.ex).sort().map(function (w) { return [+w, '', '']; });   // スタート展示がまだなら艇番の順
+    var T = slitScale(s.map(function (x) { return x[1]; }), s.map(function (x) { return x[2] === 'F'; }));
+    var rows = s.map(function (x, i) {
+      var w = String(x[0]), has = x[1] !== '' && x[1] != null;
+      var v = parseFloat(String(x[1]).replace('F', '')) || 0, f = x[2] === 'F' || /^F/.test(String(x[1]));
+      var st = has ? String(x[1]).replace(/^F/, '').replace(/^0\./, '.') : '';
+      var rk = exRank(p, w);
+      return '<tr><td class="dl-pc">' + (has ? i + 1 : '') + '</td><td class="dl-pw b' + w + '">' + w + '</td>'
+        + '<td class="dl-pn">' + esc((p.nm || {})[w] || '') + '</td>'
+        + '<td class="dl-ps">' + slitTrack(has ? v : null, f, w, T, (i + 1) + 'コース ' + w + '号艇 ST' + (f ? 'F' : '') + st) + '</td>'
+        + '<td class="dl-pt' + (f ? ' f' : '') + '">' + (has ? (f ? 'F' : '') + esc(st) : '—') + '</td>'
+        + '<td class="dl-pt">' + (p.ex[w] ? (rk === 1 ? '<b>' + esc(p.ex[w]) + '</b>' : esc(p.ex[w])) + '<span class="dl-note">（' + rk + '）</span>' : '—') + '</td>'
+        + '<td class="dl-pt dl-note">' + esc((p.tilt || {})[w] || '') + '</td></tr>';
+    }).join('');
+    var wx = p.wx, wl = '';
+    if (wx) {
+      var u = function (v, t) { return v == null ? '' : v + t; };
+      // 1行目に時刻、2行目に天候・波・風だけ(気温・水温は出さない。2026/11/20 ユーザー指定)
+      wl = '<div class="dl-wx"><div class="dl-wxh"><b>水面気象</b><span class="dl-note">' + esc(wx.time) + ' 時点</span></div><div class="dl-wxl">'
+        + [esc(wx.weather), '波 ' + u(wx.wave, 'cm'), '風 ' + esc(wx.wind_dir) + (wx.wind_type ? '（' + esc(wx.wind_type) + '）' : '') + ' ' + u(wx.wind, 'm')]
+          .filter(Boolean).map(function (t) { return '<span>' + t + '</span>'; }).join('') + '</div></div>';
+    }
+    return '<div class="dl-box dl-pre"><div style="overflow-x:auto"><table class="dl-ptab"><thead><tr><th>進入</th><th>枠</th><th>選手名</th><th>並び<span class="dl-hs">（スタート展示）</span></th>'
+      + '<th class="dl-pt">ST</th><th class="dl-pt">展示<br>タイム</th><th class="dl-pt">チルト</th></tr></thead><tbody>' + rows + '</tbody></table></div>' + wl
+      + '<div class="dl-note">（ ）＝展示タイムの順位</div></div>';
+  }
+  function on(fn) { fns.push(fn); if (data) fn(); }
+  load();
+  setInterval(function () { load(); }, 60000);   // 1分おき(2026/11/19 3分→1分。見るのは latest.json の小さなファイルだけで、中身は更新があったときだけ取る)
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) load(); });
+  return { on: on, mount: mount, refresh: function () { load(true); }, race: race, rank: rank, chip: chip, line: line, box: box, pre: pre, preLine: preLine, preBox: preBox, slitTrack: slitTrack, slitScale: slitScale, BOAT: BOAT,
+    updated: function () { return data && data.updated; } };
+})();
+</script>
+<main>
+<section>
+  <img class="banner" data-img="banner.jpg" alt="Discovery 競艇データ分析 × 予想ツール" width="1600" height="900">
+  <div class="hero-cap"><h1>11/20（金）の開催</h1><p>直近2年の全レースを、同じ物差しで毎日集計しています。</p></div>
+  <div class="share-row">
+  <button type="button" class="a2hs" id="a2hsBtn">＋ ホーム画面に追加</button>
+  <span class="lab">シェア</span>
+  <button type="button" id="shCopy">リンクをコピー</button>
+  <span class="done" id="shDone" hidden>コピーしました</span>
+  <button type="button" id="shNative" hidden>共有…</button>
+  <a id="shX" target="_blank" rel="noopener">𝕏 ポスト</a>
+</div>
+<div class="a2hs-pop" id="a2hsPop" hidden><div class="box" role="dialog" aria-modal="true" aria-labelledby="a2hsTtl">
+  <h3 id="a2hsTtl">ホーム画面に追加する</h3><ol id="a2hsSteps"></ol>
+  <p>追加すると、アプリのようにアイコンからすぐ開けます。</p>
+  <button type="button" class="close" id="a2hsClose">閉じる</button></div></div>
+<script>(function () {
+  var url = "https://crapemyrtlllle.github.io/discovery/" || (location.protocol.indexOf('http') === 0 ? location.origin + location.pathname : ''),
+      text = "Discovery｜直近2年の全レースを同じ物差しで毎日集計。番組表・データバンクは無料", $ = function (i) { return document.getElementById(i); };
+  $('shX').href = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url);   // 投稿画面にリンクだけ入れる
+  if (navigator.share) { $('shNative').hidden = false;
+    $('shNative').onclick = function () { navigator.share({ title: 'Discovery', text: text, url: url }).catch(function () {}); }; }
+  $('shCopy').onclick = function () {
+    var ok = function () { $('shDone').hidden = false; setTimeout(function () { $('shDone').hidden = true; }, 2000); };
+    if (navigator.clipboard) navigator.clipboard.writeText(url).then(ok, function () { prompt('このリンクをコピーしてください', url); });
+    else prompt('このリンクをコピーしてください', url);
+  };
+  // ホーム画面に追加: Android の Chrome などで追加の画面が出せるときはそれを、出せないときは手順を表示
+  var ev = null, ua = navigator.userAgent, ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document);
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); ev = e; });
+  if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) $('a2hsBtn').hidden = true;  // ホーム画面から開いているとき
+  $('a2hsBtn').onclick = function () {
+    if (ev) { ev.prompt(); ev = null; return; }
+    $('a2hsSteps').innerHTML = ios
+      ? '<li>Safari の下（iPad は上）の共有ボタン（四角から上向きの矢印）を押す</li><li>「ホーム画面に追加」を選ぶ</li><li>右上の「追加」を押す</li>'
+      : /Android/.test(ua)
+      ? '<li>Chrome の右上の「︙」を押す</li><li>「ホーム画面に追加」を選ぶ</li><li>「追加」を押す</li>'
+      : '<li>スマホでこのページを開くと、ホーム画面に追加できます</li><li>パソコンでは、ブラウザのブックマーク（Ctrl＋D）が便利です</li>';
+    $('a2hsPop').hidden = false;
+  };
+  $('a2hsClose').onclick = function () { $('a2hsPop').hidden = true; };
+  $('a2hsPop').onclick = function (e) { if (e.target === this) this.hidden = true; };
+})();</script>
+</section>
+
+<h2>お知らせ</h2>
+<div class="card news"><ul><li><time>2026/11/20 20:55</time><span>11/20（金）分の Boat Board を更新しました（12場・144レース・機力指数も反映済み）</span></li><li><time>2026/11/19 21:38</time><span>11/20（金）分の番組表を更新しました（12場・144レース）</span></li><li><time>2026/11/19 16:57</time><span>11/19（木）分の Boat Board を更新しました（11場・132レース・機力指数も反映済み）</span></li></ul></div>
+
+<a class="card firsttime" data-sn="about"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></span>
+  <span class="tt"><b>はじめての方へ</b><span class="d">Discovery でできること・無料サンプル・会員（パスワード）のご案内</span></span>
+  <span class="go">見る →</span></a>
+
+<h2>メニュー</h2>
+<div class="tools"><a class="card tool star" data-sn="race">
+  <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+  <span class="tt"><b>Boat Board</b><span class="tag member">会員</span></span>
+  <span class="d">レースごとに6人のコース別成績・スタート・決まり手・機力・出目と回収率を一画面に。</span>
+  <span class="up">更新 2026/11/20 20:54</span>
+  <span class="go">開く →</span></a><a class="card tool" data-sn="member">
+  <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+  <span class="tt"><b>会員限定</b><span class="tag member">会員</span></span>
+  <span class="d">タイムライン・詳細条件検索・選手詳細分析など、会員向けのツールの入口。</span>
+  <span class="up">更新 2026/11/20 08:49</span>
+  <span class="go">開く →</span></a><a class="card tool" data-sn="today">
+  <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+  <span class="tt"><b>番組表</b><span class="tag free">FREE</span></span>
+  <span class="d">全場の出走表を締切順に一覧。選手から検索や、レースの通知も。</span>
+  <span class="up">更新 2026/11/20 20:30</span>
+  <span class="go">開く →</span></a><a class="card tool" data-sn="seiseki">
+  <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+  <span class="tt"><b>データバンク</b><span class="tag free">FREE</span></span>
+  <span class="d">選手情報やモーター情報、24場データ、斡旋情報も掲載。</span>
+  <span class="up">更新 2026/11/20 08:41</span>
+  <span class="go">開く →</span></a><a class="card tool" data-sn="kaisai">
+  <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg></span>
+  <span class="tt"><b>開催データ</b><span class="tag free">FREE</span></span>
+  <span class="d">今日の開催の出場選手・モーター・得点率。</span>
+  <span class="up">更新 2026/11/20 20:30</span>
+  <span class="go">開く →</span></a><a class="card tool" data-sn="links">
+  <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></span>
+  <span class="tt"><b>リンク</b><span class="tag free">FREE</span></span>
+  <span class="d">note・X・お問い合わせ・関連サイト。</span>
+  <span class="up">更新 -</span>
+  <span class="go">開く →</span></a></div>
+
+<section class="promo">
+  <div><b>Boat Boardを無料で試す</b>
+  <p>11/20（金） 朝の3レース（鳴門1R・徳山1R・芦屋1R） を、会員向けと同じ画面でそのまま見られます。</p></div>
+  <a class="btn main" data-sn="sample">無料サンプルを見る →</a>
+  <a class="btn sub" data-sn="about">くわしく</a>
+</section>
+
+<div class="kpis">
+  <div class="card kpi"><div class="k">開催場</div><div class="v">12<small>場</small></div></div>
+  <div class="card kpi"><div class="k">レース数</div><div class="v">144<small>R</small></div></div>
+  <div class="card kpi"><div class="k">最初の締切</div><div class="v">08:35</div></div>
+  <div class="card kpi"><div class="k">最終締切</div><div class="v">20:45</div></div>
+</div>
+
+<h2>更新情報<small>11/20（金）</small></h2>
+<a class="card dn" href="https://note.com/crapemyrtlllle/n/nfb06eafb6d0e" target="_blank" rel="noopener"><img src="https://assets.st-note.com/production/uploads/images/338201305/rectangle_large_type_2_af38f9d071a6c42d6d1d60ad1e3064ec.png?width=800" alt="" loading="lazy"><span class="t"><small>note・Daily Report</small><b>11/20のボートレース総まとめ【毎日更新】</b></span><em>記事を読む →</em></a>
+<h2>メモ<small>11/20（金）</small></h2>
+<div class="memo">
+<div class="card"><h3>今日のF持ち<small>今期F・隠れF（前期のFの休みが未消化）51人</small></h3><ul><li><span class="nm">金田智博</span><small class="muted">A2</small><span class="tg">F2</span><span class="r"><a data-sn="race" data-hash="MYJ-3">宮島3R</a><a data-sn="race" data-hash="MYJ-8">宮島8R</a></span></li><li><span class="nm">福島勇樹</span><small class="muted">A1</small><span class="tg">F2</span><span class="r"><a data-sn="race" data-hash="HWJ-6">平和島6R</a></span></li><li><span class="nm">福西広太郎</span><small class="muted">B1</small><span class="tg">F1</span><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="FKO-1">福岡1R</a><a data-sn="race" data-hash="FKO-9">福岡9R</a></span></li><li><span class="nm">小黒竜吾</span><small class="muted">B1</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="ASY-1">芦屋1R</a><a data-sn="race" data-hash="ASY-7">芦屋7R</a></span></li><li><span class="nm">荒川健太</span><small class="muted">A2</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="ASY-1">芦屋1R</a><a data-sn="race" data-hash="ASY-9">芦屋9R</a></span></li><li><span class="nm">飯島誠</span><small class="muted">B1</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="ASY-1">芦屋1R</a><a data-sn="race" data-hash="ASY-6">芦屋6R</a></span></li><li><span class="nm">齊藤優</span><small class="muted">B1</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="NRT-1">鳴門1R</a><a data-sn="race" data-hash="NRT-11">鳴門11R</a></span></li><li><span class="nm">岡田憲行</span><small class="muted">A2</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="KRY-4">桐生4R</a><a data-sn="race" data-hash="KRY-11">桐生11R</a></span></li><li><span class="nm">廣瀬将亨</span><small class="muted">A2</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="NRT-4">鳴門4R</a></span></li><li><span class="nm">新井英孝</span><small class="muted">B1</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="TSU-4">津4R</a></span></li><li><span class="nm">阿部未侑</span><small class="muted">B2</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="TSU-4">津4R</a><a data-sn="race" data-hash="TSU-8">津8R</a></span></li><li><span class="nm">吉川元浩</span><small class="muted">A1</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="MRG-5">丸亀5R</a></span></li><li><span class="nm">土井歩夢</span><small class="muted">A2</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="FKO-5">福岡5R</a><a data-sn="race" data-hash="FKO-11">福岡11R</a></span></li><li><span class="nm">福田宗平</span><small class="muted">A2</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="TKY-5">徳山5R</a><a data-sn="race" data-hash="TKY-10">徳山10R</a></span></li><li><span class="nm">井芹大志</span><small class="muted">B1</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="OMR-6">大村6R</a></span></li><li><span class="nm">加藤翔馬</span><small class="muted">A1</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="MRG-6">丸亀6R</a></span></li><li><span class="nm">安藤瑠希</span><small class="muted">B1</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="FKO-6">福岡6R</a></span></li><li><span class="nm">吉田一心</span><small class="muted">B1</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="FKO-7">福岡7R</a><a data-sn="race" data-hash="FKO-11">福岡11R</a></span></li><li><span class="nm">川上聡介</span><small class="muted">B1</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="ASY-7">芦屋7R</a></span></li><li><span class="nm">船岡洋一郎</span><small class="muted">A1</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="MRG-7">丸亀7R</a></span></li><li><span class="nm">毒島誠</span><small class="muted">A1</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="MRG-9">丸亀9R</a></span></li><li><span class="nm">大山千広</span><small class="muted">A2</small><span class="tg">F1</span><span class="r"><a data-sn="race" data-hash="TKY-12">徳山12R</a></span></li><li><span class="nm">中村晃朋</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="MRG-1">丸亀1R</a><a data-sn="race" data-hash="MRG-7">丸亀7R</a></span></li><li><span class="nm">岩崎麗子</span><small class="muted">B1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="TDA-1">戸田1R</a><a data-sn="race" data-hash="TDA-6">戸田6R</a></span></li><li><span class="nm">松田淳平</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="FKO-1">福岡1R</a><a data-sn="race" data-hash="FKO-11">福岡11R</a></span></li><li><span class="nm">西丸侑太朗</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="MRG-1">丸亀1R</a><a data-sn="race" data-hash="MRG-9">丸亀9R</a></span></li><li><span class="nm">倉持莉々</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="TKY-2">徳山2R</a><a data-sn="race" data-hash="TKY-11">徳山11R</a></span></li><li><span class="nm">奥田誠</span><small class="muted">A2</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="OMR-3">大村3R</a><a data-sn="race" data-hash="OMR-12">大村12R</a></span></li><li><span class="nm">廣部大明</span><small class="muted">B1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="FKO-3">福岡3R</a></span></li><li><span class="nm">村松遥輝</span><small class="muted">B1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="FKO-3">福岡3R</a><a data-sn="race" data-hash="FKO-8">福岡8R</a></span></li><li><span class="nm">渡邉和将</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="MRG-3">丸亀3R</a></span></li><li><span class="nm">入海馨</span><small class="muted">A2</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="NRT-4">鳴門4R</a><a data-sn="race" data-hash="NRT-12">鳴門12R</a></span></li><li><span class="nm">大神康司</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="TKY-4">徳山4R</a><a data-sn="race" data-hash="TKY-8">徳山8R</a></span></li><li><span class="nm">椎名豊</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="MRG-4">丸亀4R</a></span></li><li><span class="nm">辻栄蔵</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="MRG-4">丸亀4R</a></span></li><li><span class="nm">仲谷颯仁</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="MRG-5">丸亀5R</a><a data-sn="race" data-hash="MRG-11">丸亀11R</a></span></li><li><span class="nm">島田一生</span><small class="muted">B1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="HWJ-5">平和島5R</a></span></li><li><span class="nm">恵良琴美</span><small class="muted">B1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="TSU-5">津5R</a></span></li><li><span class="nm">秋田健太郎</span><small class="muted">B1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="OMR-5">大村5R</a></span></li><li><span class="nm">佐々木大河</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="NRT-6">鳴門6R</a><a data-sn="race" data-hash="NRT-10">鳴門10R</a></span></li><li><span class="nm">前出達吉</span><small class="muted">A2</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="NRT-6">鳴門6R</a><a data-sn="race" data-hash="NRT-11">鳴門11R</a></span></li><li><span class="nm">向所浩二</span><small class="muted">B1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="ASY-6">芦屋6R</a></span></li><li><span class="nm">定松勇樹</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="MRG-6">丸亀6R</a><a data-sn="race" data-hash="MRG-10">丸亀10R</a></span></li><li><span class="nm">岡部浩</span><small class="muted">B1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="TKY-7">徳山7R</a></span></li><li><span class="nm">村岡賢人</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="HWJ-7">平和島7R</a><a data-sn="race" data-hash="HWJ-12">平和島12R</a></span></li><li><span class="nm">豊田訓靖</span><small class="muted">B1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="TKY-7">徳山7R</a></span></li><li><span class="nm">永田啓二</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="TSU-8">津8R</a><a data-sn="race" data-hash="TSU-12">津12R</a></span></li><li><span class="nm">小林甘寧</span><small class="muted">B1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="FKO-9">福岡9R</a></span></li><li><span class="nm">川原涼</span><small class="muted">A2</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="FKO-9">福岡9R</a></span></li><li><span class="nm">西川拓利</span><small class="muted">A2</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="FKO-10">福岡10R</a></span></li><li><span class="nm">西岡顕心</span><small class="muted">A1</small><span class="tg">隠F</span><span class="r"><a data-sn="race" data-hash="MRG-12">丸亀12R</a></span></li></ul></div>
+<div class="card"><h3>F休み明け・久しぶりの出走<small>前の出走から40日以上 1人</small></h3><ul><li><span class="nm">樅山拓馬</span><small class="muted">B1</small><span class="tg b">久しぶり</span><small class="muted">前の出走 10/3（中47日）</small><span class="r"><a data-sn="race" data-hash="TSU-4">津4R</a><a data-sn="race" data-hash="TSU-11">津11R</a></span></li></ul></div>
+<div class="card"><h3>昨日（11/19）の出来事<small>F・出遅れ・失格・転覆等・欠場 10件</small></h3><ul><li><span class="nm">町田洸希</span><small class="muted">4969</small><span class="tg">失格・転覆等</span><span class="r"><small class="muted">大村 2R</small></span></li><li><span class="nm">羽野諒</span><small class="muted">5008</small><span class="tg">失格・転覆等</span><span class="r"><small class="muted">大村 2R</small></span></li><li><span class="nm">町田洸希</span><small class="muted">4969</small><span class="tg">欠場</span><span class="r"><small class="muted">大村 8R</small></span></li><li><span class="nm">桑原悠</span><small class="muted">4497</small><span class="tg">失格・転覆等</span><span class="r"><small class="muted">丸亀 1R</small></span></li><li><span class="nm">桑原悠</span><small class="muted">4497</small><span class="tg">欠場</span><span class="r"><small class="muted">丸亀 7R</small></span></li><li><span class="nm">渡辺浩司</span><small class="muted">4256</small><span class="tg">失格・転覆等</span><span class="r"><small class="muted">丸亀 10R</small></span></li><li><span class="nm">毒島誠</span><small class="muted">4238</small><span class="tg">F</span><span class="r"><small class="muted">丸亀 11R</small></span></li><li><span class="nm">加藤翔馬</span><small class="muted">4857</small><span class="tg">F</span><span class="r"><small class="muted">丸亀 11R</small></span></li><li><span class="nm">前出達吉</span><small class="muted">4711</small><span class="tg">失格・転覆等</span><span class="r"><small class="muted">鳴門 4R</small></span></li><li><span class="nm">福島勇樹</span><small class="muted">4083</small><span class="tg">F</span><span class="r"><small class="muted">平和島 9R</small></span></li></ul></div>
+<div class="card"><h3>今日の前付け<small>その枠で80%以上、枠より内に入る選手（10走以上）7人</small></h3><ul><li><span class="wk w3">3</span><span class="nm">西島義則</span><span class="tg g">3枠から前付け 90%</span><small class="muted">63走</small><span class="r"><a data-sn="race" data-hash="ASY-4">芦屋4R</a></span></li><li><span class="wk w4">4</span><span class="nm">大神康司</span><span class="tg g">4枠から前付け 90%</span><small class="muted">73走</small><span class="r"><a data-sn="race" data-hash="TKY-8">徳山8R</a></span></li><li><span class="wk w4">4</span><span class="nm">西島義則</span><span class="tg g">4枠から前付け 98%</span><small class="muted">60走</small><span class="r"><a data-sn="race" data-hash="ASY-9">芦屋9R</a></span></li><li><span class="wk w6">6</span><span class="nm">林美憲</span><span class="tg g">6枠から前付け 81%</span><small class="muted">75走</small><span class="r"><a data-sn="race" data-hash="HWJ-9">平和島9R</a></span></li><li><span class="wk w4">4</span><span class="nm">石川真二</span><span class="tg g">4枠から前付け 100%</span><small class="muted">74走</small><span class="r"><a data-sn="race" data-hash="TSU-9">津9R</a></span></li><li><span class="wk w6">6</span><span class="nm">深川真二</span><span class="tg g">6枠から前付け 100%</span><small class="muted">82走</small><span class="r"><a data-sn="race" data-hash="OMR-3">大村3R</a></span></li><li><span class="wk w6">6</span><span class="nm">野長瀬正孝</span><span class="tg g">6枠から前付け 82%</span><small class="muted">62走</small><span class="r"><a data-sn="race" data-hash="KRY-9">桐生9R</a></span></li></ul></div>
+</div>
+
+<h2>11/20（金）の優勝戦<small>2レース</small></h2>
+<div class="finals"><div class="card final">
+  <div class="fh"><b>徳山 12R</b><span class="tag fin">優勝戦</span><span class="tm">14:23</span></div>
+  <div class="ft">デイリースポーツ杯争奪戦</div>
+  <ol><li><span class="wk w1">1</span><span>上野真之介</span><small>A1</small></li><li><span class="wk w2">2</span><span>篠崎仁志</span><small>A1</small></li><li><span class="wk w3">3</span><span>大山千広</span><small>A2</small></li><li><span class="wk w4">4</span><span>谷津幸宏</span><small>A2</small></li><li><span class="wk w5">5</span><span>谷野錬志</span><small>A2</small></li><li><span class="wk w6">6</span><span>寺島吉彦</span><small>B1</small></li></ol>
+  <a class="more" data-sn="race" data-hash="TKY-12">Boat Boardでこのレースを見る →</a>
+</div><div class="card final">
+  <div class="fh"><b>丸亀 12R</b><span class="tag fin">優勝戦</span><span class="tm">20:45</span></div>
+  <div class="ft">京極賞開設７４周年記念競走</div>
+  <ol><li><span class="wk w1">1</span><span>峰竜太</span><small>A1</small></li><li><span class="wk w2">2</span><span>平本真之</span><small>A1</small></li><li><span class="wk w3">3</span><span>海野康志郎</span><small>A1</small></li><li><span class="wk w4">4</span><span>濱野谷憲吾</span><small>A1</small></li><li><span class="wk w5">5</span><span>森高一真</span><small>A1</small></li><li><span class="wk w6">6</span><span>西岡顕心</span><small>A1</small></li></ol>
+  <a class="more" data-sn="race" data-hash="MRG-12">Boat Boardでこのレースを見る →</a>
+</div></div>
+
+<h2>高評価モーター<small>機力指数 4以上 かつ AP（Active Point）A+以上・44機 71走・締切順</small></h2>
+<div class="card" style="padding:6px 10px"><table class="hot"><thead><tr><th>締切</th><th>レース</th><th>モーター</th><th>機力指数</th><th>AP</th><th>乗る選手</th><th title="ボートキャストの速報。終わったレースだけ">着順</th></tr></thead><tbody><tr><td class="mi">08:35</td><td>鳴門 <a class="" data-sn="race" data-hash="NRT-1" title="Boat Boardで1Rを見る">1R</a></td><td>55号機</td><td class="mi">4.0</td><td><span class="ap">A+</span></td><td><span class="wk w3">3</span><a class="pl" data-sn="race" data-hash="NRT-1" title="Boat Boardで1Rを見る">増本杏珠</a> <small class="muted">B2</small></td><td data-live="2026/11/20|鳴門|1|3"></td></tr><tr><td class="mi">09:17</td><td>芦屋 <a class="" data-sn="race" data-hash="ASY-2" title="Boat Boardで2Rを見る">2R</a></td><td>8号機</td><td class="mi">4.0</td><td><span class="ap s">S</span></td><td><span class="wk w1">1</span><a class="pl" data-sn="race" data-hash="ASY-2" title="Boat Boardで2Rを見る">浅見昌克</a> <small class="muted">A2</small></td><td data-live="2026/11/20|芦屋|2|1"></td></tr><tr><td class="mi">10:09</td><td>芦屋 <a class="" data-sn="race" data-hash="ASY-4" title="Boat Boardで4Rを見る">4R</a></td><td>23号機</td><td class="mi">4.0</td><td><span class="ap">A+</span></td><td><span class="wk w1">1</span><a class="pl" data-sn="race" data-hash="ASY-4" title="Boat Boardで4Rを見る">森永淳</a> <small class="muted">A1</small></td><td data-live="2026/11/20|芦屋|4|1"></td></tr><tr><td class="mi">10:16</td><td>宮島 <a class="" data-sn="race" data-hash="MYJ-1" title="Boat Boardで1Rを見る">1R</a></td><td>64号機</td><td class="mi">5.0</td><td><span class="ap">A+</span></td><td><span class="wk w1">1</span><a class="pl" data-sn="race" data-hash="MYJ-1" title="Boat Boardで1Rを見る">下寺秀和</a> <small class="muted">A1</small></td><td data-live="2026/11/20|宮島|1|1"></td></tr><tr><td class="mi">10:16</td><td>宮島 <a class="" data-sn="race" data-hash="MYJ-1" title="Boat Boardで1Rを見る">1R</a></td><td>31号機</td><td class="mi">4.0</td><td><span class="ap">A+</span></td><td><span class="wk w3">3</span><a class="pl" data-sn="race" data-hash="MYJ-1" title="Boat Boardで1Rを見る">折下寛法</a> <small class="muted">B1</small></td><td data-live="2026/11/20|宮島|1|3"></td></tr><tr><td class="mi">10:16</td><td>宮島 <a class="" data-sn="race" data-hash="MYJ-1" title="Boat Boardで1Rを見る">1R</a></td><td>30号機</td><td class="mi">4.0</td><td><span class="ap">A+</span></td><td><span class="wk w4">4</span><a class="pl" data-sn="race" data-hash="MYJ-1" title="Boat Boardで1Rを見る">岩井繁</a> <small class="muted">B1</small></td><td data-live="2026/11/20|宮島|1|4"></td></tr><tr><td class="mi">10:32</td><td>津 <a class="" data-sn="race" data-hash="TSU-1" title="Boat Boardで1Rを見る">1R</a></td><td>24号機</td><td class="mi">4.6</td><td><span class="ap s">S</span></td><td><span class="wk w1">1</span><a class="pl" data-sn="race" data-hash="TSU-1" title="Boat Boardで1Rを見る">佐藤大佑</a> <small class="muted">A1</small></td><td data-live="2026/11/20|津|1|1"></td></tr><tr><td class="mi">10:32</td><td>津 <a class="" data-sn="race" data-hash="TSU-1" title="Boat Boardで1Rを見る">1R</a></td><td>67号機</td><td class="mi">5.6</td><td><span class="ap">A+</span></td><td><span class="wk w3">3</span><a class="pl" data-sn="race" data-hash="TSU-1" title="Boat Boardで1Rを見る">酒井俊弘</a> <small class="muted">B1</small></td><td data-live="2026/11/20|津|1|3"></td></tr><tr><td class="mi">10:34</td><td>尼崎 <a class="" data-sn="race" data-hash="AMG-1" title="Boat Boardで1Rを見る">1R</a></td><td>31号機</td><td class="mi">4.0</td><td><span class="ap s">S</span></td><td><span class="wk w5">5</span><a class="pl" data-sn="race" data-hash="AMG-1" title="Boat Boardで1Rを見る">高山智至</a> <small class="muted">B1</small></td><td data-live="2026/11/20|尼崎|1|5"></td></tr><tr><td class="mi">10:43</td><td>福岡 <a class="" data-sn="race" data-hash="FKO-1" title="Boat Boardで1Rを見る">1R</a></td><td>50号機</td><td class="mi">5.6</td><td><span class="ap">A+</span></td><td><span class="wk w6">6</span><a class="pl" data-sn="race" data-hash="FKO-1" title="Boat Boardで1Rを見る">上馬場風依</a> <small class="muted">B2</small></td><td data-live="2026/11/20|福岡|1|6"></td></tr></tbody></table><a class="hot-more" data-sn="hot">→ もっと見る<small>全71走・前日の答え合わせ（会員限定）</small></a></div>
+
+
+
+<h2>11/20（金）の開催場</h2>
+<div class="vgrid"><a class="vg on" data-sn="today" data-hash="c20261120KRY01" title="第１２回寿司の美喜仁杯・第4日・1R 15:17"><b>桐生</b><span class="vgr ip">一般</span><span class="vday">4日目</span></a><a class="vg on" data-sn="today" data-hash="c20261120TDA01" title="ＡＬ・ＲＢ大宮アルディージャＷＯＭＥＮカップ・第3日・1R 10:45"><b>戸田</b><span class="vgr g3">GⅢ</span><span class="vday">3日目</span></a><div class="vg off"><b>江戸川</b><span class="vgr"></span><span class="vday">&nbsp;</span></div><a class="vg on" data-sn="today" data-hash="c20261120HWJ01" title="第１回山佐ネクスト～モンキーターンカップ・第4日・1R 10:51"><b>平和島</b><span class="vgr ip">一般</span><span class="vday">4日目</span></a><div class="vg off"><b>多摩川</b><span class="vgr"></span><span class="vday">&nbsp;</span></div><div class="vg off"><b>浜名湖</b><span class="vgr"></span><span class="vday">&nbsp;</span></div><div class="vg off"><b>蒲郡</b><span class="vgr"></span><span class="vday">&nbsp;</span></div><div class="vg off"><b>常滑</b><span class="vgr"></span><span class="vday">&nbsp;</span></div><a class="vg on" data-sn="today" data-hash="c20261120TSU01" title="津市合併２０周年記念カップ・第1日・1R 10:32"><b>津</b><span class="vgr ip">一般</span><span class="vday">1日目</span></a><div class="vg off"><b>三国</b><span class="vgr"></span><span class="vday">&nbsp;</span></div><div class="vg off"><b>びわこ</b><span class="vgr"></span><span class="vday">&nbsp;</span></div><div class="vg off"><b>住之江</b><span class="vgr"></span><span class="vday">&nbsp;</span></div><a class="vg on" data-sn="today" data-hash="c20261120AMG01" title="阪神電車　ジェット・シルバー杯・第1日・1R 10:34"><b>尼崎</b><span class="vgr ip">一般</span><span class="vday">1日目</span></a><a class="vg on" data-sn="today" data-hash="c20261120NRT01" title="にっぽん未来プロジェクト競走ｉｎ鳴門・第3日・1R 08:35"><b>鳴門</b><span class="vgr ip">一般</span><span class="vday">3日目</span></a><a class="vg on" data-sn="today" data-hash="c20261120MRG01" title="京極賞開設７４周年記念競走・第6日・1R 15:19・優勝戦"><b>丸亀</b><span class="vgr g1">GⅠ</span><span class="vday">最終日</span></a><div class="vg off"><b>児島</b><span class="vgr"></span><span class="vday">&nbsp;</span></div><a class="vg on" data-sn="today" data-hash="c20261120MYJ01" title="第１４回東洋観光グループ杯・第4日・1R 10:16"><b>宮島</b><span class="vgr ip">一般</span><span class="vday">4日目</span></a><a class="vg on" data-sn="today" data-hash="c20261120TKY01" title="デイリースポーツ杯争奪戦・第6日・1R 08:43・優勝戦"><b>徳山</b><span class="vgr ip">一般</span><span class="vday">最終日</span></a><div class="vg off"><b>下関</b><span class="vgr"></span><span class="vday">&nbsp;</span></div><div class="vg off"><b>若松</b><span class="vgr"></span><span class="vday">&nbsp;</span></div><a class="vg on" data-sn="today" data-hash="c20261120ASY01" title="マスターズリーグ第８戦・第1日・1R 08:51"><b>芦屋</b><span class="vgr g3">GⅢ</span><span class="vday">1日目</span></a><a class="vg on" data-sn="today" data-hash="c20261120FKO01" title="ルーキーシリーズ第２３戦・スカパー！ＪＬＣ杯・第2日・1R 10:43"><b>福岡</b><span class="vgr ip">一般</span><span class="vday">2日目</span></a><div class="vg off"><b>唐津</b><span class="vgr"></span><span class="vday">&nbsp;</span></div><a class="vg on" data-sn="today" data-hash="c20261120OMR01" title="十勝ばんえい競馬杯・第2日・1R 15:16"><b>大村</b><span class="vgr ip">一般</span><span class="vday">2日目</span></a></div>
+
+<div class="foot">集計期間 2024/11/20～2026/11/19 ／ このページの更新 2026/11/20 20:55</div>
+</main>
+<script>(function () {
+  // 公開版(https)は …/discovery/img/、PCで開いたときは トップページ/img/ の画像を読む
+  var web = location.protocol.indexOf('http') === 0, up = /\/(about|sample)\/?$/.test(location.pathname) ? '../' : '';
+  document.querySelectorAll('img[data-img]').forEach(function (i) { i.src = (web ? up : '') + 'img/' + i.dataset.img; });
+})();</script>
+<script>
+(function () {
+  if (!window.DLive) return;
+  function fill() {
+    document.querySelectorAll('[data-live]').forEach(function (td) {
+      var a = td.dataset.live.split('|'), x = DLive.race(a[0], a[1], a[2]);
+      td.innerHTML = x ? (x.status === '確定' ? DLive.chip(DLive.rank(x, a[3])) : '<span class="muted">' + x.status + '</span>') : '';
+    });
+  }
+  DLive.on(fill);
+  document.addEventListener('click', function () { setTimeout(fill, 300); });   // 会員の「さらに表示」を開いたあとにも入れる
+})();
+</script>
+</body>
+</html>

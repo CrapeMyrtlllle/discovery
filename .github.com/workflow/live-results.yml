@@ -1,0 +1,51 @@
+# 競走成績の速報（Discovery の Pages リポジトリの .github/workflows/live-results.yml に置く）
+# 日本時間 8:00〜22:59 に15分おき、ボートキャストから当日の結果を取って live/ に置く。パソコンが切れていても動く。
+# 取る処理は .github/scripts/live_results.py（元は AI作業場\自動化スクリプト\live\live_results.py）。
+# パソコン側の公開（publish_dashboard.py）は履歴なしの強制書き換えなので、こちらは強制しない push にして、
+# 弾かれたら最新を取り直して live/ だけ載せ直す（パソコン側の公開を消さないため）。
+name: 競走成績の速報
+
+on:
+  schedule:
+    - cron: "*/15 23,0-13 * * *"   # UTC。日本時間 8:00〜22:59。GitHub が混むと数分〜十数分遅れることがある
+  workflow_dispatch:                # Actions の画面から手で動かす
+
+permissions:
+  contents: write
+
+concurrency:
+  group: live-results
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: 速報を取る
+        run: python3 .github/scripts/live_results.py --out .
+
+      - name: live/ を載せる
+        run: |
+          git config user.name "live-results"
+          git config user.email "live-results@localhost.invalid"
+          git add -A live
+          if git diff --cached --quiet; then echo "変化なし"; exit 0; fi
+          git commit -q -m "競走成績の速報 $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
+          for i in 1 2 3 4; do
+            if git push -q origin "HEAD:${GITHUB_REF_NAME}"; then echo "載せました"; exit 0; fi
+            echo "弾かれたので最新を取り直します（${i}回目）"
+            sleep $((i * 10))
+            rm -rf /tmp/live && cp -r live /tmp/live
+            git fetch -q --depth=1 origin "${GITHUB_REF_NAME}"
+            git reset -q --hard FETCH_HEAD
+            rm -rf live && cp -r /tmp/live live
+            git add -A live
+            if git diff --cached --quiet; then echo "変化なし"; exit 0; fi
+            git commit -q -m "競走成績の速報 $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
+          done
+          echo "載せられませんでした"; exit 1
