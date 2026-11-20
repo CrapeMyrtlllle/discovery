@@ -109,6 +109,30 @@ main.as-page { padding-top: 16px; }
 .as-kpi b { font-size: 17px; } .as-kpi small { display: block; font-size: 11px; color: var(--muted); }
 #asDetail th { cursor: pointer; }
 @media (max-width: 960px) { .as-kpi { grid-template-columns: 1fr 1fr; } }
+.as-cal { padding: 14px 16px; margin: 4px 0 10px; }
+.as-ch { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.as-ch b { font-size: 15px; min-width: 96px; text-align: center; }
+.as-ch button { font: inherit; font-size: 13px; font-weight: 800; padding: 4px 11px; border-radius: 99px; border: 1px solid var(--ring);
+  background: var(--surface); color: var(--ink); cursor: pointer; }
+.as-ch button:disabled { opacity: .35; cursor: default; }
+.as-ch .as-sel { margin-left: auto; font-size: 12.5px; color: var(--ink2); display: inline-flex; align-items: center; gap: 8px; }
+.as-ch .as-sel button { border-color: var(--accent); color: var(--accent); }
+.as-cg { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.as-cw { text-align: center; font-size: 11px; font-weight: 700; color: var(--ink2); padding: 2px 0; }
+.as-cw.su, .as-cd.su .dn { color: #c0392b; } .as-cw.sa, .as-cd.sa .dn { color: #2b5fb8; }
+.as-cd { font: inherit; display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 52px; padding: 5px 2px; border-radius: 8px;
+  border: 1px solid var(--ring); background: var(--surface); color: var(--ink); cursor: pointer; }
+.as-cd .dn { font-size: 13px; font-weight: 700; }
+.as-cd .cn { font-size: 11px; font-weight: 800; color: var(--accent); }
+.as-cd .gd { display: flex; gap: 2px; height: 6px; } .as-cd .gd i { width: 6px; height: 6px; border-radius: 50%; }
+.as-cd .gd .SG { background: #e5484d; } .as-cd .gd .G1 { background: #e8a400; } .as-cd .gd .G2, .as-cd .gd .G3 { background: #5b74d6; }
+.as-cd:hover { background: var(--ds-hover, #eef3f9); }
+.as-cd.empty { visibility: hidden; } .as-cd.none { cursor: default; opacity: .4; background: transparent; } .as-cd.none:hover { background: transparent; }
+.as-cd.today { border-color: var(--accent); border-width: 2px; }
+.as-cd.on { background: var(--accent); border-color: var(--accent); } .as-cd.on .dn, .as-cd.on .cn { color: #fff; }
+.as-cl { margin-top: 8px; font-size: 11.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
+.as-cl i { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 3px; vertical-align: 0; }
+@media (max-width: 960px) { .as-cal { padding: 10px; } .as-cg { gap: 3px; } .as-cd { min-height: 46px; padding: 4px 1px; } .as-ch .as-sel { flex-basis: 100%; margin-left: 0; } .as-ch { flex-wrap: wrap; } }
 </style>
 <link rel="icon" type="image/png" href="data:image/png;base64,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"><link rel="apple-touch-icon" href="../img/icon-180.png"><meta name="theme-color" content="#0b1a3a"></head>
 <body>
@@ -624,6 +648,7 @@ window.DLive = window.DLive || (function () {
 <div class="as-top"><div class="db-tabs"><a data-sn="seiseki" data-sub="racer">選手情報</a><a data-sn="seiseki" data-sub="motor">モーター情報</a><a data-sn="seiseki" data-sub="venue">24場情報</a><a class="on">斡旋情報</a></div></div>
 <main class="as-page">
 <div id="asMain">
+<section class="card as-cal" id="asCal" aria-label="開催カレンダー"></section>
 <div class="kt-bar"><select id="asP" aria-label="場"><option value="all">全場</option><option>宮島</option><option>平和島</option><option>桐生</option><option>戸田</option><option>鳴門</option><option>津</option><option>福岡</option><option>大村</option><option>尼崎</option><option>芦屋</option><option>住之江</option><option>三国</option><option>多摩川</option><option>蒲郡</option><option>下関</option><option>びわこ</option><option>丸亀</option><option>徳山</option><option>常滑</option><option>若松</option><option>唐津</option><option>江戸川</option><option>浜名湖</option><option>児島</option></select><select id="asG" aria-label="グレード"><option value="all">全グレード</option><option>SG</option><option>G1</option><option>G2</option><option>G3</option><option>一般</option></select>
   <input type="search" id="asQ" placeholder="選手名・登録番号で探す"><span class="mu" id="asN"></span></div>
 <div id="asList"></div>
@@ -641,10 +666,37 @@ window.DLive = window.DLive || (function () {
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var pct = function (v) { return v == null ? '—' : (v * 100).toFixed(1) + '%'; };
   var cur = null, sortK = 't2', dir = -1;   // 詳細で開いている節・並べ替え
+  // 開催カレンダー: 日付を押すと、その日に開催中の節だけを下の一覧に出す(もう一度押すか「解除」で全部に戻す)
+  var pad = function (n) { return ('0' + n).slice(-2); };
+  var ymd = function (d) { return d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()); };
+  var TODAY = ymd(new Date()), day = null;
+  var MIN = D.s.reduce(function (m, x) { return x.s < m ? x.s : m; }, TODAY).slice(0, 6), MAX = D.s.reduce(function (m, x) { return x.e > m ? x.e : m; }, TODAY).slice(0, 6);
+  var ym = TODAY.slice(0, 6);
+  if (ym < MIN) ym = MIN; if (ym > MAX) ym = MAX;
+  var addM = function (v, k) { var y = +v.slice(0, 4), m = +v.slice(4) - 1 + k; y += Math.floor(m / 12); m = ((m % 12) + 12) % 12; return y + pad(m + 1); };
+  function cal(list) {
+    var y = +ym.slice(0, 4), m = +ym.slice(4) - 1, first = new Date(y, m, 1).getDay(), n = new Date(y, m + 1, 0).getDate();
+    var h = '<div class="as-ch"><button type="button" data-cm="-1"' + (ym <= MIN ? ' disabled' : '') + ' aria-label="前の月">‹</button><b>' + y + '年' + (m + 1) + '月</b>' +
+      '<button type="button" data-cm="1"' + (ym >= MAX ? ' disabled' : '') + ' aria-label="次の月">›</button>' +
+      (day ? '<span class="as-sel">' + md(day) + ' に開催中の節を表示中<button type="button" data-cd="">解除</button></span>' : '<span class="as-sel">日付を押すと、その日に開催中の節を表示</span>') + '</div><div class="as-cg">';
+    h += ['日', '月', '火', '水', '木', '金', '土'].map(function (w, i) { return '<div class="as-cw' + (i === 0 ? ' su' : i === 6 ? ' sa' : '') + '">' + w + '</div>'; }).join('');
+    for (var i = 0; i < first; i++) h += '<div class="as-cd empty"></div>';
+    for (var dd = 1; dd <= n; dd++) {
+      var k = ym + pad(dd), wd = (first + dd - 1) % 7, on = list.filter(function (x) { return x.s <= k && k <= x.e; });
+      var gs = {}; on.forEach(function (x) { if (/^(SG|G1|G2|G3)$/.test(x.g)) gs[x.g] = 1; });
+      var dots = ['SG', 'G1', 'G2', 'G3'].filter(function (g) { return gs[g]; }).map(function (g) { return '<i class="' + g + '" title="' + g + '"></i>'; }).join('');
+      h += '<button type="button" class="as-cd' + (wd === 0 ? ' su' : wd === 6 ? ' sa' : '') + (k === TODAY ? ' today' : '') + (k === day ? ' on' : '') + (on.length ? '' : ' none') + '"' +
+        (on.length || k === day ? ' data-cd="' + k + '"' : ' disabled') + ' aria-pressed="' + (k === day) + '" aria-label="' + (m + 1) + '月' + dd + '日 ' + on.length + '節">' +
+        '<span class="dn">' + dd + '</span><span class="cn">' + (on.length ? on.length + '節' : '') + '</span><span class="gd">' + dots + '</span></button>';
+    }
+    el('asCal').innerHTML = h + '</div><div class="as-cl"><span>数字＝その日に開催中の節（上の絞り込みに合わせて数えます）</span><span><i style="background:#e5484d"></i>SG</span><span><i style="background:#e8a400"></i>G1</span><span><i style="background:#5b74d6"></i>G2・G3</span></div>';
+  }
   function render() {
     var pv = el('asP').value, gv = el('asG').value, q = (el('asQ').value || '').replace(/\s/g, '');
     var list = D.s.map(function (x, i) { x.i = i; return x; }).filter(function (x) { return (pv === 'all' || x.p === pv) && (gv === 'all' || x.g === gv)
       && (!q || x.r.some(function (r) { return r[0].indexOf(q) >= 0 || r[1].replace(/\s/g, '').indexOf(q) >= 0; })); });
+    cal(list);
+    if (day) list = list.filter(function (x) { return x.s <= day && day <= x.e; });
     el('asN').textContent = list.length + '節';
     el('asList').innerHTML = list.map(function (x) {
       var a1 = x.r.filter(function (r) { return r[2] === 'A1'; }).length, add = x.r.filter(function (r) { return r[3]; }).length;
@@ -701,6 +753,8 @@ window.DLive = window.DLive || (function () {
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-det]'); if (b) { show(+b.dataset.det); return; }
+    var cm = e.target.closest('[data-cm]'); if (cm) { ym = addM(ym, +cm.dataset.cm); render(); return; }
+    var cd = e.target.closest('[data-cd]'); if (cd) { day = cd.dataset.cd && cd.dataset.cd !== day ? cd.dataset.cd : null; render(); return; }
     if (e.target.closest('[data-back]')) { show(null); return; }
     var th = e.target.closest('#asDetail th'); if (th) {
       var c = COLS.filter(function (x) { return x[0] === th.dataset.k; })[0];
