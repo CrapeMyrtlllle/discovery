@@ -1,0 +1,29 @@
+# 速報：競走成績・直前展示・水面気象（Discovery の Pages リポジトリの .github/workflows/live-results.yml に置く）
+# 日本時間 8:00〜22:59、ボートキャストから当日の競走成績・直前展示・水面気象を取って live/ に置く。パソコンが切れていても動く。
+# GitHub の定期実行は1時間に1回ほどしか動かないことがあるので、1回の実行の中で10分おきに約50分くり返す
+# （.github/scripts/live_loop.sh。間隔などはそちらで変える）。取る処理は .github/scripts/live_results.py。
+name: 速報（競走成績・直前展示・水面気象）
+
+on:
+  schedule:
+    - cron: "3-59/10 23,0-13 * * *"   # UTC。日本時間 8:03〜22:53 に10分おき（混む0分・10分ちょうどを避ける）
+  workflow_dispatch:                    # Actions の画面から手で動かす
+
+permissions:
+  contents: write
+
+concurrency:
+  group: live-results
+  cancel-in-progress: false             # 動いている回が終わってから次の回（次の回がすぐ続くので切れ目がほぼ無い）
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: 10分おきに速報を取って載せる（約50分）
+        run: bash .github/scripts/live_loop.sh
