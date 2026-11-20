@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>津の水面を読む | Discovery</title>
+<meta property="og:type" content="article"><meta property="og:site_name" content="Discovery"><meta property="og:title" content="津の水面を読む | Discovery"><meta property="og:description" content="ボートレース津の直近2年・4,489レースを集計。番組・風速・季節・展示・出目から舟券の組み立て方を図解。"><meta property="og:image" content="https://crapemyrtlllle.github.io/discovery/img/og.jpg"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap">
+<style>
+/* Layout: 1本の読み物カラム。図だけ少し幅広。色は「枠番6色」をデータ色に固定し、地は水面の青みグレー、差し色はターンマークの橙 */
+:root {
+  --t-bg: #eef3f5;
+  --t-paper: #ffffff;
+  --t-ink: #0f1f29;
+  --t-ink2: #2c3f4c;
+  --t-muted: #4f6270;
+  --t-line: #d3dee4;
+  --t-line-strong: #8aa0ad;
+  --t-water: #cfe3ea;
+  --t-water-ink: #2b6f86;
+  --t-mark: #e0601b;
+  --t-mark-soft: #fbe3d4;
+  --t-head: #1f6fd1;
+  --t-tail: #e0601b;
+  --t-good: #1e7a4c;
+  --t-warn: #b7791f;
+  --t-bad: #b3261e;
+  --t-b1: #ffffff; --t-b2: #1b1b1b; --t-b3: #d7263d; --t-b4: #1f6fd1; --t-b5: #f2c200; --t-b6: #2a9d4b;
+  --f-display: "Zen Kaku Gothic New", "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", "Meiryo", sans-serif;
+  --f-body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", "Meiryo", sans-serif;
+  --f-num: "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+}
+:root[data-theme="dark"] {
+  --t-bg: #0c171e; --t-paper: #13222b; --t-ink: #e6eef2; --t-ink2: #a9bcc7; --t-muted: #7f95a2;
+  --t-line: #23363f; --t-line-strong: #4d6672; --t-water: #123444; --t-water-ink: #7cc3db;
+  --t-mark: #ff8a45; --t-mark-soft: #3a2418; --t-head: #5fa2f0; --t-tail: #ff8a45;
+  --t-good: #4cc38a; --t-warn: #e3b04b; --t-bad: #ff6b60;
+  --t-b2: #000000; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+.tsu { background: var(--t-bg); color: var(--t-ink); font-family: var(--f-body); font-size: 16.5px; font-weight: 500; line-height: 1.9; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 860px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 64px; }
+.prose { max-width: 40em; }
+.tsu h1, .tsu h2, .tsu h3 { text-wrap: balance; margin: 0; }
+.tsu h1 { font-family: var(--f-display); font-weight: 900; font-size: clamp(2.1rem, 6.4vw, 3.6rem); line-height: 1.2; letter-spacing: .01em; }
+.tsu h2 { font-family: var(--f-display); font-weight: 900; font-size: clamp(1.4rem, 3.6vw, 1.9rem); line-height: 1.35; }
+.tsu h3 { font-family: var(--f-display); font-size: 1.1rem; font-weight: 900; }
+.tsu p { margin: 0; }
+.num { font-family: var(--f-num); font-variant-numeric: tabular-nums; letter-spacing: .01em; }
+.eyebrow { font-size: .78rem; font-weight: 700; letter-spacing: .14em; color: var(--t-mark); }
+.muted { color: var(--t-muted); }
+.tsu strong { font-weight: 700; }
+.tsu mark { background: linear-gradient(transparent 60%, var(--t-mark-soft) 60%); color: inherit; padding: 0 .1em; }
+
+/* hero */
+.tsu-hero { margin-top: calc(-1 * env(safe-area-inset-top, 0px)); padding-top: calc(env(safe-area-inset-top, 0px) + 2.5rem); padding-bottom: 2rem; background:
+  repeating-linear-gradient(170deg, transparent 0 22px, color-mix(in srgb, var(--t-water) 55%, transparent) 22px 23px), var(--t-bg); border-bottom: 1px solid var(--t-line); }
+.tsu-hero .wrap { padding-block: 0; display: grid; gap: 18px; }
+.lane { display: flex; gap: 6px; }
+.lane span { width: 26px; height: 8px; border-radius: 4px; border: 1px solid var(--t-line-strong); }
+.lead { font-size: 1.08rem; color: var(--t-ink2); max-width: 36em; }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 2px solid var(--t-ink); margin-top: 8px; }
+.stats > div { padding: 10px 12px 4px 0; border-right: 1px solid var(--t-line); padding-left: 12px; }
+.stats > div:first-child { padding-left: 0; }
+.stats > div:last-child { border-right: 0; }
+.stats .n { font-family: var(--f-num); font-weight: 900; font-size: clamp(1.9rem, 6vw, 2.8rem); line-height: 1; }
+.stats .n small { font-size: .5em; margin-left: 2px; }
+.stats .k { font-size: .78rem; color: var(--t-ink2); line-height: 1.5; margin-top: 6px; }
+@media (max-width: 560px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .stats > div:nth-child(2) { border-right: 0; } .stats > div:nth-child(3) { padding-left: 0; } .stats > div:nth-child(n+3) { border-top: 1px solid var(--t-line); } }
+.src { font-size: .82rem; color: var(--t-muted); }
+
+/* sections */
+.tsu section { padding-top: 56px; display: grid; gap: 18px; }
+.tsu section > * { min-width: 0; }
+.fig { background: var(--t-paper); border: 1px solid var(--t-line); border-radius: 6px; padding: 18px 18px 14px; display: grid; gap: 10px; }
+.fig figcaption, .fig .cap { font-size: .85rem; color: var(--t-muted); line-height: 1.6; }
+.fig .ttl { font-weight: 700; font-size: .95rem; }
+.scroll { overflow-x: auto; }
+.tsu svg { display: block; width: 100%; height: auto; }
+.tsu svg text { font-family: var(--f-body); fill: var(--t-ink2); font-size: 12.5px; font-weight: 500; }
+.tsu svg .n { font-family: var(--f-num); font-weight: 700; fill: var(--t-ink); }
+.tsu svg .grid { stroke: var(--t-line); stroke-width: 1; }
+.tsu svg .axis { stroke: var(--t-line-strong); stroke-width: 1; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .85rem; color: var(--t-ink2); }
+.legend i { display: inline-block; width: 14px; height: 3px; vertical-align: middle; margin-right: 6px; border-radius: 2px; }
+.legend i.dash { background: repeating-linear-gradient(90deg, currentColor 0 4px, transparent 4px 7px) !important; height: 2px; }
+.boat { display: inline-grid; place-items: center; width: 1.45em; height: 1.45em; border-radius: 3px; font-family: var(--f-num); font-weight: 700; font-size: .85em; line-height: 1; border: 1px solid var(--t-line-strong); vertical-align: .1em; }
+.boat.b1 { background: var(--t-b1); color: #111; } .boat.b2 { background: var(--t-b2); color: #fff; } .boat.b3 { background: var(--t-b3); color: #fff; }
+.boat.b4 { background: var(--t-b4); color: #fff; } .boat.b5 { background: var(--t-b5); color: #111; } .boat.b6 { background: var(--t-b6); color: #fff; }
+
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 640px) { .two { grid-template-columns: 1fr; } }
+
+/* kimarite matrix */
+.tsu table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+.tsu th, .tsu td { padding: 7px 8px; text-align: right; border-bottom: 1px solid var(--t-line); white-space: nowrap; }
+.tsu th { font-size: .76rem; color: var(--t-ink2); font-weight: 700; }
+.tsu td.l, .tsu th.l { text-align: left; }
+.tsu td .num { font-size: 1.05rem; }
+.heat td.h { text-align: center; font-family: var(--f-num); font-weight: 700; font-size: 1.02rem; border: 2px solid var(--t-paper); }
+.heat td.z { color: var(--t-muted); font-weight: 400; }
+
+/* season bars */
+.sbar { display: grid; grid-template-columns: 2.4em 1fr; gap: 10px; align-items: center; }
+.sbar .seg { display: flex; height: 30px; border-radius: 3px; overflow: hidden; border: 1px solid var(--t-line-strong); }
+.sbar .seg span { display: grid; place-items: center; font-family: var(--f-num); font-weight: 700; font-size: .8rem; min-width: 0; overflow: hidden; }
+.sbar b { font-family: var(--f-display); font-weight: 900; font-size: 1.05rem; }
+.sbars { display: grid; gap: 8px; }
+.notes4 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 18px; font-size: .9rem; }
+.notes4 div { border-top: 1px solid var(--t-line); padding-top: 8px; }
+.notes4 b { font-family: var(--f-display); font-weight: 900; margin-right: 6px; }
+@media (max-width: 560px) { .notes4 { grid-template-columns: 1fr; } }
+
+/* verdict */
+.verdict { display: grid; gap: 0; border-top: 2px solid var(--t-ink); }
+.verdict > div { display: grid; grid-template-columns: 7.2em 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--t-line); align-items: start; }
+.verdict > div > * { min-width: 0; }
+.chip { display: inline-block; font-size: .75rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; border: 1.5px solid currentColor; white-space: nowrap; text-align: center; }
+.chip.ok { color: var(--t-good); } .chip.part { color: var(--t-warn); } .chip.ng { color: var(--t-bad); } .chip.na { color: var(--t-muted); }
+.verdict q { font-weight: 700; quotes: "「" "」"; }
+.verdict p { font-size: .9rem; color: var(--t-ink2); margin-top: 2px; }
+
+/* flow */
+.flow { display: grid; gap: 0; counter-reset: s; }
+.step { display: grid; grid-template-columns: 44px 1fr; gap: 14px; position: relative; padding-bottom: 18px; }
+.step::before { counter-increment: s; content: counter(s); font-family: var(--f-num); font-weight: 700; font-size: 1.3rem; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--t-ink); color: var(--t-bg); position: relative; z-index: 1; }
+.step::after { content: ""; position: absolute; left: 21px; top: 44px; bottom: 0; width: 2px; background: var(--t-line-strong); }
+.step:last-child::after { display: none; }
+.step > div { min-width: 0; padding-top: 6px; display: grid; gap: 8px; }
+.step h3 { font-size: 1.08rem; }
+.rules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.rules div { background: var(--t-paper); border: 1px solid var(--t-line); border-radius: 6px; padding: 8px 10px; font-size: .88rem; line-height: 1.6; }
+.rules div b { display: block; font-size: .78rem; letter-spacing: .04em; }
+.rules .go b { color: var(--t-good); } .rules .stop b { color: var(--t-bad); }
+@media (max-width: 560px) { .rules { grid-template-columns: 1fr; } }
+
+.foot { margin-top: 56px; border-top: 1px solid var(--t-line); padding-top: 16px; font-size: .85rem; color: var(--t-muted); display: grid; gap: 6px; }
+.tsu a { color: var(--t-water-ink); }
+@media (prefers-reduced-motion: no-preference) {
+  .lane span { animation: drift 1.2s ease-out both; }
+  .lane span:nth-child(2) { animation-delay: .06s } .lane span:nth-child(3) { animation-delay: .12s } .lane span:nth-child(4) { animation-delay: .18s } .lane span:nth-child(5) { animation-delay: .24s } .lane span:nth-child(6) { animation-delay: .30s }
+  @keyframes drift { from { transform: translateX(-10px); } to { transform: none; } }
+}
+
+.tsu p, .tsu li { font-weight: 500; }
+.tsu .lead { color: var(--t-ink); }
+.tsu .wrap { padding-block-end: 64px; }
+</style>
+<link rel="icon" type="image/png" href="data:image/png;base64,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"><link rel="apple-touch-icon" href="../img/icon-180.png"><meta name="theme-color" content="#0b1a3a"></head>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap">
+<style>
+/* ===== Discovery 共通デザイン層(site_nav.py)。決まりは docs/DESIGN_SYSTEM.md =====
+   値は --ds-* だけを直す。各ページの古い変数(--page --surface --ink …)はここで --ds-* に読み替える */
+:root { --ds-navy: #101D35; --ds-navy-2: #172944; --ds-navy-deep: #0B1426; --ds-accent: #3977B8; --ds-accent-on-navy: #6FA3DA;
+  --ds-on-navy: #FFFFFF; --ds-on-navy-2: #AEBBD0; --ds-on-navy-3: #7F8DA6;
+  --ds-ok: #21865A; --ds-warn: #D89A32; --ds-err: #D64B4B;
+  --ds-s1: 8px; --ds-s2: 16px; --ds-s3: 24px; --ds-s4: 40px; --ds-s5: 64px; --ds-r: 8px; --ds-r-sm: 4px;
+  --ds-font: "Noto Sans JP", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+  --ds-font-head: "Zen Kaku Gothic New", "Noto Sans JP", "Yu Gothic UI", "Meiryo", sans-serif;
+  --side-w: 220px; }
+/* 明るいテーマ(既定。OS の暗い設定には合わせない) */
+:root:not([data-theme="dark"]) { color-scheme: light;
+  --ds-bg: #F2F5F9; --ds-surface: #FFFFFF; --ds-ink: #182235; --ds-ink-sub: #68758A; --ds-ink-meta: #8C97A8;
+  --ds-line: #E3E8EF; --ds-head: #F7F9FC; --ds-hover: #EEF3F9; --ds-accent-soft: #E6EEF8;
+  --ds-shadow: 0 1px 2px rgba(16,29,53,.06); --ds-shadow-pop: 0 8px 24px rgba(16,29,53,.16);
+  --page: var(--ds-bg); --surface: var(--ds-surface); --ink: var(--ds-ink); --ink2: var(--ds-ink-sub); --muted: var(--ds-ink-meta);
+  --grid: var(--ds-line); --ring: var(--ds-line); --axis: #C9D2DE; --accent: var(--ds-accent); --accent-ink: #FFFFFF;
+  --accent-soft: var(--ds-accent-soft); --good: var(--ds-ok); --bad: var(--ds-err); --star: var(--ds-warn); --heat0: #FFFFFF; }
+/* 暗いテーマ(各ツールの ◐ で選んだときだけ)。ネイビーの暗色 */
+:root[data-theme="dark"] { color-scheme: dark;
+  --ds-bg: #0B1426; --ds-surface: #101D35; --ds-ink: #E8EDF5; --ds-ink-sub: #AEBBD0; --ds-ink-meta: #7F8DA6;
+  --ds-line: #22324F; --ds-head: #132341; --ds-hover: #1A2C4A; --ds-accent-soft: #1B3150;
+  --ds-shadow: none; --ds-shadow-pop: 0 8px 24px rgba(0,0,0,.5);
+  --page: var(--ds-bg); --surface: var(--ds-surface); --ink: var(--ds-ink); --ink2: var(--ds-ink-sub); --muted: var(--ds-ink-meta);
+  --grid: var(--ds-line); --ring: rgba(255,255,255,.10); --axis: #33456A; --accent: #5A93D0; --accent-ink: #FFFFFF;
+  --accent-soft: var(--ds-accent-soft); --good: #3FB27F; --bad: #E86A6A; --heat0: var(--ds-surface); }
+
+/* 文字: 本文 Noto Sans JP / 見出し Zen Kaku Gothic New / 数字は桁をそろえる */
+body { font-family: var(--ds-font); background: var(--page); color: var(--ink); -webkit-font-smoothing: antialiased;
+  font-feature-settings: "palt"; }   /* 和文の字幅を詰める(表の列が以前の書体と同じ幅におさまるように) */
+h1, h2, h3, .racehead .rn, .racehead .nm, .phead .pn, .focusname { font-family: var(--ds-font-head); }
+table, .tile .val, .tl-h .tm { font-variant-numeric: tabular-nums; }
+
+/* 上部バー(各ツールの .top)はブランド色。中の部品はネイビー用の色に読み替える */
+.top { background: var(--ds-navy) !important; color: var(--ds-on-navy); border-bottom: 1px solid var(--ds-navy-deep) !important;
+  --ink: var(--ds-on-navy); --ink2: var(--ds-on-navy-2); --muted: var(--ds-on-navy-3); --ring: rgba(255,255,255,.16);
+  --grid: rgba(255,255,255,.10); --surface: var(--ds-navy-2); --page: var(--ds-navy-deep); --accent: var(--ds-accent); }
+.top h1 { color: var(--ds-on-navy); font-size: 16px; letter-spacing: .02em; }
+.top button, .top select, .top input, .top label, .top a { color: inherit; }
+.top button:hover, .top .seg button:hover, .top .iconbtn:hover { background: rgba(255,255,255,.08); }
+.top button[aria-pressed="true"], .top .on { color: #fff; }
+.top input::placeholder { color: var(--ds-on-navy-3); }
+.top select option { background: var(--ds-navy-2); color: #fff; }
+
+/* 表示領域: 角丸 8px・1px の線・控えめな影だけ */
+.card, .mcard, .tbl-wrap, .phead { border-radius: var(--ds-r) !important; border-color: var(--ds-line) !important; box-shadow: var(--ds-shadow) !important; }
+.card h2 { font-size: 14px; letter-spacing: .02em; }
+thead th { background-color: var(--ds-head); }
+#tip { border-radius: var(--ds-r); box-shadow: var(--ds-shadow-pop); }
+
+/* ===== サイドバー ===== */
+body { padding-left: var(--side-w); }
+.sn-side { position: fixed; inset: 0 auto 0 0; width: var(--side-w); z-index: 50; display: flex; flex-direction: column;
+  background: var(--ds-navy); color: var(--ds-on-navy-2); border-right: 1px solid var(--ds-navy-deep); padding: 0 12px 16px; overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.15) transparent; }
+.sn-brand { display: flex; align-items: center; gap: 10px; margin: 0 -12px 12px; padding: 16px 20px; color: #fff;
+  background: var(--ds-navy-deep); border-bottom: 1px solid rgba(255,255,255,.06); }
+.sn-brand .mk { width: 34px; height: 34px; border-radius: var(--ds-r); display: grid; place-items: center; background: var(--ds-accent); color: #fff; flex: none; }
+.sn-brand .mk.logo { background: none; overflow: hidden; width: 36px; height: 36px; }
+.sn-brand .mk.logo img { width: 100%; height: 100%; display: block; }
+.sn-brand b { display: block; font-family: var(--ds-font-head); font-size: 17px; letter-spacing: .05em; font-weight: 700; line-height: 1.2; }
+.sn-brand small { display: block; font-size: 10px; color: var(--ds-on-navy-3); letter-spacing: .02em; margin-top: 2px; white-space: nowrap; }
+.sn-item { display: flex; align-items: center; gap: 12px; padding: 9px 12px; margin: 2px 0; border-radius: var(--ds-r);
+  color: var(--ds-on-navy-2); text-decoration: none; font-size: 14px; font-weight: 700; position: relative; transition: background .15s, color .15s; }
+.sn-item:hover { background: rgba(255,255,255,.05); color: #fff; text-decoration: none; }
+.sn-item.on { background: var(--ds-navy-2); color: #fff; }
+.sn-item.on::before { content: ""; position: absolute; left: -12px; top: 8px; bottom: 8px; width: 3px; border-radius: 0 2px 2px 0; background: var(--ds-accent); }
+.sn-item svg { flex: none; opacity: .85; }
+.sn-item.on svg { color: var(--ds-accent-on-navy); opacity: 1; }
+.sn-sub { margin: 0 0 8px 21px; padding-left: 14px; border-left: 1px solid rgba(255,255,255,.10); display: flex; flex-direction: column; }
+.sn-sub button { all: unset; }
+.sn-sub a, .sn-sub button { font-size: 12.5px; color: var(--ds-on-navy-3); padding: 5px 10px; border-radius: 6px; text-decoration: none; cursor: pointer; white-space: nowrap; }
+.sn-sub a:hover, .sn-sub button:hover { color: #fff; background: rgba(255,255,255,.05); text-decoration: none; }
+.sn-sub a.on { color: #fff; font-weight: 700; position: relative; }
+.sn-sub a.on::before { content: ""; position: absolute; left: -15px; top: 6px; bottom: 6px; width: 1px; background: var(--ds-accent-on-navy); }
+.sn-sub a.soon { color: rgba(127,141,166,.75); white-space: normal; }
+.sn-sub a.soon::after { content: "準備中"; display: inline-block; white-space: nowrap; margin-left: 6px; font-size: 9px; line-height: 1.5;
+  padding: 0 4px; border-radius: 3px; border: 1px solid rgba(255,255,255,.12); vertical-align: 1px; }
+.sn-sub button:focus-visible, .sn-item:focus-visible, .sn-sub a:focus-visible { outline: 2px solid var(--ds-accent-on-navy); outline-offset: 1px; }
+.sn-sp { flex: 1; }
+.sn-foot { padding: 14px 10px 0; border-top: 1px solid rgba(255,255,255,.08); }
+.sn-foot small { display: block; font-size: 11px; color: var(--ds-on-navy-3); line-height: 1.6; }
+.sn-bar { display: none; }
+.sn-badge { margin-left: auto; font-size: 9.5px; font-weight: 700; letter-spacing: .04em; padding: 1px 6px; border-radius: var(--ds-r-sm);
+  background: rgba(33,134,90,.22); color: #7FD1A9; }
+.sn-badge.m { background: rgba(216,154,50,.20); color: #F0C27A; }
+
+/* ===== トップ系のページ(make_top_page.py)。バナーは見出しの高さにおさえ、今日の開催を上に ===== */
+.ds-top .banner { border-radius: var(--ds-r); box-shadow: none; aspect-ratio: 16 / 6; object-position: center 52%; }
+.ds-top .hero { background: var(--ds-navy) !important; border-radius: var(--ds-r); box-shadow: none; }
+.ds-top .hero::after { display: none; }
+/* 会員限定のページ(高評価モーター抽出・カド比較表)の見出しは、2−1検証などツールの見出しと同じ大きさに */
+.ds-top .hero.mem h1 { font-size: 24px; margin: 4px 0; }
+@media (max-width: 960px) { .ds-top .hero.mem h1 { font-size: 20px; } }
+.ds-top .card { border-radius: var(--ds-r) !important; box-shadow: var(--ds-shadow) !important; border-color: var(--ds-line) !important; }
+.ds-top h2 { font-family: var(--ds-font-head); }
+.ds-top .btn { border-radius: var(--ds-r); }
+.ds-top .btn.main { background: var(--ds-accent); box-shadow: none; }
+.ds-top .btn.main:hover { background: #2F68A3; }
+
+/* ツールのページ見出し(title_html の .sn-ptitle)。トップの .hero と同じく平らなネイビー(後から入る TITLE_CSS より強いセレクタで) */
+body.ds-tool .sn-ptitle { background: var(--ds-navy); border-radius: var(--ds-r); box-shadow: none; margin: 16px 16px 12px; }
+body.ds-tool .sn-ptitle::after { display: none; }
+body.ds-tool .sn-ptitle small { color: var(--ds-accent-on-navy); opacity: 1; }
+body.ds-tool .sn-ptitle h1 { font-family: var(--ds-font-head); }
+body.ds-tool .sn-ptitle p { color: var(--ds-on-navy-2); opacity: 1; }
+
+/* スマホ・タブレット: サイドバーをしまい、画面下にタブバー */
+@media (max-width: 960px) {
+  body { padding-left: 0; padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
+  .sn-side { display: none; }
+  body.ds-tool .sn-ptitle { margin: 10px 12px 8px; }
+  .ds-top .banner { aspect-ratio: 16 / 7; }
+  .sn-bar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    background: var(--ds-navy-deep); border-top: 1px solid rgba(255,255,255,.08);
+    padding: 6px 2px calc(6px + env(safe-area-inset-bottom, 0px)); }
+  .sn-bar a { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 5px 0 3px;
+    color: var(--ds-on-navy-3); text-decoration: none; font-size: 10.5px; font-weight: 700; border-radius: var(--ds-r); position: relative; }
+  .sn-bar a span { display: block; width: 100%; text-align: center; line-height: 1.2; white-space: nowrap; overflow: hidden;
+    font-size: 9.5px; letter-spacing: -.04em; }   /* 7項目を 375px に収める */
+  .sn-bar a .fr { position: absolute; top: 1px; right: 50%; margin-right: -24px; font-size: 7.5px; font-weight: 800; letter-spacing: .02em;
+    padding: 0 3px; border-radius: 3px; background: rgba(33,134,90,.30); color: #7FD1A9; line-height: 1.4; }
+  .sn-bar a .fr.m { background: rgba(216,154,50,.28); color: #F0C27A; }
+  .sn-bar a.on { color: #fff; background: var(--ds-navy-2); }
+  .sn-bar a.on svg { color: var(--ds-accent-on-navy); }
+  .sn-back { position: fixed; inset: 0; z-index: 55; background: rgba(11,20,38,.5); }
+  .sn-sheet { position: fixed; left: 8px; right: 8px; bottom: calc(70px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+    background: var(--ds-navy); border: 1px solid rgba(255,255,255,.1); border-radius: var(--ds-r); padding: 8px 8px 10px; box-shadow: 0 12px 30px rgba(0,0,0,.35); }
+  .sn-sheet[hidden], .sn-back[hidden] { display: none; }
+  .sn-sh { display: flex; align-items: center; color: #fff; font-family: var(--ds-font-head); font-weight: 700; font-size: 15px; padding: 6px 8px 8px; }
+  .sn-sh button { margin-left: auto; all: unset; cursor: pointer; color: var(--ds-on-navy-2); font-size: 20px; padding: 0 6px; }
+  .sn-sheet a { display: flex; align-items: center; padding: 12px; border-radius: var(--ds-r); color: var(--ds-on-navy-2); text-decoration: none;
+    font-size: 14px; font-weight: 500; border-top: 1px solid rgba(255,255,255,.06); }
+  .sn-sheet a span { margin-left: auto; color: var(--ds-on-navy-3); }
+  .sn-sheet a.on { color: #fff; font-weight: 700; }
+  .sn-sheet a.soon { color: var(--ds-on-navy-3); }
+  .sn-sheet a.soon::after { content: "準備中"; margin-left: 8px; font-size: 10px; opacity: .8; }
+  .sn-sheet a:active { background: var(--ds-navy-2); }
+}
+</style>
+<aside class="sn-side" aria-label="ページ切替"><div class="sn-brand"><span class="mk logo"><img src="data:image/png;base64,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" alt="" width="40" height="40"></span><span><b>Discovery</b><small>競艇データ分析 × 予想ツール</small></span></div><nav><a class="sn-item" data-sn="home" data-top="home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>TOP</span></a><a class="sn-item" data-sn="race" data-top="race"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Boat Board</span><span class="sn-badge m">会員</span></a><div class="sn-sub"><a data-sn="lite">簡易版BoatBoard</a></div><a class="sn-item" data-sn="member" data-top="member"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>会員限定</span><span class="sn-badge m">会員</span></a><div class="sn-sub"><a data-sn="timeline">タイムライン</a><a data-sn="race" data-sub="search">詳細条件検索</a><a data-sn="players">選手詳細分析</a><a data-sn="hot">高評価モーター抽出</a><a data-sn="ex21">2−1検証</a><a data-sn="kado">カド・カド受け比較表</a></div><a class="sn-item" data-sn="today" data-top="today" data-sub="race"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>番組表</span><span class="sn-badge">FREE</span></a><div class="sn-sub"><a data-sn="today" data-sub="race">番組表</a><a data-sn="today" data-sub="cond">条件検索</a><a data-sn="nige2">イン逃げ2着早見表</a></div><a class="sn-item" data-sn="seiseki" data-top="seiseki" data-sub="racer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>データバンク</span><span class="sn-badge">FREE</span></a><div class="sn-sub"><a data-sn="seiseki" data-sub="racer">選手情報</a><a data-sn="seiseki" data-sub="motor">モーター情報</a><a data-sn="seiseki" data-sub="venue">24場情報</a><a data-sn="assen">斡旋情報</a></div><a class="sn-item" data-sn="kaisai" data-top="kaisai"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg><span>開催データ</span><span class="sn-badge">FREE</span></a><div class="sn-sub"><a data-sn="kracers">出場選手</a><a data-sn="kmotors">モーター</a><a data-sn="tokuten">得点率早見表</a></div><a class="sn-item" data-sn="links" data-top="links"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>リンク</span><span class="sn-badge">FREE</span></a></nav><div class="sn-sp"></div><div class="sn-foot"><small>直近2年の全レースを、同じ物差しで毎日集計</small></div></aside><nav class="sn-bar" aria-label="ページ切替"><a class="" data-sn="home" data-top="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>TOP</span></a><a class="" data-sn="race" data-top="race"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Boat Board</span><i class="fr m">会員</i></a><a class="" data-sn="member" data-top="member"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>会員限定</span><i class="fr m">会員</i></a><a class="" data-sn="today" data-top="today" data-sub="race"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>番組表</span><i class="fr">FREE</i></a><a class="" data-sn="seiseki" data-top="seiseki" data-sub="racer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>データバンク</span><i class="fr">FREE</i></a><a class="" data-sn="kaisai" data-top="kaisai"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg><span>開催</span><i class="fr">FREE</i></a><a class="" data-sn="links" data-top="links"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>リンク</span><i class="fr">FREE</i></a></nav><div class="sn-back" hidden></div><div class="sn-sheet" data-sheet="race" hidden><div class="sn-sh">Boat Board<button type="button" data-sheet-close aria-label="閉じる">×</button></div><a data-sn="race">詳細版BoatBoard<span>›</span></a><a data-sn="lite">簡易版BoatBoard<span>›</span></a></div><div class="sn-sheet" data-sheet="member" hidden><div class="sn-sh">会員限定<button type="button" data-sheet-close aria-label="閉じる">×</button></div><a data-sn="timeline">タイムライン<span>›</span></a><a data-sn="race" data-sub="search">詳細条件検索<span>›</span></a><a data-sn="players">選手詳細分析<span>›</span></a><a data-sn="hot">高評価モーター抽出<span>›</span></a><a data-sn="ex21">2−1検証<span>›</span></a><a data-sn="kado">カド・カド受け比較表<span>›</span></a></div><div class="sn-sheet" data-sheet="today" hidden><div class="sn-sh">番組表<button type="button" data-sheet-close aria-label="閉じる">×</button></div><a data-sn="today" data-sub="race">番組表<span>›</span></a><a data-sn="today" data-sub="cond">条件検索<span>›</span></a><a data-sn="nige2">イン逃げ2着早見表<span>›</span></a></div><div class="sn-sheet" data-sheet="seiseki" hidden><div class="sn-sh">データバンク<button type="button" data-sheet-close aria-label="閉じる">×</button></div><a data-sn="seiseki" data-sub="racer">選手情報<span>›</span></a><a data-sn="seiseki" data-sub="motor">モーター情報<span>›</span></a><a data-sn="seiseki" data-sub="venue">24場情報<span>›</span></a><a data-sn="assen">斡旋情報<span>›</span></a></div><div class="sn-sheet" data-sheet="kaisai" hidden><div class="sn-sh">開催データ<button type="button" data-sheet-close aria-label="閉じる">×</button></div><a data-sn="kracers">出場選手<span>›</span></a><a data-sn="kmotors">モーター<span>›</span></a><a data-sn="tokuten">得点率早見表<span>›</span></a></div><script>
+(function () {
+  // リンク先: 公開版は …/discovery/ からの相対、PCで開いたときは隣のフォルダの 最新.html
+  var C = {"L": {"home": ["", "トップページ/最新.html"], "race": ["race/", "ダッシュボード/最新.html"], "timeline": ["timeline/", "ダッシュボード/タイムライン.html"], "lite": ["lite/", "ダッシュボード/簡易版.html"], "member": ["member/", "トップページ/会員限定.html"], "players": ["players/", "選手分析/最新.html"], "today": ["today/", "出場選手/最新.html"], "seiseki": ["seiseki/", "競走成績ダッシュボード/最新.html"], "kaisai": ["kaisai/", "トップページ/開催データ.html"], "links": ["links/", "トップページ/リンク.html"], "about": ["about/", "トップページ/紹介.html"], "sample": ["sample/", "トップページ/サンプル.html"], "soon": ["soon/", "トップページ/準備中.html"], "ex21": ["ex21/", "ダッシュボード/2−1検証.html"], "kracers": ["k-racers/", "トップページ/開催_出場選手.html"], "kmotors": ["k-motors/", "トップページ/開催_モーター.html"], "tokuten": ["tokuten/", "トップページ/開催_得点率早見表.html"], "assen": ["assen/", "トップページ/データ_斡旋情報.html"], "hot": ["hot/", "トップページ/高評価モーター抽出.html"], "nige2": ["nige2/", "トップページ/開催_イン逃げ2着早見表.html"], "kado": ["kado/", "トップページ/カド比較表.html"]}, "click": {"race": {"timeline": "#tlBtn[aria-pressed='false']", "search": "#searchBtn[aria-pressed='false']"}, "today": {"race": "#tabs [data-tab='race']", "racer": "#tabs [data-tab='racer']", "cond": "#condOpen"}, "seiseki": {"racer": "#tabs [data-tab='racer']", "motor": "#tabs [data-tab='motor']", "venue": "#tabs [data-tab='venue']"}}, "soon": {}, "member": ["ex21", "hot", "kado", "lite", "member", "players", "timeline"], "tabAlias": {}, "top": false}, L = C.L, here = 'tsu', web = location.protocol.indexOf('http') === 0;
+  var de = document.documentElement;
+  if (!de.dataset.theme) de.dataset.theme = 'light';   // ◐ で暗くしたページは各テンプレートが dark にする
+  if (document.body) document.body.classList.add('ds-' + here, C.top ? 'ds-top' : 'ds-tool');
+  var base = here === 'home' ? './' : '../';   // トップは …/discovery/、ほかは1つ下のフォルダ
+  function url(k) { var t = L[k]; return t ? (web ? base + t[0] : '../' + t[1]) : '#'; }
+  function member() { try { return !!localStorage.getItem('dpw'); } catch (e) { return false; } }
+  function links() {
+    document.querySelectorAll('[data-sn]').forEach(function (a) {
+      var k = a.dataset.sn;
+      if (!L[k] || (k === here && !a.dataset.sub && !a.dataset.hash)) return;
+      var h = a.dataset.hash ? '#' + a.dataset.hash : '';  // data-hash があればそれ、無ければ(Boat Boardは)最後に見たレース
+      if (!h && (k === 'race' || k === 'lite')) { try { var lr = localStorage.getItem('sn.lastRace'); if (lr) h = '#' + lr; } catch (e) {} }
+      a.href = url(k) + (a.dataset.sub ? '?sn=' + a.dataset.sub : '') + h;
+    });
+  }
+  links();
+  document.addEventListener('DOMContentLoaded', links);   // ページ本文の中のリンク(トップのメニューなど)にも
+  function press(k, sub) {   // そのページの中のボタンを押す(タイムライン・タブなど)
+    var sel = (C.click[k] || {})[sub]; if (!sel) return false;
+    var el = document.querySelector(sel); if (el) el.click(); window.scrollTo(0, 0); return true;
+  }
+  // スマホの下のタブ: 中項目のある大項目は、押すと中項目の一覧を下から出す
+  var back = document.querySelector('.sn-back');
+  function sheet(k) {
+    document.querySelectorAll('.sn-sheet').forEach(function (s) { s.hidden = s.dataset.sheet !== k; });
+    if (back) back.hidden = !k;
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (t.closest && (t.closest('[data-sheet-close]') || t.closest('.sn-back'))) { sheet(null); return; }
+    var bt = t.closest && t.closest('.sn-bar [data-top]');
+    if (bt && document.querySelector('.sn-sheet[data-sheet="' + bt.dataset.top + '"]')) {
+      e.preventDefault(); e.stopPropagation();
+      var open = document.querySelector('.sn-sheet[data-sheet="' + bt.dataset.top + '"]');
+      sheet(open.hidden ? bt.dataset.top : null); return;
+    }
+  }, true);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('[data-sn]'); if (!a) return;
+    var k = a.dataset.sn;
+    // 会員限定: パスワードを覚えていない人は「はじめての方へ」へ
+    if (C.member.indexOf(k) >= 0 && !member()) { e.preventDefault(); location.href = url('about'); return; }
+    if (k === here && a.dataset.sub) { e.preventDefault(); press(k, a.dataset.sub); return; }
+    if (k === here && here === 'players' && !a.dataset.hash) {   // 選手分析で「選手詳細分析」を押したら選手一覧へ
+      e.preventDefault(); var bl = document.getElementById('backList'); if (bl) bl.click(); window.scrollTo(0, 0); return; }
+    if (k === here && here === 'soon' && a.dataset.hash) { setTimeout(soonMark, 0); }
+    if (k === here && !a.dataset.sub && !a.dataset.hash && a.closest('.sn-sheet')) { sheet(null); }   // いま開いているページ(下の一覧の「詳細版」など)は一覧を閉じるだけ
+  }, true);
+  // ?sn= で開いたら、そのボタンを押した状態に(ページの描画が終わってから)
+  // ?sn= は押す直前のアドレスから読む(データバンクは #r… #m… で詳細を開いたら ?sn= を消すので、一覧タブを押さない)
+  function onReady() { var sp = (location.search.match(/[?&]sn=([a-z0-9-]+)/) || [])[1]; if (sp) press(here, sp); mark(); }
+  if (document.readyState === 'complete') setTimeout(onReady, 0); else window.addEventListener('load', function () { setTimeout(onReady, 0); });
+  // 選択中の大項目(番組表ページの「選手」タブ＝開催データ、準備中ページは項目の大項目)
+  function setOn(top) {
+    document.querySelectorAll('[data-top]').forEach(function (a) { a.classList.toggle('on', a.dataset.top === top); });
+  }
+  function soonMark() { var h = (location.hash || '').slice(1); if (C.soon[h]) setOn(C.soon[h]); }
+  function mark() {
+    if (here === 'soon') { soonMark(); window.addEventListener('hashchange', soonMark); return; }
+    var ta = C.tabAlias[here]; if (!ta) return;
+    var upd = function () { var on = document.querySelector('#tabs [aria-pressed="true"]'); setOn(on && ta[on.dataset.tab] || here); };
+    upd(); document.addEventListener('click', function () { setTimeout(upd, 0); });
+  }
+})();
+</script>
+<div class="tsu">
+<header class="tsu-hero">
+  <div class="wrap">
+    <div class="lane" aria-hidden="true"><span style="background:var(--t-b1)"></span><span style="background:var(--t-b2)"></span><span style="background:var(--t-b3)"></span><span style="background:var(--t-b4)"></span><span style="background:var(--t-b5)"></span><span style="background:var(--t-b6)"></span></div>
+    <div class="eyebrow">ボートレース津 データ攻略</div>
+    <h1>津は「番組」と<br>「風速」で読む</h1>
+    <p class="lead">津のインは全国平均より少し強い程度です。それでも1Rと12Rでは7割を超えて逃げ、4Rでは4割を切ります。インを信じるかどうかを分けるのは、何レース目か、そして風速がどれだけか。直近2年・4,489レースの結果から、津の舟券の組み立て方を整理しました。</p>
+    <div class="stats">
+      <div><div class="n">57.2<small>%</small></div><div class="k">1コース1着率<br><span class="muted">全国 55.1%</span></div></div>
+      <div><div class="n">54.6<small>%</small></div><div class="k">決まり手「逃げ」<br><span class="muted">全国 52.6%</span></div></div>
+      <div><div class="n">15.7<small>%</small></div><div class="k">3連単の万舟率<br><span class="muted">全国 16.5%</span></div></div>
+      <div><div class="n">2,390<small>円</small></div><div class="k">3連単配当の中央値<br><span class="muted">平均は6,966円</span></div></div>
+    </div>
+    <p class="src">集計：2024年11月20日〜2026年11月19日の津の全4,489レース（公式の競走成績を当サイトで集計）。全国は同期間の24場・111,437レース。</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section id="water">
+  <div class="eyebrow">水面と風</div>
+  <h2>1マークは西。冬は向かい風、夏は追い風</h2>
+  <div class="prose"><p>津のスタートから1マークへ向かう方向はほぼ真西です。冬に吹く北西〜西の季節風は<strong>向かい風</strong>、夏の東寄りの風は<strong>追い風</strong>になります。同じ「向かい風」の発表でも、北西の風は斜めから、西の風は真正面から当たります。西風の日はスロー勢のターンが流れやすい、というのが地元の定説です。</p></div>
+  <figure class="fig" style="margin:0">
+    <div class="ttl">津の水面と風向き（模式図）</div>
+    <div class="scroll"><svg id="g-water" viewBox="0 0 720 300" role="img" aria-label="津の水面模式図。1マークが西、2マークが東。西風は真正面の向かい風、北西風は斜めの向かい風、東寄りの風は追い風。"></svg></div>
+    <div class="cap">模式図なので、実際の水面の形や縮尺とは異なります。風向きは公式発表の「向かい風・追い風」と方角の対応を示したものです。</div>
+  </figure>
+  <figure class="fig" style="margin:0">
+    <div class="ttl">月別の風向きの割合と、1コースの1着率</div>
+    <div class="scroll"><svg id="g-month" viewBox="0 0 720 300" role="img" aria-label="月別の風向き割合と1コース1着率"></svg></div>
+    <div class="legend"><span><i style="background:var(--t-head)"></i>向かい風のレース</span><span><i style="background:var(--t-tail)"></i>追い風のレース</span><span><i style="background:var(--t-ink)"></i>1コース1着率</span></div>
+    <div class="cap">2月は開催が少なく50レースしかないため、薄く表示しています。8月は追い風が86%、1月は向かい風が69%です。</div>
+  </figure>
+</section>
+
+<section id="course">
+  <div class="eyebrow">コース</div>
+  <h2>インは全国より2ポイント強い。3コースは逆に弱い</h2>
+  <div class="prose"><p>1コースの1着率は57.2%で、全国平均を2.1ポイント上回ります。24場の中では11番目で、極端なイン場ではありません。目立つのは<strong>3コースが全国より1.1ポイント低い</strong>ことです。2コースはほぼ全国並みで、差しが決まります。</p></div>
+  <figure class="fig" style="margin:0">
+    <div class="ttl">コース別の1着率：津と全国</div>
+    <div class="scroll"><svg id="g-course" viewBox="0 0 720 280" role="img" aria-label="コース別1着率の津と全国の比較"></svg></div>
+    <div class="legend"><span><i style="background:var(--t-ink)"></i>津（枠の色）</span><span><i style="background:var(--t-line-strong)"></i>全国</span></div>
+    <div class="cap">2連対率は 73.7 / 40.9 / 32.6 / 26.7 / 18.0 / 8.0%、3連対率は 82.1 / 59.5 / 53.2 / 47.5 / 36.8 / 20.9%（1〜6コースの順）。</div>
+  </figure>
+</section>
+
+<section id="kimarite">
+  <div class="eyebrow">決まり手</div>
+  <h2>逃げの次は「2コースの差し」、その次は「3コースのまくり差し」</h2>
+  <div class="prose"><p>全レースのうち、2コースの差しで決まったのが8.7%、3コースのまくり差しが5.3%です。4コースはまくりが3.8%、差しが2.1%と、カドから攻め切る形が主流です。5コースは<strong>まくり差しが3.9%</strong>と、外からの1着の大半を占めます。</p></div>
+  <figure class="fig" style="margin:0">
+    <div class="ttl">1着のコース × 決まり手（全レースに占める割合 %）</div>
+    <div class="scroll"><table class="heat" id="t-kima"></table></div>
+    <div class="cap">色が濃いほど多い。逃げは桁が違うので別の色で表示。恵まれ（0.9%）は省略しています。</div>
+  </figure>
+</section>
+
+<section id="wind">
+  <div class="eyebrow">風速</div>
+  <h2>風が強いほどインは落ちる。ただし落ち方は全国より緩い</h2>
+  <div class="prose"><p>向かい風でも追い風でも、風速が上がるほど1コースの1着率は下がります。向かい風0〜2mでは62.2%ですが、7m以上では51.8%です。注目したいのは<mark>全国と比べると落ち幅が小さい</mark>ことです。追い風5〜6mの1コース1着率は全国で49.8%まで落ちますが、津では53.3%を保ちます。強風でもインを切りすぎないのが津のコツです。</p></div>
+  <figure class="fig" style="margin:0">
+    <div class="ttl">風速と1コース1着率</div>
+    <div class="scroll"><svg id="g-wind" viewBox="0 0 720 320" role="img" aria-label="風速帯ごとの1コース1着率。津と全国、向かい風と追い風"></svg></div>
+    <div class="legend"><span><i style="background:var(--t-head)"></i>津・向かい風</span><span><i style="background:var(--t-tail)"></i>津・追い風</span><span style="color:var(--t-head)"><i class="dash"></i><span style="color:var(--t-ink2)">全国・向かい風</span></span><span style="color:var(--t-tail)"><i class="dash"></i><span style="color:var(--t-ink2)">全国・追い風</span></span></div>
+    <div class="cap">白抜きの点は100レース未満（向かい風7m以上が85レース、追い風7m以上が31レース）で、ぶれが大きい値です。</div>
+  </figure>
+  <div class="two">
+    <figure class="fig" style="margin:0">
+      <div class="ttl">強い追い風（5〜6m・240R）で伸びるのは3コース</div>
+      <div id="b-tail"></div>
+      <div class="cap">3コースの1着率が14.6%に上がり、まくり・まくり差しが12.1%を占めます。</div>
+    </figure>
+    <figure class="fig" style="margin:0">
+      <div class="ttl">強い向かい風（5〜6m・491R）で伸びるのは2・4コース</div>
+      <div id="b-head"></div>
+      <div class="cap">2コースは13.2%、4コースは11.0%に上がります。外の5コースも7.3%と穴の目があります。</div>
+    </figure>
+  </div>
+</section>
+
+<section id="season">
+  <div class="eyebrow">季節と天候</div>
+  <h2>夏だけインが弱い。晴れの日もインが弱い</h2>
+  <div class="prose"><p>1コースの1着率は、秋が59.0%、春が58.6%、冬が58.5%とほぼ同じです。<strong>夏だけ53.8%</strong>と大きく落ちます。夏は追い風が続く季節で、2コース（15.2%）と5コース（6.9%）の1着が増えます。天候で見ると、晴れが55.5%、曇りが60.1%、雨が59.9%。雨の日のほうがインは残っています。</p></div>
+  <figure class="fig" style="margin:0">
+    <div class="ttl">季節別：1着になったコースの内訳</div>
+    <div class="sbars" id="s-bars"></div>
+    <div class="cap">春＝3〜5月、夏＝6〜8月、秋＝9〜11月、冬＝12〜2月。レース数は春1,099、夏1,366、秋1,239、冬785。</div>
+  </figure>
+  <div class="notes4">
+    <div><b>春</b>2コースの差しが9.2%で一定。風向きが変わりやすい時期ですが、インは58.6%と安定しています。</div>
+    <div><b>夏</b>イン53.8%で最も弱い。逃げは50.9%まで下がり、2コースの差しと5コースのまくり差しが増えます。</div>
+    <div><b>秋</b>イン59.0%で最も強い。ただし万舟率も17.1%と最も高く、外れたときの配当が大きい季節です。</div>
+    <div><b>冬</b>3コースのまくり差しが7.0%、4コースのまくりが5.2%で、どちらも年間最高。センターの攻めを押さえたい季節です。</div>
+  </div>
+</section>
+
+<section id="race">
+  <div class="eyebrow">番組</div>
+  <h2>イン信頼度はレース番号でここまで変わる</h2>
+  <div class="prose"><p>津で一番の手がかりは、何レース目かです。1R（76.1%）と5R（76.7%）は、1号艇に実力上位の選手を置く企画レースです。11R（70.6%）と12R（73.0%）は、シリーズの主力が1号艇に入ります。この4レースはイン軸で組み立てます。反対に<strong>4Rは36.7%</strong>と全レースで最低で、3R・6R・7Rも45%を下回ります。</p></div>
+  <figure class="fig" style="margin:0">
+    <div class="ttl">レース番号別 1コース1着率 / 万舟率 / 3桁配当率</div>
+    <div class="scroll"><svg id="g-race" viewBox="0 0 720 360" role="img" aria-label="レース番号別の1コース1着率と万舟率、3桁配当率"></svg></div>
+    <div class="legend"><span><i style="background:var(--t-good)"></i>イン70%以上（本命）</span><span><i style="background:var(--t-line-strong)"></i>中間</span><span><i style="background:var(--t-bad)"></i>イン45%未満（波乱）</span></div>
+    <div class="cap">各レース番号とも約375レース。3桁配当率は3連単が1,000円未満だった割合。</div>
+  </figure>
+</section>
+
+<section id="exhibit">
+  <div class="eyebrow">展示タイム</div>
+  <h2>展示1位のインは逃げ、展示1位のカドは攻める</h2>
+  <div class="prose"><p>展示タイムの順位で、各コースの1着率がどう変わるかを見ました。1コースは展示1位なら60.1%、6位なら40.7%で、<strong>20ポイントの差</strong>が出ます。4コースは展示1位だけが16.3%と飛び抜け、2位以下は10.7%以下です。カドが展示1位なら、4コースの1着まで買う価値があります。</p></div>
+  <div class="two">
+    <figure class="fig" style="margin:0">
+      <div class="ttl">1コース：展示順位別の1着率</div>
+      <svg id="g-ex1" viewBox="0 0 340 220" role="img" aria-label="1コースの展示順位別1着率"></svg>
+    </figure>
+    <figure class="fig" style="margin:0">
+      <div class="ttl">4コース：展示順位別の1着率</div>
+      <svg id="g-ex4" viewBox="0 0 340 220" role="img" aria-label="4コースの展示順位別1着率"></svg>
+    </figure>
+  </div>
+  <p class="src">選手ごとの直近の出走記録（全国約3.3万走）から集計。津だけで見ると、1コースは展示1位で65.2%（69走）、展示6位で40.0%（25走）。サンプルは少ないものの、同じ傾向です。</p>
+</section>
+
+<section id="deme">
+  <div class="eyebrow">出目</div>
+  <h2>本命の出目は「当たる」が「増えない」</h2>
+  <div class="prose"><p>最も多い出目は1-2-3ですが、出現率は7.9%、100円ずつ買い続けたときの回収率は76%です。上位10の出目は、どれも回収率63〜79%に収まります。人気の出目を機械的に買っても、控除分を取り返せません。勝負するなら、レース番号と風で相手を絞るしかありません。</p></div>
+  <figure class="fig" style="margin:0">
+    <div class="ttl">津の3連単 出現回数トップ10</div>
+    <div class="scroll"><table id="t-deme"></table></div>
+    <div class="cap">回収率は、全レースでその出目を100円ずつ買い続けた場合の値です。</div>
+  </figure>
+  <figure class="fig" style="margin:0">
+    <div class="ttl">本命レースの出目ベスト3</div>
+    <div class="scroll"><table id="t-deme-r"></table></div>
+    <div class="cap">1レース番号あたり約375レース。1つの出目は20〜50回しか出ていないので、回収率は1本の高配当で大きく動きます。</div>
+  </figure>
+  <div class="prose"><p>1Rは1-2-3より1-2-4のほうが多く出ていて、回収率も97%と高めです。12Rは1-4-2が95%。どちらも「2着に4号艇」の目で、1号艇が逃げても2コースが残らないパターンを拾っています。</p></div>
+</section>
+
+<section id="myth">
+  <div class="eyebrow">定説の検証</div>
+  <h2>よく聞く津の定説、データで確かめるとこうなる</h2>
+  <div class="verdict" id="verdict"></div>
+</section>
+
+<section id="flow">
+  <div class="eyebrow">買う前の手順</div>
+  <h2>津の1レースを組み立てる5つのステップ</h2>
+  <div class="flow">
+    <div class="step"><div><h3>何レース目かを見る</h3>
+      <div class="rules"><div class="go"><b>イン軸</b>1R・5R・11R・12R（イン70%以上）。9R・10Rも6割台。</div><div class="stop"><b>インを疑う</b>4R（36.7%）、3R・6R・7R（45%未満）。2Rと4Rは万舟率も高めです。</div></div></div></div>
+    <div class="step"><div><h3>風速を確かめる</h3>
+      <div class="rules"><div class="go"><b>0〜2m</b>インを素直に信じる。向かい風なら62.2%。</div><div class="stop"><b>5m以上</b>インは54%前後。それでも全国より3ポイント前後高いので、イン消しはやりすぎです。</div></div></div></div>
+    <div class="step"><div><h3>風向きで相手を決める</h3>
+      <div class="rules"><div><b>強い追い風</b>3コースのまくり・まくり差しを相手の上位に。</div><div><b>強い向かい風</b>2コースの差しと4カド。西風の真向かいならダッシュ勢を一段上げます。</div></div></div></div>
+    <div class="step"><div><h3>展示タイムで加点・減点</h3>
+      <div class="rules"><div class="go"><b>加点</b>インが展示1位なら軸を固める。4カドが展示1位なら頭まで。</div><div class="stop"><b>減点</b>インが展示5〜6位なら1着率は4割台。2着付けも検討します。</div></div></div></div>
+    <div class="step"><div><h3>季節で最後の調整</h3>
+      <div class="rules"><div><b>夏</b>イン弱め。2コースの差しと5コースのまくり差しを厚めに。</div><div><b>冬</b>3コースのまくり差しと4コースのまくりを押さえる。</div></div></div></div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div>データ：公式の競走成績を当サイトで集計（津4,489レース、2024/11/20〜2026/11/19）。展示順位の分析は、選手ごとの直近の出走記録から集計しています。</div>
+  <div>改修前後の比較、開催グレード別（ルーキー・女子戦・GI）、準優勝戦・優勝戦の成績は、このデータでは区別できないため扱っていません。</div>
+  <div>過去の傾向は将来の結果を保証しません。舟券は余裕資金の範囲で楽しんでください。</div>
+</footer>
+</main>
+
+<script>
+(() => {
+  const NS = 'http://www.w3.org/2000/svg';
+  const S = (tag, a = {}, txt) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; return e; };
+  const add = (p, ...c) => { c.forEach(x => p.appendChild(x)); return p; };
+  const BC = i => `var(--t-b${i})`;
+  const fmt = (v, d = 1) => v.toFixed(d);
+
+  // ---------- 水面模式図 ----------
+  (function water() {
+    const g = document.getElementById('g-water');
+    add(g, S('rect', { x: 150, y: 70, width: 420, height: 170, rx: 85, fill: 'var(--t-water)', stroke: 'var(--t-line-strong)' }));
+    // marks
+    const mk = (x, lab) => add(g, S('circle', { cx: x, cy: 155, r: 9, fill: 'var(--t-mark)' }), S('text', { x, y: 186, 'text-anchor': 'middle', 'font-weight': 700, style: 'fill:var(--t-ink)' }, lab));
+    mk(230, '1マーク'); mk(545, '2マーク');
+    // course arrow (start → 1M)
+    add(g, S('path', { d: 'M560 115 L270 115', stroke: 'var(--t-water-ink)', 'stroke-width': 3, fill: 'none', 'marker-end': 'url(#ah)' }));
+    add(g, S('text', { x: 395, y: 104, 'text-anchor': 'middle', style: 'fill:var(--t-water-ink)', 'font-weight': 700 }, 'スタート → 1マーク（西へ）'));
+    // start line
+    add(g, S('line', { x1: 410, y1: 80, x2: 410, y2: 230, stroke: 'var(--t-ink2)', 'stroke-dasharray': '4 4' }));
+    add(g, S('text', { x: 416, y: 226, 'font-size': 11 }, 'スタートライン'));
+    // boats
+    [1, 2, 3, 4, 5, 6].forEach((b, i) => add(g, S('rect', { x: 422 + (i > 2 ? 22 : 0) + i * 2, y: 128 + i * 15, width: 18, height: 10, rx: 2, fill: BC(b), stroke: 'var(--t-line-strong)' })));
+    // defs
+    const defs = S('defs');
+    ['ah', 'ahH', 'ahT'].forEach((id, k) => { const m = S('marker', { id, viewBox: '0 0 10 10', refX: 8, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }); add(m, S('path', { d: 'M0 0 L10 5 L0 10 z', fill: ['var(--t-water-ink)', 'var(--t-head)', 'var(--t-tail)'][k] })); defs.appendChild(m); });
+    g.insertBefore(defs, g.firstChild);
+    // winds
+    add(g, S('path', { d: 'M20 155 L135 155', stroke: 'var(--t-head)', 'stroke-width': 5, 'marker-end': 'url(#ahH)' }));
+    add(g, S('text', { x: 20, y: 145, style: 'fill:var(--t-head)', 'font-weight': 700 }, '西風＝真正面'));
+    add(g, S('path', { d: 'M40 30 L140 80', stroke: 'var(--t-head)', 'stroke-width': 3, 'stroke-dasharray': '7 5', 'marker-end': 'url(#ahH)' }));
+    add(g, S('text', { x: 18, y: 24, style: 'fill:var(--t-head)', 'font-weight': 700 }, '北西風＝斜めの向かい風'));
+    add(g, S('path', { d: 'M700 155 L585 155', stroke: 'var(--t-tail)', 'stroke-width': 5, 'marker-end': 'url(#ahT)' }));
+    add(g, S('text', { x: 700, y: 145, 'text-anchor': 'end', style: 'fill:var(--t-tail)', 'font-weight': 700 }, '東寄り＝追い風'));
+    add(g, S('text', { x: 20, y: 282, 'font-size': 11 }, '冬：北西〜西の季節風が強まる'));
+    add(g, S('text', { x: 700, y: 282, 'font-size': 11, 'text-anchor': 'end' }, '夏：追い風の日が続く'));
+    // compass
+    add(g, S('text', { x: 660, y: 40, 'text-anchor': 'middle', 'font-weight': 700, style: 'fill:var(--t-ink)' }, 'N'));
+    add(g, S('path', { d: 'M660 46 L660 80', stroke: 'var(--t-ink)', 'stroke-width': 2 }), S('path', { d: 'M654 54 L660 44 L666 54', fill: 'none', stroke: 'var(--t-ink)', 'stroke-width': 2 }));
+  })();
+
+  // ---------- 月別 ----------
+  (function month() {
+    const D = [[1,436,57.8,68.6,28.4],[2,50,64.0,100,0],[3,204,57.8,37.3,54.9],[4,396,57.8,36.6,57.1],[5,499,59.5,26.1,67.1],[6,504,55.0,23.0,67.9],[7,394,52.5,23.4,75.4],[8,468,53.6,10.9,86.1],[9,424,58.5,15.1,68.6],[10,468,59.0,32.7,53.0],[11,347,59.7,53.9,34.3],[12,299,58.5,59.5,31.1]];
+    const g = document.getElementById('g-month');
+    const L = 50, W = 650, cw = W / 12;
+    // top: c1 rate 50-66 in y 20..120
+    const yT = v => 120 - (v - 50) / 16 * 100;
+    [50, 55, 60, 65].forEach(v => add(g, S('line', { x1: L, x2: L + W, y1: yT(v), y2: yT(v), class: 'grid' }), S('text', { x: L - 8, y: yT(v) + 4, 'text-anchor': 'end' }, v + '%')));
+    let path = '';
+    D.forEach((d, i) => { const x = L + cw * i + cw / 2; path += (i ? 'L' : 'M') + x + ' ' + yT(d[2]); });
+    add(g, S('path', { d: path, fill: 'none', stroke: 'var(--t-ink)', 'stroke-width': 2 }));
+    D.forEach((d, i) => { const x = L + cw * i + cw / 2, thin = d[1] < 100;
+      add(g, S('circle', { cx: x, cy: yT(d[2]), r: 4, fill: thin ? 'var(--t-paper)' : 'var(--t-ink)', stroke: 'var(--t-ink)', 'stroke-width': 1.5 }));
+      add(g, S('text', { x, y: yT(d[2]) - 9, 'text-anchor': 'middle', class: 'n', 'font-size': 12, opacity: thin ? .5 : 1 }, fmt(d[2])));
+    });
+    // bottom: wind share 0-100 in y 150..270
+    const y0 = 150, h = 120;
+    D.forEach((d, i) => { const x = L + cw * i + 6, w = cw - 12, op = d[1] < 100 ? .4 : 1;
+      add(g, S('rect', { x, y: y0, width: w, height: h, fill: 'var(--t-line)', opacity: op }));
+      add(g, S('rect', { x, y: y0, width: w, height: h * d[3] / 100, fill: 'var(--t-head)', opacity: op }));
+      add(g, S('rect', { x, y: y0 + h - h * d[4] / 100, width: w, height: h * d[4] / 100, fill: 'var(--t-tail)', opacity: op }));
+      add(g, S('text', { x: x + w / 2, y: 292, 'text-anchor': 'middle', 'font-weight': 700, style: 'fill:var(--t-ink)' }, d[0] + '月'));
+    });
+    add(g, S('text', { x: L - 8, y: y0 + 12, 'text-anchor': 'end', 'font-size': 10, style: 'fill:var(--t-head)' }, '向'), S('text', { x: L - 8, y: y0 + h - 2, 'text-anchor': 'end', 'font-size': 10, style: 'fill:var(--t-tail)' }, '追'));
+  })();
+
+  // ---------- コース別 ----------
+  (function course() {
+    const tsu = [57.2, 13.5, 11.8, 9.5, 6.2, 1.8], nat = [55.1, 13.4, 12.9, 10.4, 6.1, 1.9];
+    const g = document.getElementById('g-course');
+    const L = 50, B = 230, H = 200, y = v => B - v / 60 * H, cw = 650 / 6;
+    [0, 20, 40, 60].forEach(v => add(g, S('line', { x1: L, x2: 700, y1: y(v), y2: y(v), class: v ? 'grid' : 'axis' }), S('text', { x: L - 8, y: y(v) + 4, 'text-anchor': 'end' }, v + '%')));
+    tsu.forEach((v, i) => { const x = L + cw * i + cw / 2;
+      add(g, S('rect', { x: x - 30, y: y(v), width: 32, height: B - y(v), fill: BC(i + 1), stroke: 'var(--t-line-strong)' }));
+      add(g, S('rect', { x: x + 4, y: y(nat[i]), width: 22, height: B - y(nat[i]), fill: 'var(--t-line-strong)', opacity: .55 }));
+      add(g, S('text', { x: x - 14, y: y(v) - 6, 'text-anchor': 'middle', class: 'n', 'font-size': 15 }, fmt(v)));
+      add(g, S('text', { x: x + 15, y: y(nat[i]) - 6, 'text-anchor': 'middle', 'font-size': 11 }, fmt(nat[i])));
+      const df = v - nat[i];
+      add(g, S('text', { x, y: B + 20, 'text-anchor': 'middle', 'font-weight': 700, style: 'fill:var(--t-ink)' }, (i + 1) + 'コース'));
+      add(g, S('text', { x, y: B + 38, 'text-anchor': 'middle', 'font-size': 11, style: `fill:${Math.abs(df) < .5 ? 'var(--t-muted)' : df > 0 ? 'var(--t-good)' : 'var(--t-bad)'}` }, (df > 0 ? '+' : '') + fmt(df) + 'pt'));
+    });
+  })();
+
+  // ---------- 決まり手マトリクス ----------
+  (function kima() {
+    const cols = ['逃げ', '差し', 'まくり', 'まくり差し', '抜き'];
+    const M = [[54.6, 0, 0, 0, 2.5], [0, 8.7, 3.2, 0, 1.3], [0, 1.4, 3.7, 5.3, 1.1], [0, 2.1, 3.8, 2.7, .7], [0, .5, 1.1, 3.9, .6], [0, .3, .4, .8, .2]];
+    const t = document.getElementById('t-kima');
+    let h = '<thead><tr><th class="l">1着</th>' + cols.map(c => `<th style="text-align:center">${c}</th>`).join('') + '<th>計</th></tr></thead><tbody>';
+    M.forEach((r, i) => {
+      h += `<tr><td class="l"><span class="boat b${i + 1}">${i + 1}</span> コース</td>`;
+      r.forEach((v, j) => {
+        if (!v) { h += '<td class="h z">—</td>'; return; }
+        const pct = i === 0 && j === 0 ? 100 : Math.min(100, v / 9 * 100);
+        const base = i === 0 && j === 0 ? 'var(--t-ink)' : 'var(--t-mark)';
+        const fg = pct > 55 ? 'var(--t-paper)' : 'var(--t-ink)';
+        h += `<td class="h" style="background:color-mix(in srgb, ${base} ${Math.round(pct * .9 + 6)}%, var(--t-paper));color:${fg}">${fmt(v)}</td>`;
+      });
+      h += `<td class="num">${fmt(r.reduce((a, b) => a + b, 0))}</td></tr>`;
+    });
+    t.innerHTML = h + '</tbody>';
+  })();
+
+  // ---------- 風速 ----------
+  (function wind() {
+    const X = ['0〜2m', '3〜4m', '5〜6m', '7m以上'];
+    const lines = [
+      { v: [62.2, 58.4, 54.2, 51.8], n: [304, 661, 491, 85], c: 'var(--t-head)', lab: '津・向かい' },
+      { v: [58.6, 54.3, 53.3, 58.1], n: [1101, 1218, 240, 31], c: 'var(--t-tail)', lab: '津・追い' },
+      { v: [56.7, 53.9, 51.4, 48.0], c: 'var(--t-head)', dash: true },
+      { v: [57.9, 53.8, 49.8, 45.1], c: 'var(--t-tail)', dash: true },
+    ];
+    const g = document.getElementById('g-wind');
+    const L = 60, R = 640, T = 20, B = 270, y = v => B - (v - 44) / 20 * (B - T), x = i => L + i * (R - L) / 3;
+    [44, 48, 52, 56, 60, 64].forEach(v => add(g, S('line', { x1: L, x2: R, y1: y(v), y2: y(v), class: 'grid' }), S('text', { x: L - 10, y: y(v) + 4, 'text-anchor': 'end' }, v + '%')));
+    X.forEach((t, i) => add(g, S('text', { x: x(i), y: B + 24, 'text-anchor': 'middle', 'font-weight': 700, style: 'fill:var(--t-ink)' }, t)));
+    add(g, S('text', { x: (L + R) / 2, y: B + 44, 'text-anchor': 'middle', 'font-size': 11 }, '風速'));
+    lines.forEach(l => {
+      add(g, S('path', { d: l.v.map((v, i) => (i ? 'L' : 'M') + x(i) + ' ' + y(v)).join(''), fill: 'none', stroke: l.c, 'stroke-width': l.dash ? 1.8 : 3, 'stroke-dasharray': l.dash ? '6 5' : 'none', opacity: l.dash ? .75 : 1 }));
+      l.v.forEach((v, i) => {
+        if (l.dash) { add(g, S('circle', { cx: x(i), cy: y(v), r: 2.5, fill: l.c })); return; }
+        const thin = l.n[i] < 100;
+        add(g, S('circle', { cx: x(i), cy: y(v), r: 5, fill: thin ? 'var(--t-paper)' : l.c, stroke: l.c, 'stroke-width': 2 }));
+      });
+    });
+    // labels for Tsu points (offset to avoid overlap)
+    const lab = (i, v, c, dy) => add(g, S('text', { x: x(i) + 9, y: y(v) + dy, class: 'n', 'font-size': 14, style: `fill:${c}` }, fmt(v)));
+    lab(0, 62.2, 'var(--t-head)', -6); lab(1, 58.4, 'var(--t-head)', -8); lab(2, 54.2, 'var(--t-head)', -8); lab(3, 51.8, 'var(--t-head)', 16);
+    lab(0, 58.6, 'var(--t-tail)', -9); lab(1, 54.3, 'var(--t-tail)', 18); lab(2, 53.3, 'var(--t-tail)', 18); lab(3, 58.1, 'var(--t-tail)', 5);
+    add(g, S('text', { x: x(3) + 9, y: y(45.1) + 4, 'font-size': 11, style: 'fill:var(--t-tail)' }, '全国 45.1'));
+    add(g, S('text', { x: x(3) + 9, y: y(48.0) + 4, 'font-size': 11, style: 'fill:var(--t-head)' }, '全国 48.0'));
+  })();
+
+  // ---------- 強風時のコース別ミニ棒 ----------
+  function mini(id, v, base) {
+    const el = document.getElementById(id);
+    const svg = S('svg', { viewBox: '0 0 340 170', role: 'img', 'aria-label': 'コース別1着率と通常時の比較' });
+    const B = 130, y = p => B - p / 60 * 110, cw = 300 / 6;
+    add(svg, S('line', { x1: 20, x2: 330, y1: B, y2: B, class: 'axis' }));
+    v.forEach((p, i) => { const x = 20 + cw * i + 8, w = cw - 16;
+      add(svg, S('rect', { x, y: y(p), width: w, height: B - y(p), fill: BC(i + 1), stroke: 'var(--t-line-strong)' }));
+      add(svg, S('line', { x1: x - 3, x2: x + w + 3, y1: y(base[i]), y2: y(base[i]), stroke: 'var(--t-ink)', 'stroke-width': 2, 'stroke-dasharray': '3 2' }));
+      const up = p - base[i];
+      add(svg, S('text', { x: x + w / 2, y: Math.min(y(p), y(base[i])) - 6, 'text-anchor': 'middle', class: 'n', 'font-size': 13 }, fmt(p)));
+      add(svg, S('text', { x: x + w / 2, y: B + 16, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700, style: 'fill:var(--t-ink)' }, i + 1));
+      add(svg, S('text', { x: x + w / 2, y: B + 32, 'text-anchor': 'middle', 'font-size': 10, style: `fill:${Math.abs(up) < .5 ? 'var(--t-muted)' : up > 0 ? 'var(--t-good)' : 'var(--t-bad)'}` }, (up > 0 ? '+' : '') + fmt(up)));
+    });
+    el.appendChild(svg);
+    const cap = document.createElement('div'); cap.className = 'cap'; cap.textContent = '点線は津全体の1着率。下の数字はその差（ポイント）。'; el.appendChild(cap);
+  }
+  const ALL = [57.2, 13.5, 11.8, 9.5, 6.2, 1.8];
+  mini('b-tail', [53.3, 14.2, 14.6, 9.6, 6.7, 1.7], ALL);
+  mini('b-head', [54.2, 13.2, 12.0, 11.0, 7.3, 2.2], ALL);
+
+  // ---------- 季節 ----------
+  (function season() {
+    const D = [['春', [58.6, 13.1, 12.1, 9.3, 5.6, 1.4]], ['夏', [53.8, 15.2, 11.3, 10.9, 6.9, 2.0]], ['秋', [59.0, 12.8, 12.1, 7.8, 6.3, 1.9]], ['冬', [58.5, 12.0, 11.6, 10.1, 6.0, 1.9]]];
+    const fg = ['#111', '#fff', '#fff', '#fff', '#111', '#fff'];
+    document.getElementById('s-bars').innerHTML = D.map(([s, v]) => {
+      const tot = v.reduce((a, b) => a + b, 0);
+      return `<div class="sbar"><b>${s}</b><div class="seg">${v.map((p, i) => `<span style="width:${p / tot * 100}%;background:var(--t-b${i + 1});color:${fg[i]}" title="${i + 1}コース ${p}%">${p >= 5 ? fmt(p) : ''}</span>`).join('')}</div></div>`;
+    }).join('');
+  })();
+
+  // ---------- レース番号 ----------
+  (function race() {
+    const c1 = [76.1, 49.9, 44.7, 36.7, 76.7, 43.5, 44.8, 48.8, 61.9, 60.3, 70.6, 73.0];
+    const man = [13.0, 17.6, 17.1, 23.0, 11.0, 15.0, 14.2, 16.6, 15.3, 17.3, 14.0, 14.1];
+    const k3 = [35.4, 16.2, 9.3, 7.2, 32.6, 12.6, 18.0, 19.8, 24.1, 24.8, 28.8, 32.7];
+    const g = document.getElementById('g-race');
+    const L = 70, cw = 640 / 12, B = 200, y = v => B - v / 80 * 180;
+    [0, 20, 40, 60, 80].forEach(v => add(g, S('line', { x1: L, x2: 710, y1: y(v), y2: y(v), class: v ? 'grid' : 'axis' }), S('text', { x: L - 8, y: y(v) + 4, 'text-anchor': 'end' }, v + '%')));
+    add(g, S('line', { x1: L, x2: 710, y1: y(57.2), y2: y(57.2), stroke: 'var(--t-ink)', 'stroke-dasharray': '4 4' }), S('text', { x: L + cw * 2 + 6, y: y(57.2) - 6, 'font-size': 11 }, '津の平均 57.2%'));
+    c1.forEach((v, i) => { const x = L + cw * i + 7, w = cw - 14;
+      const col = v >= 70 ? 'var(--t-good)' : v < 45 ? 'var(--t-bad)' : 'var(--t-line-strong)';
+      add(g, S('rect', { x, y: y(v), width: w, height: B - y(v), fill: col }));
+      add(g, S('text', { x: x + w / 2, y: y(v) - 5, 'text-anchor': 'middle', class: 'n', 'font-size': 13 }, fmt(v)));
+      add(g, S('text', { x: x + w / 2, y: B + 18, 'text-anchor': 'middle', 'font-weight': 700, style: 'fill:var(--t-ink)' }, (i + 1) + 'R'));
+    });
+    // heat rows
+    const row = (yy, label, arr, lo, hi, base) => {
+      add(g, S('text', { x: L - 8, y: yy + 17, 'text-anchor': 'end', 'font-size': 11, 'font-weight': 700 }, label));
+      arr.forEach((v, i) => { const x = L + cw * i + 2, w = cw - 4, t = Math.max(0, Math.min(1, (v - lo) / (hi - lo)));
+        const r = S('rect', { x, y: yy, width: w, height: 26, rx: 2, fill: base, 'fill-opacity': (0.08 + t * .85).toFixed(2) });
+        add(g, r, S('text', { x: x + w / 2, y: yy + 18, 'text-anchor': 'middle', class: 'n', 'font-size': 13, style: t > .6 ? 'fill:var(--t-paper)' : '' }, fmt(v)));
+      });
+    };
+    row(238, '万舟率', man, 10, 23, 'var(--t-bad)');
+    row(272, '3桁率', k3, 7, 36, 'var(--t-good)');
+    add(g, S('text', { x: L, y: 326, 'font-size': 11 }, '万舟率：3連単1万円以上の割合（赤が濃いほど荒れる）。3桁率：1,000円未満の割合（緑が濃いほど堅い）。'));
+    add(g, S('text', { x: L, y: 344, 'font-size': 11 }, '4Rは万舟23.0%・3桁7.2%で、イン不信と高配当がそろうレースです。'));
+  })();
+
+  // ---------- 展示 ----------
+  function ex(id, v, max, col, ticks) {
+    const g = document.getElementById(id);
+    const L = 44, B = 180, T = 20, cw = 280 / 6, y = p => B - p / max * (B - T);
+    ticks.forEach(t => add(g, S('line', { x1: L, x2: 330, y1: y(t), y2: y(t), class: t ? 'grid' : 'axis' }), S('text', { x: L - 6, y: y(t) + 4, 'text-anchor': 'end', 'font-size': 11 }, t + '%')));
+    v.forEach((p, i) => { const x = L + cw * i + 6, w = cw - 12;
+      add(g, S('rect', { x, y: y(p), width: w, height: B - y(p), fill: col, 'fill-opacity': i === 0 ? 1 : .45 }));
+      add(g, S('text', { x: x + w / 2, y: y(p) - 5, 'text-anchor': 'middle', class: 'n', 'font-size': 13 }, fmt(p)));
+      add(g, S('text', { x: x + w / 2, y: B + 16, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700, style: 'fill:var(--t-ink)' }, (i + 1) + '位'));
+    });
+    add(g, S('text', { x: 330, y: B + 34, 'text-anchor': 'end', 'font-size': 10 }, '展示タイム順位'));
+  }
+  ex('g-ex1', [60.1, 56.3, 50.2, 47.1, 44.8, 40.7], 70, 'var(--t-ink)', [0, 20, 40, 60]);
+  ex('g-ex4', [16.3, 10.7, 8.1, 6.9, 6.6, 6.5], 20, 'var(--t-b4)', [0, 5, 10, 15, 20]);
+
+  // ---------- 出目 ----------
+  const boats = s => s.split('-').map(b => `<span class="boat b${b}">${b}</span>`).join(' ');
+  const bar = (v, max, col) => `<span style="display:inline-block;width:${Math.round(v / max * 70)}px;height:8px;border-radius:2px;background:${col};vertical-align:middle;margin-right:6px"></span>`;
+  const rcol = r => r >= 100 ? 'var(--t-good)' : r >= 80 ? 'var(--t-warn)' : 'var(--t-muted)';
+  (function deme() {
+    const D = [['1-2-3', 7.9, 76, 720], ['1-2-4', 6.1, 72, 880], ['1-3-2', 5.4, 71, 955], ['1-2-5', 4.0, 71, 1240], ['1-3-4', 4.0, 64, 1080], ['1-4-2', 3.7, 76, 1520], ['1-3-5', 3.5, 74, 1280], ['1-4-3', 3.1, 79, 1690], ['1-2-6', 2.8, 78, 1810], ['1-3-6', 2.4, 63, 1820]];
+    document.getElementById('t-deme').innerHTML = '<thead><tr><th class="l">出目</th><th class="l">出現率</th><th>回収率</th><th>配当の中央値</th></tr></thead><tbody>' +
+      D.map(([c, p, r, m]) => `<tr><td class="l">${boats(c)}</td><td class="l">${bar(p, 8, 'var(--t-ink2)')}<span class="num">${fmt(p)}%</span></td><td><span class="num" style="color:${rcol(r)}">${r}%</span></td><td><span class="num">${m.toLocaleString()}円</span></td></tr>`).join('') + '</tbody>';
+    const R = [['1R', [['1-2-4', 10.6, 97], ['1-2-3', 9.0, 51], ['1-3-2', 7.7, 55]]], ['5R', [['1-2-3', 12.6, 81], ['1-2-4', 8.8, 86], ['1-2-5', 5.9, 94]]], ['11R', [['1-2-3', 9.2, 75], ['1-2-4', 9.2, 91], ['1-3-2', 7.5, 111]]], ['12R', [['1-2-3', 12.7, 80], ['1-2-4', 7.6, 63], ['1-4-2', 6.5, 95]]]];
+    document.getElementById('t-deme-r').innerHTML = '<thead><tr><th class="l">レース</th><th class="l">1番目</th><th class="l">2番目</th><th class="l">3番目</th></tr></thead><tbody>' +
+      R.map(([r, a]) => `<tr><td class="l"><b>${r}</b></td>${a.map(([c, p, x]) => `<td class="l">${boats(c)}<br><span class="num">${fmt(p)}%</span> <span class="num" style="color:${rcol(x)}">回収${x}%</span></td>`).join('')}</tr>`).join('') + '</tbody>';
+  })();
+
+  // ---------- 定説の検証 ----------
+  (function verdict() {
+    const V = [
+      ['ok', '再現', '1R・5R・11R・12Rはインが強い', '76.1 / 76.7 / 70.6 / 73.0%。企画レースと終盤の番組で、インの信頼度ははっきり上がります。'],
+      ['ok', '再現', '4Rはインを疑え', 'むしろ強まっていて、イン36.7%は全レースで最低です。万舟率23.0%も最高。'],
+      ['ok', '再現', '向かい風は3mまでならインが逃げやすい', '0〜2mで62.2%、3〜4mで58.4%。5m以上になると54%前後まで下がります。'],
+      ['ok', '再現', '逃げの次に多いのは2コースの差し', '全レースの8.7%。3コースのまくり差し（5.3%）が続きます。'],
+      ['part', '一部', '強い追い風では3コースが強い', '5〜6mで3コースは14.6%と上がりますが、差は3ポイント弱です。'],
+      ['ng', '再現せず', '強い追い風ほどインが強い', '追い風5〜6mのインは53.3%で、弱い追い風（58.6%）より下がります。セオリーどおりの結果です。'],
+      ['ng', '再現せず', '雨の日はインが負けやすい', '雨59.9%、晴れ55.5%。インが一番苦しいのは晴れの日です。'],
+      ['ng', '再現せず', '無風だと3コースが強い', '無風（320レース）では1コースが65.6%、3コースは11.9%。無風はインの日です。'],
+      ['na', '判断不可', '横風のときの成績', '左右の横風を合わせても38レースしかなく、数字に意味を持たせられません。'],
+      ['na', '判断不可', '西風は北西風の2倍効く', 'データは「向かい風」としか記録されず、方角を区別できません。現地の見方として参考に。'],
+    ];
+    document.getElementById('verdict').innerHTML = V.map(([c, l, q, p]) => `<div><span class="chip ${c}">${l}</span><div><q>${q}</q><p>${p}</p></div></div>`).join('');
+  })();
+})();
+</script>
+</div>
+</body>
+</html>
