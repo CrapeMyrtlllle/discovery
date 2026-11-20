@@ -60,7 +60,7 @@
 .tsu-hero .wrap { padding-block: 0; display: grid; gap: 18px; }
 .lane { display: flex; gap: 6px; }
 .lane span { width: 26px; height: 8px; border-radius: 4px; border: 1px solid var(--t-line-strong); }
-.lead { font-size: 1.08rem; color: var(--t-ink2); max-width: 36em; }
+.lead { font-size: 1.08rem; color: var(--t-ink); max-width: 36em; }
 .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 2px solid var(--t-ink); margin-top: 8px; }
 .stats > div { padding: 10px 12px 4px 0; border-right: 1px solid var(--t-line); padding-left: 12px; }
 .stats > div:first-child { padding-left: 0; }
@@ -93,6 +93,13 @@
 .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 640px) { .two { grid-template-columns: 1fr; } }
 
+/* spec sheet */
+.spec { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 2px solid var(--t-ink); margin: 0; }
+.spec div { padding: 10px 12px 10px 0; border-bottom: 1px solid var(--t-line); min-width: 0; }
+.spec dt { font-size: .78rem; color: var(--t-ink2); font-weight: 700; letter-spacing: .04em; }
+.spec dd { margin: 2px 0 0; font-weight: 700; font-size: 1.02rem; line-height: 1.5; }
+.spec dd small { display: block; font-weight: 500; font-size: .8rem; color: var(--t-muted); }
+@media (max-width: 640px) { .spec { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 /* kimarite matrix */
 .tsu table { border-collapse: collapse; width: 100%; font-size: .88rem; }
 .tsu th, .tsu td { padding: 7px 8px; text-align: right; border-bottom: 1px solid var(--t-line); white-space: nowrap; }
@@ -383,13 +390,22 @@ body.ds-tool .sn-ptitle p { color: var(--ds-on-navy-2); opacity: 1; }
 
 <section id="water">
   <div class="eyebrow">水面と風</div>
-  <h2>1マークは西。冬は向かい風、夏は追い風</h2>
-  <div class="prose"><p>津のスタートから1マークへ向かう方向はほぼ真西です。冬に吹く北西〜西の季節風は<strong>向かい風</strong>、夏の東寄りの風は<strong>追い風</strong>になります。同じ「向かい風」の発表でも、北西の風は斜めから、西の風は真正面から当たります。西風の日はスロー勢のターンが流れやすい、というのが地元の定説です。</p></div>
+  <h2>1マークは西。バック側が広く、風をまともに受ける</h2>
+  <div class="prose"><p>スタートから1マークへ進む向きは西です。冬に鈴鹿山脈から吹き下ろす北西〜西の風（鈴鹿おろし）は<strong>向かい風</strong>、夏に伊勢湾から吹く東寄りの風は<strong>追い風</strong>になります。伊勢湾は南北に長く、風の通り道です。強く吹くと水面は一気に荒れます。</p></div>
   <figure class="fig" style="margin:0">
-    <div class="ttl">津の水面と風向き（模式図）</div>
-    <div class="scroll"><svg id="g-water" viewBox="0 0 720 300" role="img" aria-label="津の水面模式図。1マークが西、2マークが東。西風は真正面の向かい風、北西風は斜めの向かい風、東寄りの風は追い風。"></svg></div>
-    <div class="cap">模式図なので、実際の水面の形や縮尺とは異なります。風向きは公式発表の「向かい風・追い風」と方角の対応を示したものです。</div>
+    <div class="ttl">津の競走水面（寸法は公式の水面図より）</div>
+    <div class="scroll"><svg id="g-water" viewBox="0 0 760 340" role="img" aria-label="津の競走水面図。右が1マーク（西）、左が2マークと競技棟。1マークのバック側は110m、スタンド側は40m。ターンマーク間は150mずつ。ピットから2マークまで106m。"></svg></div>
+    <div class="cap">右が西（1マーク側）。縦横の比率は寸法に合わせていますが、岸の形は簡略化しています。</div>
   </figure>
+  <dl class="spec">
+    <div><dt>1マークのバック側</dt><dd>110m<small>全速ターンでも膨らむ余地が大きい</small></dd></div>
+    <div><dt>1マークのスタンド側</dt><dd>40m<small>マークはセンターから15mスタンド寄り</small></dd></div>
+    <div><dt>ピット → 2マーク</dt><dd>106m<small>2023年12月の新競技棟から</small></dd></div>
+    <div><dt>水質・干満差</dt><dd>汽水・なし<small>潮の満ち引きは考えなくてよい</small></dd></div>
+    <div><dt>進入</dt><dd>ほぼ枠なり<small>1号艇の1コース率99.7%（公式・2026年8〜10月）</small></dd></div>
+    <div><dt>風の目安</dt><dd>5m<small>これを超えると決まり手が変わる</small></dd></div>
+  </dl>
+  <div class="prose"><p>1マークのバック側が110mと広いので、センターやアウトから全速で握っても流れにくく、<strong>まくり差しが届きやすい</strong>水面です。スタートのタイミングは、向かい風と追い風で2艇身ほど変わると言われます。節の途中でスタート勘をつかんだ選手を重く見てください。強風でピットから出られないときは予備ピットから発走します。この場合は前付けがない限り枠なりで、安定板の装着と周回短縮によりモーター差も縮み、内枠が有利になります。</p></div>
   <figure class="fig" style="margin:0">
     <div class="ttl">月別の風向きの割合と、1コースの1着率</div>
     <div class="scroll"><svg id="g-month" viewBox="0 0 720 300" role="img" aria-label="月別の風向き割合と1コース1着率"></svg></div>
@@ -460,6 +476,14 @@ body.ds-tool .sn-ptitle p { color: var(--ds-on-navy-2); opacity: 1; }
     <div><b>秋</b>イン59.0%で最も強い。ただし万舟率も17.1%と最も高く、外れたときの配当が大きい季節です。</div>
     <div><b>冬</b>3コースのまくり差しが7.0%、4コースのまくりが5.2%で、どちらも年間最高。センターの攻めを押さえたい季節です。</div>
   </div>
+  <h3>冬のインは「年」と「風向き」で変わる</h3>
+  <div class="prose"><p>公式発表では、2025〜26年の冬は1コース1着率62.1%で、季節別で最も高い数字でした。手元の集計でも61.3%で、ほぼ同じです。ところが前の冬（2024〜25年）は54.9%しかありません。この冬は向かい風のレースが79%、5m以上の強風が35%もあった冬です。</p><p>2025〜26年の冬を風向きで分けると、インが強かったのは<strong>追い風の日（67.3%）</strong>です。向かい風の日は56.1%にとどまります。「鈴鹿おろしでインが強くなる」のではなく、<mark>おろしが弱い冬ほどインが強い</mark>と読むのが正確です。</p></div>
+  <figure class="fig" style="margin:0">
+    <div class="ttl">季節ごとの1コース1着率（年別）と、向かい風・強風の割合</div>
+    <div class="scroll"><svg id="g-year" viewBox="0 0 720 330" role="img" aria-label="2024年冬から2026年秋までの季節ごとの1コース1着率と向かい風・強風の割合"></svg></div>
+    <div class="legend"><span><i style="background:var(--t-head)"></i>向かい風のレースの割合</span><span><i style="background:var(--t-bad)"></i>風速5m以上のレースの割合</span></div>
+    <div class="cap">2026年秋は11月19日まで。2026年2月は津の開催がありませんでした。</div>
+  </figure>
 </section>
 
 <section id="race">
@@ -521,18 +545,19 @@ body.ds-tool .sn-ptitle p { color: var(--ds-on-navy-2); opacity: 1; }
     <div class="step"><div><h3>何レース目かを見る</h3>
       <div class="rules"><div class="go"><b>イン軸</b>1R・5R・11R・12R（イン70%以上）。9R・10Rも6割台。</div><div class="stop"><b>インを疑う</b>4R（36.7%）、3R・6R・7R（45%未満）。2Rと4Rは万舟率も高めです。</div></div></div></div>
     <div class="step"><div><h3>風速を確かめる</h3>
-      <div class="rules"><div class="go"><b>0〜2m</b>インを素直に信じる。向かい風なら62.2%。</div><div class="stop"><b>5m以上</b>インは54%前後。それでも全国より3ポイント前後高いので、イン消しはやりすぎです。</div></div></div></div>
+      <div class="rules"><div class="go"><b>0〜2m</b>インを素直に信じる。向かい風なら62.2%。</div><div class="stop"><b>5m以上</b>インは54%前後。それでも全国より3ポイント前後高いので、イン消しはやりすぎです。予備ピットからの発走になれば、内枠有利に戻ります。</div></div></div></div>
     <div class="step"><div><h3>風向きで相手を決める</h3>
       <div class="rules"><div><b>強い追い風</b>3コースのまくり・まくり差しを相手の上位に。</div><div><b>強い向かい風</b>2コースの差しと4カド。西風の真向かいならダッシュ勢を一段上げます。</div></div></div></div>
     <div class="step"><div><h3>展示タイムで加点・減点</h3>
       <div class="rules"><div class="go"><b>加点</b>インが展示1位なら軸を固める。4カドが展示1位なら頭まで。</div><div class="stop"><b>減点</b>インが展示5〜6位なら1着率は4割台。2着付けも検討します。</div></div></div></div>
     <div class="step"><div><h3>季節で最後の調整</h3>
-      <div class="rules"><div><b>夏</b>イン弱め。2コースの差しと5コースのまくり差しを厚めに。</div><div><b>冬</b>3コースのまくり差しと4コースのまくりを押さえる。</div></div></div></div>
+      <div class="rules"><div><b>夏</b>イン弱め。2コースの差しと5コースのまくり差しを厚めに。</div><div><b>冬</b>おろしが弱い日はイン。強い向かい風の日は3コースのまくり差しと4コースのまくりを押さえる。</div></div></div></div>
   </div>
 </section>
 
 <footer class="foot">
   <div>データ：公式の競走成績を当サイトで集計（津4,489レース、2024/11/20〜2026/11/19）。展示順位の分析は、選手ごとの直近の出走記録から集計しています。</div>
+  <div>集計の確認：2026年8〜10月の手元の集計（1コース1着率57.3%、2コース14.0%）は、公式発表（57.6%、13.9%）とほぼ一致しています。水面の寸法・水質・進入率は公式発表の値です。</div>
   <div>改修前後の比較、開催グレード別（ルーキー・女子戦・GI）、準優勝戦・優勝戦の成績は、このデータでは区別できないため扱っていません。</div>
   <div>過去の傾向は将来の結果を保証しません。舟券は余裕資金の範囲で楽しんでください。</div>
 </footer>
@@ -546,37 +571,48 @@ body.ds-tool .sn-ptitle p { color: var(--ds-on-navy-2); opacity: 1; }
   const BC = i => `var(--t-b${i})`;
   const fmt = (v, d = 1) => v.toFixed(d);
 
-  // ---------- 水面模式図 ----------
+  // ---------- 水面図(公式の寸法から) ----------
   (function water() {
     const g = document.getElementById('g-water');
-    add(g, S('rect', { x: 150, y: 70, width: 420, height: 170, rx: 85, fill: 'var(--t-water)', stroke: 'var(--t-line-strong)' }));
-    // marks
-    const mk = (x, lab) => add(g, S('circle', { cx: x, cy: 155, r: 9, fill: 'var(--t-mark)' }), S('text', { x, y: 186, 'text-anchor': 'middle', 'font-weight': 700, style: 'fill:var(--t-ink)' }, lab));
-    mk(230, '1マーク'); mk(545, '2マーク');
-    // course arrow (start → 1M)
-    add(g, S('path', { d: 'M560 115 L270 115', stroke: 'var(--t-water-ink)', 'stroke-width': 3, fill: 'none', 'marker-end': 'url(#ah)' }));
-    add(g, S('text', { x: 395, y: 104, 'text-anchor': 'middle', style: 'fill:var(--t-water-ink)', 'font-weight': 700 }, 'スタート → 1マーク（西へ）'));
-    // start line
-    add(g, S('line', { x1: 410, y1: 80, x2: 410, y2: 230, stroke: 'var(--t-ink2)', 'stroke-dasharray': '4 4' }));
-    add(g, S('text', { x: 416, y: 226, 'font-size': 11 }, 'スタートライン'));
-    // boats
-    [1, 2, 3, 4, 5, 6].forEach((b, i) => add(g, S('rect', { x: 422 + (i > 2 ? 22 : 0) + i * 2, y: 128 + i * 15, width: 18, height: 10, rx: 2, fill: BC(b), stroke: 'var(--t-line-strong)' })));
-    // defs
+    const k = 1.25, X = m => 70 + m * k, cy = 160, Y = m => cy + m * k;   // m: ピットから西へ / センターから下(スタンド側)へ
+    const x2 = X(106), xc = X(256), x1 = X(406), xe = X(506);
     const defs = S('defs');
-    ['ah', 'ahH', 'ahT'].forEach((id, k) => { const m = S('marker', { id, viewBox: '0 0 10 10', refX: 8, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }); add(m, S('path', { d: 'M0 0 L10 5 L0 10 z', fill: ['var(--t-water-ink)', 'var(--t-head)', 'var(--t-tail)'][k] })); defs.appendChild(m); });
-    g.insertBefore(defs, g.firstChild);
-    // winds
-    add(g, S('path', { d: 'M20 155 L135 155', stroke: 'var(--t-head)', 'stroke-width': 5, 'marker-end': 'url(#ahH)' }));
-    add(g, S('text', { x: 20, y: 145, style: 'fill:var(--t-head)', 'font-weight': 700 }, '西風＝真正面'));
-    add(g, S('path', { d: 'M40 30 L140 80', stroke: 'var(--t-head)', 'stroke-width': 3, 'stroke-dasharray': '7 5', 'marker-end': 'url(#ahH)' }));
-    add(g, S('text', { x: 18, y: 24, style: 'fill:var(--t-head)', 'font-weight': 700 }, '北西風＝斜めの向かい風'));
-    add(g, S('path', { d: 'M700 155 L585 155', stroke: 'var(--t-tail)', 'stroke-width': 5, 'marker-end': 'url(#ahT)' }));
-    add(g, S('text', { x: 700, y: 145, 'text-anchor': 'end', style: 'fill:var(--t-tail)', 'font-weight': 700 }, '東寄り＝追い風'));
-    add(g, S('text', { x: 20, y: 282, 'font-size': 11 }, '冬：北西〜西の季節風が強まる'));
-    add(g, S('text', { x: 700, y: 282, 'font-size': 11, 'text-anchor': 'end' }, '夏：追い風の日が続く'));
-    // compass
-    add(g, S('text', { x: 660, y: 40, 'text-anchor': 'middle', 'font-weight': 700, style: 'fill:var(--t-ink)' }, 'N'));
-    add(g, S('path', { d: 'M660 46 L660 80', stroke: 'var(--t-ink)', 'stroke-width': 2 }), S('path', { d: 'M654 54 L660 44 L666 54', fill: 'none', stroke: 'var(--t-ink)', 'stroke-width': 2 }));
+    [['ah', 'var(--t-ink2)'], ['ahH', 'var(--t-head)'], ['ahT', 'var(--t-tail)'], ['ahW', 'var(--t-water-ink)']].forEach(([id, c]) => { const m = S('marker', { id, viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 6, markerHeight: 6, orient: 'auto-start-reverse' }); add(m, S('path', { d: 'M0 0 L10 5 L0 10 z', fill: c })); defs.appendChild(m); });
+    g.appendChild(defs);
+    // 水面
+    const top = [[X(0), Y(-86)], [x2, Y(-88)], [xc, Y(-95)], [x1, Y(-110)], [xe, Y(-110)]], bot = [[xe, Y(55)], [x1, Y(55)], [xc, Y(55)], [x2, Y(69)], [X(0), Y(69)]];
+    add(g, S('path', { d: 'M' + top.map(p => p.join(' ')).join(' L') + ` Q${xe + 14} ${Y(-110)} ${xe + 14} ${Y(-96)} L${xe + 14} ${Y(41)} Q${xe + 14} ${Y(55)} ` + bot.map(p => p.join(' ')).join(' L') + ' Z', fill: 'var(--t-water)', stroke: 'var(--t-line-strong)' }));
+    // 競技棟・ピット
+    add(g, S('rect', { x: 18, y: Y(-60), width: 26, height: 150, fill: 'var(--t-ink)' }), S('text', { x: 31, y: Y(-60) + 80, 'text-anchor': 'middle', 'font-weight': 700, style: 'fill:var(--t-paper);writing-mode:vertical-rl', 'font-size': 13 }, '競技棟'));
+    add(g, S('text', { x: 50, y: Y(20) - 6, 'font-size': 11, 'font-weight': 700, style: 'fill:var(--t-ink)' }, '本番ピット'));
+    add(g, S('text', { x: 18, y: Y(69) + 34, 'font-size': 11 }, '予備ピット（強風時）'));
+    // センターライン
+    add(g, S('line', { x1: X(0), x2: xe, y1: cy, y2: cy, stroke: 'var(--t-ink2)', 'stroke-dasharray': '2 5', 'stroke-width': 1.5 }));
+    add(g, S('circle', { cx: xc, cy, r: 5, fill: 'var(--t-paper)', stroke: 'var(--t-ink)', 'stroke-width': 1.5 }));
+    add(g, S('text', { x: xc + 8, y: cy + 18, 'font-size': 11 }, 'センターポール'));
+    // 寸法線
+    const hd = (a, b, y, t) => add(g, S('line', { x1: a + 3, x2: b - 3, y1: y, y2: y, stroke: 'var(--t-ink2)', 'marker-start': 'url(#ah)', 'marker-end': 'url(#ah)' }), S('text', { x: (a + b) / 2, y: y - 6, 'text-anchor': 'middle', class: 'n', 'font-size': 13 }, t));
+    const vd = (x, a, b, t, side = 1) => add(g, S('line', { x1: x, x2: x, y1: a + 3, y2: b - 3, stroke: 'var(--t-ink2)', 'marker-start': 'url(#ah)', 'marker-end': 'url(#ah)' }), S('text', { x: x + 6 * side, y: (a + b) / 2 + 4, 'text-anchor': side > 0 ? 'start' : 'end', class: 'n', 'font-size': 13 }, t));
+    hd(X(0) + 30, x2, Y(20) + 14, '106m');
+    hd(x2, xc, Y(-76), '150m'); hd(xc, x1, Y(-76), '150m'); hd(x1, xe, Y(-76), '100m');
+    vd(x2 + 14, Y(-88), cy, '88m'); vd(x2 + 14, Y(7), Y(69), '62m');
+    vd(xc - 14, Y(-95), cy, '95m', -1); vd(xc - 14, cy, Y(55), '55m', -1);
+    vd(x1 - 16, Y(-110), cy, '110m', -1); vd(x1 + 40, Y(15), Y(55), '40m');
+    // マーク
+    const mk = (x, off, lab, dx) => { add(g, S('circle', { cx: x, cy: Y(off), r: 8, fill: 'var(--t-mark)' })); add(g, S('text', { x: x + dx - (lab === '2マーク' ? 34 : 0), y: lab === '2マーク' ? cy - 10 : Y(off) + 26, 'text-anchor': 'middle', 'font-weight': 900, 'font-size': 14, style: 'fill:var(--t-ink)' }, lab)); };
+    mk(x2, 7, '2マーク', 0); mk(x1, 15, '1マーク', 0);
+    add(g, S('text', { x: x2 - 12, y: Y(7) + 16, 'font-size': 10, 'text-anchor': 'end' }, '7m'), S('text', { x: x1 - 14, y: Y(15) - 8, 'font-size': 10, 'text-anchor': 'end' }, '15m'));
+    // 進む向き
+    add(g, S('path', { d: `M${xc - 110} ${Y(-28)} L${x1 - 40} ${Y(-28)}`, stroke: 'var(--t-water-ink)', 'stroke-width': 3, fill: 'none', 'marker-end': 'url(#ahW)' }));
+    add(g, S('text', { x: xc + 30, y: Y(-28) - 8, 'text-anchor': 'middle', 'font-weight': 700, style: 'fill:var(--t-water-ink)', 'font-size': 12 }, 'スタート → 1マーク'));
+    // 岸の名前
+    add(g, S('text', { x: xc, y: Y(-95) - 8, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700 }, '対岸（バック側）'));
+    add(g, S('rect', { x: xc - 70, y: Y(55) + 6, width: 140, height: 5, fill: 'var(--t-ink2)' }), S('text', { x: xc, y: Y(55) + 26, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700 }, '消波装置・大時計 ／ スタンド'));
+    // 方角と風
+    add(g, S('text', { x: xe + 26, y: cy + 5, 'font-weight': 900, style: 'fill:var(--t-ink)' }, '西'), S('text', { x: 4, y: cy - 90, 'font-weight': 900, style: 'fill:var(--t-ink)' }, '東'));
+    const wy = 322;
+    add(g, S('path', { d: `M${xe} ${wy} L${xe - 110} ${wy}`, stroke: 'var(--t-head)', 'stroke-width': 4, 'marker-end': 'url(#ahH)' }), S('text', { x: xe - 120, y: wy + 5, 'text-anchor': 'end', 'font-weight': 700, style: 'fill:var(--t-head)' }, '向かい風：西〜北西（冬の鈴鹿おろし）'));
+    add(g, S('path', { d: `M${X(0)} ${wy} L${X(0) + 90} ${wy}`, stroke: 'var(--t-tail)', 'stroke-width': 4, 'marker-end': 'url(#ahT)' }), S('text', { x: X(0) + 100, y: wy + 5, 'font-weight': 700, style: 'fill:var(--t-tail)' }, '追い風：東寄り（夏）'));
   })();
 
   // ---------- 月別 ----------
@@ -703,6 +739,27 @@ body.ds-tool .sn-ptitle p { color: var(--ds-on-navy-2); opacity: 1; }
     }).join('');
   })();
 
+  // ---------- 年別の季節 ----------
+  (function year() {
+    const D = [['冬', '24-25', 54.9, 348, 78.7, 34.8], ['春', '2025', 59.5, 588, 37.8, 20.7], ['夏', '2025', 54.6, 696, 17.1, 6.9], ['秋', '2025', 58.1, 635, 38.7, 16.4], ['冬', '25-26', 61.3, 437, 57.9, 23.1], ['春', '2026', 57.5, 511, 25.2, 22.9], ['夏', '2026', 53.0, 670, 20.9, 20.9], ['秋', '2026', 59.9, 604, 26.2, 15.7]];
+    const g = document.getElementById('g-year');
+    const L = 54, cw = 656 / 8, B = 190, y = v => B - (v - 45) / 20 * 160;
+    [45, 50, 55, 60, 65].forEach(v => add(g, S('line', { x1: L, x2: 710, y1: y(v), y2: y(v), class: v === 45 ? 'axis' : 'grid' }), S('text', { x: L - 8, y: y(v) + 4, 'text-anchor': 'end' }, v + '%')));
+    D.forEach((d, i) => { const x = L + cw * i + 12, w = cw - 24, win = d[0] === '冬';
+      add(g, S('rect', { x, y: y(d[2]), width: w, height: B - y(d[2]), fill: win ? 'var(--t-head)' : 'var(--t-line-strong)', 'fill-opacity': win ? 1 : .7 }));
+      add(g, S('text', { x: x + w / 2, y: y(d[2]) - 6, 'text-anchor': 'middle', class: 'n', 'font-size': 14 }, fmt(d[2])));
+      add(g, S('text', { x: x + w / 2, y: B + 18, 'text-anchor': 'middle', 'font-weight': 900, style: 'fill:var(--t-ink)' }, d[0]));
+      add(g, S('text', { x: x + w / 2, y: B + 34, 'text-anchor': 'middle', 'font-size': 11 }, d[1]));
+      // 風の帯
+      [[4, 'var(--t-head)', 232], [5, 'var(--t-bad)', 276]].forEach(([j, c, yy]) => {
+        add(g, S('rect', { x, y: yy, width: w, height: 30, rx: 3, fill: c, 'fill-opacity': (0.08 + d[j] / 80 * .85).toFixed(2) }));
+        add(g, S('text', { x: x + w / 2, y: yy + 20, 'text-anchor': 'middle', class: 'n', 'font-size': 13, style: d[j] > 40 ? 'fill:var(--t-paper)' : '' }, Math.round(d[j]) + '%'));
+      });
+    });
+    add(g, S('text', { x: L - 8, y: 252, 'text-anchor': 'end', 'font-size': 11, 'font-weight': 700, style: 'fill:var(--t-head)' }, '向かい風'));
+    add(g, S('text', { x: L - 8, y: 296, 'text-anchor': 'end', 'font-size': 11, 'font-weight': 700, style: 'fill:var(--t-bad)' }, '5m以上'));
+  })();
+
   // ---------- レース番号 ----------
   (function race() {
     const c1 = [76.1, 49.9, 44.7, 36.7, 76.7, 43.5, 44.8, 48.8, 61.9, 60.3, 70.6, 73.0];
@@ -767,6 +824,9 @@ body.ds-tool .sn-ptitle p { color: var(--ds-on-navy-2); opacity: 1; }
       ['ok', '再現', '4Rはインを疑え', 'むしろ強まっていて、イン36.7%は全レースで最低です。万舟率23.0%も最高。'],
       ['ok', '再現', '向かい風は3mまでならインが逃げやすい', '0〜2mで62.2%、3〜4mで58.4%。5m以上になると54%前後まで下がります。'],
       ['ok', '再現', '逃げの次に多いのは2コースの差し', '全レースの8.7%。3コースのまくり差し（5.3%）が続きます。'],
+      ['ok', '再現', '6コースは割り引き', '1着率1.8%（2年間）。公式の直近3か月（2026年8〜10月）でも1.1%です。'],
+      ['part', '一部', '冬は鈴鹿おろし（向かい風）でインが最も強い', 'インが強い冬（2025〜26年・61.3%）はありますが、前の冬は54.9%。強かった冬も、インを支えたのは追い風の日（67.3%）で、向かい風の日は56.1%でした。'],
+      ['part', '一部', '逃げの次に多い決まり手はまくり差し', '全体では差し13.0%、まくり差し12.8%、まくり12.3%でほぼ横並び。コース別に見ると、2コースの差し（8.7%）が単独トップです。'],
       ['part', '一部', '強い追い風では3コースが強い', '5〜6mで3コースは14.6%と上がりますが、差は3ポイント弱です。'],
       ['ng', '再現せず', '強い追い風ほどインが強い', '追い風5〜6mのインは53.3%で、弱い追い風（58.6%）より下がります。セオリーどおりの結果です。'],
       ['ng', '再現せず', '雨の日はインが負けやすい', '雨59.9%、晴れ55.5%。インが一番苦しいのは晴れの日です。'],
