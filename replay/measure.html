@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="robots" content="noindex">
+<title>展示タイム計測</title>
+<style>
+  :root { --bg:#0f1620; --panel:#18222f; --line:#2a3a4d; --text:#e8eef5; --sub:#93a4b8; --accent:#3fa7ff; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:"Hiragino Sans","Yu Gothic UI","Meiryo",sans-serif; }
+  header { background:var(--panel); border-bottom:1px solid var(--line); padding:8px 10px; display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+  h1 { font-size:15px; margin:0; width:100%; }
+  input, select, button { font:inherit; font-size:15px; color:var(--text); background:#0f1620; border:1px solid var(--line); border-radius:6px; padding:6px 8px; }
+  button { cursor:pointer; touch-action:manipulation; -webkit-user-select:none; user-select:none; }
+  main { padding:8px 10px 40px; max-width:900px; margin:0 auto; }
+  #msg { font-size:13px; color:var(--sub); min-height:18px; margin:4px 0; }
+  #msg.ng { color:#ff6b6b; }
+  .frame { position:relative; aspect-ratio:16/9; background:#000; }
+  .frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+  .row { display:flex; gap:6px; margin-top:8px; align-items:center; font-size:13px; color:var(--sub); }
+  .seg { display:flex; flex:1; gap:4px; }
+  .seg button { flex:1; padding:9px 0; }
+  .seg button.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .boats { display:grid; grid-template-columns:repeat(6,1fr); gap:5px; margin-top:8px; }
+  .boats button { padding:22px 0; font-size:24px; font-weight:bold; border:0; }
+  .boats button:active { transform:scale(.94); }
+  .boats button.done { opacity:.35; }
+  .b1{background:#f4f4f4!important;color:#111!important} .b2{background:#222!important;color:#fff!important}
+  .b3{background:#d33!important;color:#fff!important} .b4{background:#2a6fdb!important;color:#fff!important}
+  .b5{background:#f0c419!important;color:#111!important} .b6{background:#2a9d4b!important;color:#fff!important}
+  table { width:100%; border-collapse:collapse; margin-top:10px; font-size:13px; font-variant-numeric:tabular-nums; }
+  th, td { border:1px solid var(--line); padding:5px 3px; text-align:center; }
+  th { color:var(--sub); font-weight:normal; }
+  td.best { color:#5cd68a; font-weight:bold; }
+  td.boat { font-weight:bold; }
+  .tools { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .note { font-size:12px; color:var(--sub); line-height:1.7; margin-top:14px; }
+  input.lbl { width:5.5em; font-size:13px; padding:4px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>展示タイム計測</h1>
+  <input type="date" id="date">
+  <select id="jo"></select>
+  <select id="type"><option value="exhibition">展示</option><option value="race">レース</option></select>
+  <select id="race"></select>
+</header>
+<main>
+  <div id="msg"></div>
+  <div class="frame" id="frame"></div>
+
+  <div class="row">再生速度
+    <div class="seg" id="rate">
+      <button data-r="0.5">0.5倍</button><button data-r="0.7">0.7倍</button><button data-r="1">1倍</button>
+    </div>
+  </div>
+  <div class="row">計測地点
+    <div class="seg" id="pt">
+      <button data-p="A">A</button><button data-p="B">B</button><button data-p="C">C</button>
+    </div>
+  </div>
+  <div class="boats" id="boats"></div>
+  <div class="tools">
+    <button id="undo">1つ取り消す</button>
+    <button id="clearPt">この地点をやり直す</button>
+    <button id="clearAll">このレースを全部消す</button>
+  </div>
+
+  <table id="tbl"></table>
+
+  <div class="row" style="flex-wrap:wrap">地点名：
+    A <input class="lbl" id="lA"> B <input class="lbl" id="lB"> C <input class="lbl" id="lC">
+  </div>
+  <div class="tools"><button id="csv">全レースをCSVでコピー</button></div>
+
+  <p class="note">
+    使い方：<br>
+    ① プレーヤーの歯車から再生速度を選び、上の「再生速度」も同じ値にそろえます（0.5倍がおすすめ）。<br>
+    ② 計測地点を「A」にして、艇がその地点を通るたびに艇番をタップします。<br>
+    ③ 地点を「B」に切り替えて、同じように艇番をタップします。A→B の区間タイムが表に出ます。<br>
+    ・A を押してから B を押すまでの間は、映像を止めたり速度を変えたりしないでください（時間がずれます）。<br>
+    ・タップした時刻 × 再生速度で映像上の時間に直しています。指の遅れは A と B で打ち消し合いますが、±0.05秒くらいのブレは出ます。<br>
+    ・各区間の一番速いタイムは緑色になります。記録はこの端末のブラウザに保存されます。
+  </p>
+</main>
+<script>
+const PLAYER = "https://front.player.boatrace-cdn.jp";
+const SVC = ['boat', 'cast'].join('');
+const JO = [
+  ["01","kiryu","桐生"],["02","toda","戸田"],["03","edogawa","江戸川"],["04","heiwajima","平和島"],
+  ["05","tamagawa","多摩川"],["06","hamanako","浜名湖"],["07","gamagori","蒲郡"],["08","tokoname","常滑"],
+  ["09","tsu","津"],["10","mikuni","三国"],["11","biwako","びわこ"],["12","suminoe","住之江"],
+  ["13","amagasaki","尼崎"],["14","naruto","鳴門"],["15","marugame","丸亀"],["16","kojima","児島"],
+  ["17","miyajima","宮島"],["18","tokuyama","徳山"],["19","shimonoseki","下関"],["20","wakamatsu","若松"],
+  ["21","ashiya","芦屋"],["22","fukuoka","福岡"],["23","karatsu","唐津"],["24","omura","大村"],
+].map(([code, slug, name]) => ({code, slug, name}));
+const $ = id => document.getElementById(id);
+const q = new URLSearchParams(location.search);
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+};
+const say = (t, ng) => { $("msg").textContent = t; $("msg").className = ng ? "ng" : ""; };
+const pad = n => String(n).padStart(2, "0");
+const COLORS = ["", "b1", "b2", "b3", "b4", "b5", "b6"];
+
+let rate = store.get("rate", 0.5), point = "A";
+
+// ---------- 選択肢 ----------
+JO.forEach(j => $("jo").add(new Option(j.name, j.code)));
+const today = new Date();
+$("date").value = q.get("d") ? `${q.get("d").slice(0,4)}-${q.get("d").slice(4,6)}-${q.get("d").slice(6,8)}`
+  : `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+$("jo").value = q.get("jo") || store.get("lastJo", "01");
+$("type").value = q.get("t") === "race" ? "race" : "exhibition";
+const day = () => $("date").value.replaceAll("-", "");
+const jo = () => JO.find(x => x.code === $("jo").value);
+const raceKey = () => `m:${day()}:${$("jo").value}:${$("type").value}:${$("race").value}`;
+
+async function loadSetting() {
+  $("race").innerHTML = ""; $("frame").innerHTML = "";
+  const j = jo(); store.set("lastJo", j.code);
+  say("レース一覧を読み込み中…");
+  let setting;
+  try {
+    const r = await fetch(`${PLAYER}/setting/vod/${day()}/${j.code}${j.slug}/${$("type").value}/setting.json?t=${Date.now()/1000|0}`);
+    if (!r.ok) { say(`この日・この場のリプレイはありません（${r.status}）`, true); return; }
+    setting = await r.json();
+  } catch (e) { say("読み込みエラー: " + e.message, true); return; }
+  const rs = Object.entries(setting.races || {}).filter(([, v]) => v.ref_id).map(([k]) => k).sort();
+  if (!rs.length) { say("まだリプレイがありません", true); return; }
+  rs.forEach(k => $("race").add(new Option(+k + "R", +k)));
+  $("race").value = q.get("r") && rs.includes(pad(q.get("r"))) ? +q.get("r") : +rs[0];
+  q.delete("r");
+  loadVideo();
+}
+
+function loadVideo() {
+  const j = jo();
+  const src = `${PLAYER}/player/vod?service=${SVC}&stadium=${j.code}${j.slug}&raceType=${$("type").value}`
+            + `&raceDate=${day()}&raceNumber=${$("race").value}&autoplay=0&bitrate=high`;
+  $("frame").innerHTML = `<iframe src="${src}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+  say(`${j.name} ${$("race").value}R ${$("type").value === "exhibition" ? "展示" : "レース"}`);
+  point = "A"; renderSeg(); render();
+}
+
+// ---------- 速度・地点 ----------
+function renderSeg() {
+  [...$("rate").children].forEach(b => b.classList.toggle("on", +b.dataset.r === rate));
+  [...$("pt").children].forEach(b => b.classList.toggle("on", b.dataset.p === point));
+}
+[...$("rate").children].forEach(b => b.onclick = () => { rate = +b.dataset.r; store.set("rate", rate); renderSeg(); });
+[...$("pt").children].forEach(b => b.onclick = () => { point = b.dataset.p; renderSeg(); render(); });
+
+const labels = store.get("labels", { A: "A", B: "B", C: "C" });
+["A","B","C"].forEach(p => {
+  $("l"+p).value = labels[p];
+  $("l"+p).onchange = () => { labels[p] = $("l"+p).value || p; store.set("labels", labels); render(); };
+});
+
+// ---------- タップ記録 ----------
+// 記録の形: rec[艇][地点] = { w: タップ時刻(ms), r: その時の再生速度 }
+let undoStack = [];
+for (let i = 1; i <= 6; i++) {
+  const b = document.createElement("button"); b.textContent = i; b.className = COLORS[i];
+  b.addEventListener("pointerdown", e => { e.preventDefault(); stamp(i, performance.timeOrigin + performance.now()); });
+  $("boats").appendChild(b);
+}
+function stamp(boat, w) {
+  if (!$("race").value) return;
+  const rec = store.get(raceKey(), {});
+  rec[boat] = rec[boat] || {};
+  undoStack.push({ key: raceKey(), boat, p: point, prev: rec[boat][point] || null });
+  rec[boat][point] = { w, r: rate };
+  store.set(raceKey(), rec);
+  if (navigator.vibrate) navigator.vibrate(15);
+  render();
+}
+$("undo").onclick = () => {
+  const h = undoStack.pop(); if (!h) return;
+  const rec = store.get(h.key, {});
+  if (h.prev) rec[h.boat][h.p] = h.prev; else if (rec[h.boat]) delete rec[h.boat][h.p];
+  store.set(h.key, rec); render();
+};
+$("clearPt").onclick = () => {
+  const rec = store.get(raceKey(), {});
+  Object.values(rec).forEach(r => delete r[point]);
+  store.set(raceKey(), rec); render();
+};
+$("clearAll").onclick = () => { if (confirm("このレースの記録を全部消しますか？")) { store.set(raceKey(), {}); undoStack = []; render(); } };
+
+// 区間タイム（映像上の秒）
+function secTime(r, a, b) {
+  if (!r || !r[a] || !r[b]) return null;
+  if (r[a].r !== r[b].r) return NaN;           // 途中で速度が変わった
+  return (r[b].w - r[a].w) / 1000 * r[b].r;
+}
+const SECS = [["A","B"],["B","C"],["A","C"]];
+
+function render() {
+  const rec = store.get(raceKey(), {});
+  [...$("boats").children].forEach((b, i) => b.classList.toggle("done", !!(rec[i+1] && rec[i+1][point])));
+  const best = SECS.map(([a, b]) => {
+    const v = [1,2,3,4,5,6].map(i => secTime(rec[i], a, b)).filter(x => x != null && x > 0);
+    return v.length ? Math.min(...v) : null;
+  });
+  const used = SECS.filter(([a, b], k) => [1,2,3,4,5,6].some(i => secTime(rec[i], a, b) != null) || k === 0);
+  let h = `<tr><th>艇</th>` + used.map(([a, b]) => `<th>${labels[a]}→${labels[b]}</th>`).join("") + `<th>差</th></tr>`;
+  for (let i = 1; i <= 6; i++) {
+    const r = rec[i] || {};
+    const marks = ["A","B","C"].filter(p => r[p]).join("");
+    h += `<tr><td class="boat ${COLORS[i]}">${i}</td>`;
+    used.forEach(([a, b]) => {
+      const k = SECS.findIndex(s => s[0] === a && s[1] === b);
+      const d = secTime(r, a, b);
+      const txt = d == null ? "" : isNaN(d) ? "速度違い" : d.toFixed(2);
+      const cls = d != null && !isNaN(d) && best[k] != null && Math.abs(d - best[k]) < 1e-9 ? "best" : "";
+      h += `<td class="${cls}">${txt}</td>`;
+    });
+    const d0 = secTime(r, used[0][0], used[0][1]);
+    const k0 = SECS.findIndex(s => s[0] === used[0][0] && s[1] === used[0][1]);
+    h += `<td>${d0 != null && !isNaN(d0) && best[k0] != null ? "+" + (d0 - best[k0]).toFixed(2) : (marks ? marks + "記録済" : "")}</td></tr>`;
+  }
+  $("tbl").innerHTML = h;
+}
+
+$("csv").onclick = async () => {
+  const rows = [["日付","場","種類","R","艇", ...SECS.map(([a, b]) => `${labels[a]}→${labels[b]}`)]];
+  const keys = [];
+  for (let k = 0; k < localStorage.length; k++) { const key = localStorage.key(k); if (/^m:\d{8}:\d{2}:\w+:\d+$/.test(key)) keys.push(key); }
+  keys.sort((x, y) => { const a = x.split(":"), b = y.split(":"); return (a[1]+a[2]+a[3]).localeCompare(b[1]+b[2]+b[3]) || a[4] - b[4]; });
+  for (const key of keys) {
+    const [, d, j, t, r] = key.split(":");
+    const rec = store.get(key, {});
+    for (const i of Object.keys(rec).sort()) {
+      const v = SECS.map(([a, b]) => { const x = secTime(rec[i], a, b); return x == null || isNaN(x) ? "" : x.toFixed(3); });
+      if (v.every(x => x === "")) continue;
+      rows.push([d, JO.find(o => o.code === j).name, t === "exhibition" ? "展示" : "レース", r, i, ...v]);
+    }
+  }
+  const text = rows.map(r => r.join(",")).join("\n");
+  try { await navigator.clipboard.writeText(text); say(`${rows.length - 1}行をコピーしました`); }
+  catch (e) { prompt("全選択してコピーしてください", text); }
+};
+
+["date","jo","type"].forEach(id => $(id).onchange = loadSetting);
+$("race").onchange = loadVideo;
+renderSeg();
+loadSetting();
+</script>
+</body>
+</html>
